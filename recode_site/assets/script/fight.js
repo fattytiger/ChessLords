@@ -1,0 +1,600 @@
+cc.Class({
+    extends: cc.Component,
+
+    properties: {
+        FightMap: {
+            type: cc.Sprite,
+            default: null
+        },
+        player1_city: {
+            type: cc.Node,
+            default: null
+        },
+        player2_city: {
+            type: cc.Node,
+            default: null
+        },
+        player3_city: {
+            type: cc.Node,
+            default: null
+        },
+        BlockRegion: {
+            type: cc.Prefab,
+            default: null
+        },
+        FightIcon: {
+            type: cc.Prefab,
+            default: null
+        },
+        FightTip:{
+            type:cc.Prefab,
+            default:null
+        },
+        FightTimer: 0,
+        FightFlag: false,
+
+        TipTimer:50,
+        TipFlag:false
+    },
+    
+    //init the region
+    spawnFighticom: function (node, xdistance, ydistance) {
+        this.FightTimer = 50
+        let fight = cc.instantiate(this.FightIcon)
+        this.FightMap.node.addChild(fight)
+
+        if (xdistance > 0) {
+            if (ydistance > 0) {
+                fight.setPosition(node.x + (xdistance > 200 ? 100 - (xdistance / 2) : 0), node.y + (ydistance > 200 ? 100 - (ydistance / 2) : 0))
+            } else if (ydistance == 0) {
+                fight.setPosition(node.x + (xdistance > 200 ? 100 - (xdistance / 2) : 0), node.y + 100)
+            } else {
+                fight.setPosition(node.x + (xdistance > 200 ? 100 - (xdistance / 2) : 0), node.y - (ydistance < -200 ? (ydistance / 2) : -100) + 100)
+            }
+        } else if (xdistance == 0) {
+            if (ydistance > 0) {
+                fight.setPosition(node.x + 100, node.y + (ydistance > 200 ? 100 - (ydistance / 2) : 0))
+            } else {
+                fight.setPosition(node.x + 100, node.y - (ydistance < -200 ? (ydistance / 2) : -100) + 100)
+            }
+        } else {
+            if (ydistance < 0) {
+                fight.setPosition(node.x - (xdistance < -200 ? (xdistance / 2) - 100 : -200), node.y - (ydistance < -200 ? (ydistance / 2) : -100) + 100)
+            } else if (ydistance == 0) {
+                fight.setPosition(node.x - (xdistance < -200 ? (xdistance / 2) - 100 : -200), node.y + 100)
+            } else {
+                fight.setPosition(node.x - (xdistance < -200 ? (xdistance / 2) - 100 : -200), node.y + (ydistance > 200 ? 100 - (ydistance / 2) : 0))
+            }
+        }
+    },
+
+    spawnFightTip:function(){
+        console.log('no')
+        this.TipTimer = 50
+        let fightTip = cc.instantiate(this.FightTip)
+        this.FightMap.node.addChild(fightTip)
+        fightTip.setPosition(2000,1200)
+        this.TipFlag = true
+    },
+
+
+    InitRegin: function () {
+
+
+        for (let i = 0; i < 20; i++) {
+            for (let j = 0; j < 20; j++) {
+                let newNode = cc.instantiate(this.BlockRegion)
+                newNode.setPosition(200 * j, i * 200)
+                newNode.name = `node${i > 9 ? i : '0' + i}${j > 9 ? j : '0' + j}`
+                newNode.opacity = 0
+
+                this.FightMap.node.addChild(newNode)
+                this.touchRegionNodeEvent(newNode, this)
+            }
+        }
+
+
+    },
+
+    //bind the listen event to created node 
+    touchRegionNodeEvent(node, self) {
+        //bind the Listen Event
+        self.mouseEnterAction(node, self)
+
+        self.mouseLeaveAction(node, self)
+
+        self.clickReginEvent(node, self)
+    },
+
+
+    //click Regin listening event
+    clickReginEvent: function (node, self) {
+        node.on('mousedown', function () {
+            self.moveAction(node, self)
+        })
+    },
+
+
+    //listening the mouseleave
+    mouseLeaveAction: function (node, self) {
+        let mouseOption = require('mouseOption')
+        let mouse = new mouseOption()
+        node.on('mouseleave', function () {
+
+            //player1
+            if (node.x == cc.gameSpace.ArcherLocation.x && node.y == cc.gameSpace.ArcherLocation.y) {
+                mouse.mouseLeaveArcher(node)
+            } else if (node.x == cc.gameSpace.TroopLocation.x && node.y == cc.gameSpace.TroopLocation.y) {
+                mouse.mouseLeaveTroop(node)
+            } else if (node.x == cc.gameSpace.KnightLocation.x && node.y == cc.gameSpace.KnightLocation.y) {
+                mouse.mouseLeaveKnight(node)
+            } 
+
+            //player2
+            else if(node.x == cc.gameSpace.ArcherLocation2.x && node.y == cc.gameSpace.ArcherLocation2.y){
+                mouse.mouseLeaveArcher2(node)
+            }else if (node.x == cc.gameSpace.TroopLocation2.x && node.y == cc.gameSpace.TroopLocation2.y) {
+                mouse.mouseLeaveTroop2(node)
+            } else if (node.x == cc.gameSpace.KnightLocation2.x && node.y == cc.gameSpace.KnightLocation2.y) {
+                mouse.mouseLeaveKnight2(node)
+            } 
+
+            //player3
+            else if(node.x == cc.gameSpace.ArcherLocation3.x && node.y == cc.gameSpace.ArcherLocation3.y){
+                mouse.mouseLeaveArcher3(node)
+            }else if (node.x == cc.gameSpace.TroopLocation3.x && node.y == cc.gameSpace.TroopLocation3.y) {
+                mouse.mouseLeaveTroop3(node)
+            } else if (node.x == cc.gameSpace.KnightLocation3.x && node.y == cc.gameSpace.KnightLocation3.y) {
+                mouse.mouseLeaveKnight3(node)
+            } 
+            
+            
+            else {
+                mouse.mouseLeaveBlock()
+            }
+        })
+    },
+
+
+    //listening the mouseenter
+    mouseEnterAction: function (node, self) {
+        let mouseOption = require('mouseOption')
+        let mouse = new mouseOption()
+        node.on('mouseenter', function () {
+            node.opacity = 100
+
+
+            //player 1
+            if (node.x == cc.gameSpace.ArcherLocation.x && node.y == cc.gameSpace.ArcherLocation.y) {
+                //mouse enter the palyer1 archer
+                mouse.mouseEnterArcher(node)
+            } else if (node.x == cc.gameSpace.TroopLocation.x && node.y == cc.gameSpace.TroopLocation.y) {
+                 //mouse enter the palyer1 troop
+                mouse.mouseEnterTroop(node)
+            } else if (node.x == cc.gameSpace.KnightLocation.x && node.y == cc.gameSpace.KnightLocation.y) {
+                 //mouse enter the palyer1 knight
+                mouse.mouseEnterKnight(node)
+            } else if (node.x == cc.gameSpace.bottomCityLocation.x && node.y == cc.gameSpace.bottomCityLocation.y) {
+                //mouse enter the player1 city
+                mouse.mouseEnterCity(node)
+            }
+
+
+            //player2
+            else if(node.x == cc.gameSpace.ArcherLocation2.x && node.y == cc.gameSpace.ArcherLocation2.y){
+                //mouse enter the player2 archer
+                mouse.mouseEnterArcher2(node)
+            }else if(node.x == cc.gameSpace.TroopLocation2.x && node.y == cc.gameSpace.TroopLocation2.y){
+                //mouse enter the player2 troop
+                mouse.mouseEnterTroop2(node)
+            }else if(node.x == cc.gameSpace.KnightLocation2.x && node.y == cc.gameSpace.KnightLocation2.y){
+                //mouse enter the palyer1 knight
+                mouse.mouseEnterKnight2(node)
+            }else if(node.x == cc.gameSpace.leftCityLocation.x && node.y == cc.gameSpace.leftCityLocation.y){
+                //mouse enter the player1 city
+                mouse.mouseEnterCity(node)
+            }
+
+            //player3
+            else if(node.x == cc.gameSpace.ArcherLocation3.x && node.y == cc.gameSpace.ArcherLocation3.y){
+                //mouse enter the player2 archer
+                mouse.mouseEnterArcher3(node)
+            }else if(node.x == cc.gameSpace.TroopLocation3.x && node.y == cc.gameSpace.TroopLocation3.y){
+                //mouse enter the player2 troop
+                mouse.mouseEnterTroop3(node)
+            }else if(node.x == cc.gameSpace.KnightLocation3.x && node.y == cc.gameSpace.KnightLocation3.y){
+                //mouse enter the palyer1 knight
+                mouse.mouseEnterKnight3(node)
+            }else if(node.x == cc.gameSpace.rightCityLocation.x && node.y == cc.gameSpace.rightCityLocation.y){
+                //mouse enter the player1 city
+                mouse.mouseEnterCity(node)
+            }
+
+
+
+            else {
+                mouse.mouseEnterBlock(node)
+            }
+        }, self)
+    },
+
+
+    //judge which troop was choosed
+    judgeTroopChoosed: function (Troop, Archer, Knight,Troop2, Archer2, Knight2,Troop3, Archer3, Knight3) {
+
+        if (Troop) {
+            cc.gameSpace.chooseArcherPoint = false
+            cc.gameSpace.chooseKnightPoint = false
+            cc.gameSpace.chooseTroopPoint = true
+            cc.gameSpace.chooseArcherPoint2 = false
+            cc.gameSpace.chooseKnightPoint2 = false
+            cc.gameSpace.chooseTroopPoint2 = false
+            cc.gameSpace.chooseArcherPoint3 = false
+            cc.gameSpace.chooseKnightPoint3 = false
+            cc.gameSpace.chooseTroopPoint3 = false
+
+        } else if (Archer) {
+            cc.gameSpace.chooseArcherPoint = true
+            cc.gameSpace.chooseKnightPoint = false
+            cc.gameSpace.chooseTroopPoint = false
+            cc.gameSpace.chooseArcherPoint2 = false
+            cc.gameSpace.chooseKnightPoint2 = false
+            cc.gameSpace.chooseTroopPoint2 = false
+            cc.gameSpace.chooseArcherPoint3 = false
+            cc.gameSpace.chooseKnightPoint3 = false
+            cc.gameSpace.chooseTroopPoint3 = false
+        } else if (Knight) {
+            cc.gameSpace.chooseArcherPoint = false
+            cc.gameSpace.chooseKnightPoint = true
+            cc.gameSpace.chooseTroopPoint = false
+            cc.gameSpace.chooseArcherPoint2 = false
+            cc.gameSpace.chooseKnightPoint2 = false
+            cc.gameSpace.chooseTroopPoint2 = false
+            cc.gameSpace.chooseArcherPoint3 = false
+            cc.gameSpace.chooseKnightPoint3 = false
+            cc.gameSpace.chooseTroopPoint3 = false
+        }else if(Troop2){
+            cc.gameSpace.chooseArcherPoint = false
+            cc.gameSpace.chooseKnightPoint = false
+            cc.gameSpace.chooseTroopPoint = false
+            cc.gameSpace.chooseArcherPoint2 = false
+            cc.gameSpace.chooseKnightPoint2 = false
+            cc.gameSpace.chooseTroopPoint2 = true
+            cc.gameSpace.chooseArcherPoint3 = false
+            cc.gameSpace.chooseKnightPoint3 = false
+            cc.gameSpace.chooseTroopPoint3 = false
+        }else if(Archer2){
+            cc.gameSpace.chooseArcherPoint = false
+            cc.gameSpace.chooseKnightPoint = false
+            cc.gameSpace.chooseTroopPoint = false
+            cc.gameSpace.chooseArcherPoint2 = true
+            cc.gameSpace.chooseKnightPoint2 = false
+            cc.gameSpace.chooseTroopPoint2 = false
+            cc.gameSpace.chooseArcherPoint3 = false
+            cc.gameSpace.chooseKnightPoint3 = false
+            cc.gameSpace.chooseTroopPoint3 = false
+        }else if(Knight2){
+            cc.gameSpace.chooseArcherPoint = false
+            cc.gameSpace.chooseKnightPoint = false
+            cc.gameSpace.chooseTroopPoint = false
+            cc.gameSpace.chooseArcherPoint2 = false
+            cc.gameSpace.chooseKnightPoint2 = true
+            cc.gameSpace.chooseTroopPoint2 = false
+            cc.gameSpace.chooseArcherPoint3 = false
+            cc.gameSpace.chooseKnightPoint3 = false
+            cc.gameSpace.chooseTroopPoint3 = false
+        }else if(Troop3){
+            cc.gameSpace.chooseArcherPoint = false
+            cc.gameSpace.chooseKnightPoint = false
+            cc.gameSpace.chooseTroopPoint = false
+            cc.gameSpace.chooseArcherPoint2 = false
+            cc.gameSpace.chooseKnightPoint2 = false
+            cc.gameSpace.chooseTroopPoint2 = false
+            cc.gameSpace.chooseArcherPoint3 = false
+            cc.gameSpace.chooseKnightPoint3 = false
+            cc.gameSpace.chooseTroopPoint3 = true
+        }else if(Archer3){
+            cc.gameSpace.chooseArcherPoint = false
+            cc.gameSpace.chooseKnightPoint = false
+            cc.gameSpace.chooseTroopPoint = false
+            cc.gameSpace.chooseArcherPoint2 = false
+            cc.gameSpace.chooseKnightPoint2 = false
+            cc.gameSpace.chooseTroopPoint2 = false
+            cc.gameSpace.chooseArcherPoint3 = true
+            cc.gameSpace.chooseKnightPoint3 = false
+            cc.gameSpace.chooseTroopPoint3 = false
+        }else if(Knight3){
+            cc.gameSpace.chooseArcherPoint = false
+            cc.gameSpace.chooseKnightPoint = false
+            cc.gameSpace.chooseTroopPoint = false
+            cc.gameSpace.chooseArcherPoint2 = false
+            cc.gameSpace.chooseKnightPoint2 = false
+            cc.gameSpace.chooseTroopPoint2 = false
+            cc.gameSpace.chooseArcherPoint3 = false
+            cc.gameSpace.chooseKnightPoint3 = true
+            cc.gameSpace.chooseTroopPoint3 = false
+        }
+
+    },
+
+    notChooseAll:function(){
+        console.log('notchose')
+        cc.gameSpace.chooseTroop = false
+        cc.gameSpace.chooseArcher = false
+        cc.gameSpace.chooseKnight = false
+        cc.gameSpace.chooseTroop2 = false
+        cc.gameSpace.chooseArcher2 = false
+        cc.gameSpace.chooseKnight2 = false
+        cc.gameSpace.chooseTroop3 = false
+        cc.gameSpace.chooseArcher3 = false
+        cc.gameSpace.chooseKnight3 = false
+    },
+
+
+
+
+    //perform the troop move
+    moveAction: function (node, self) {
+        const BottomPlayer = require('bottomPlayer')
+        const LeftPlayer = require('LeftPlayer')
+        const RightPlayer = require('RightPlayer')
+
+        const player = new BottomPlayer()
+        const player2 = new LeftPlayer()
+        const player3 = new RightPlayer()
+        //judge the troop is choosed
+        if (cc.gameSpace.chooseTroop) {
+
+            self.judgeTroopChoosed(true, false, false,false,false,false,false,false,false)
+
+            cc.gameSpace.troopMovePoint = { x: node.x, y: node.y }
+
+            if (cc.gameSpace.chooseTroopPoint) {
+                player.limitTroopMove(node,self)
+            }
+        }
+        //judge the troop2 is choosed
+        if (cc.gameSpace.chooseTroop2) {
+            self.judgeTroopChoosed(false, false, false,true,false,false,false,false,false)
+
+            cc.gameSpace.troopMovePoint2 = { x: node.x, y: node.y }
+
+            console.log(cc.gameSpace.chooseTroop2,cc.gameSpace.chooseTroopPoint2)
+            if (cc.gameSpace.chooseTroopPoint2) {
+                player2.limitTroopMove(node,self)
+            }
+        }
+        //judge the troop3 is choosed
+        if (cc.gameSpace.chooseTroop3) {
+
+            self.judgeTroopChoosed(false, false, false,false,false,false,true,false,false)
+
+            cc.gameSpace.troopMovePoint3 = { x: node.x, y: node.y }
+
+            if (cc.gameSpace.chooseTroopPoint3) {
+                player3.limitTroopMove(node,self)
+            }
+        }
+
+    
+        
+
+
+        //judge the archer is choosed
+        if (cc.gameSpace.chooseArcher) {
+            self.judgeTroopChoosed(false, true, false,false,false,false,false,false,false)
+
+            cc.gameSpace.ArcherMovePoint = { x: node.x, y: node.y }
+
+            if (cc.gameSpace.chooseArcherPoint) {
+                player.limitArcherMove(node,self)
+            }
+        }
+
+        if(cc.gameSpace.chooseArcher2){
+            self.judgeTroopChoosed(false, false, false,false,true,false,false,false,false)
+
+            cc.gameSpace.ArcherMovePoint2 = { x: node.x, y: node.y }
+            if (cc.gameSpace.chooseArcherPoint2) {
+                player2.limitArcherMove(node,self)
+            }
+        }
+        if(cc.gameSpace.chooseArcher3){
+            self.judgeTroopChoosed(false, false, false,false,false,false,false,true,false)
+
+            cc.gameSpace.ArcherMovePoint3 = { x: node.x, y: node.y }
+
+            if (cc.gameSpace.chooseArcherPoint3) {
+                player3.limitArcherMove(node,self)
+            }
+        }
+
+
+
+        //judge the knight is choosed
+        if (cc.gameSpace.chooseKnight) {
+            self.judgeTroopChoosed(false, false, true)
+
+            cc.gameSpace.KnightMovePoint = { x: node.x, y: node.y }
+
+            if (cc.gameSpace.chooseKnightPoint) {
+                player.limitKnightMove(node,self)
+            }
+        }
+        if(cc.gameSpace.chooseKnight2){
+            self.judgeTroopChoosed(false, false, false,false,false,true,false,false,false)
+
+            cc.gameSpace.KnightMovePoint2 = { x: node.x, y: node.y }
+
+            if (cc.gameSpace.chooseKnightPoint2) {
+                player2.limitKnightMove(node,self)
+            }
+        }
+        if(cc.gameSpace.chooseKnight3){
+            self.judgeTroopChoosed(false, false, false,false,false,false,false,false,true)
+
+            cc.gameSpace.KnightMovePoint3 = { x: node.x, y: node.y }
+
+            if (cc.gameSpace.chooseKnightPoint3) {
+                player3.limitKnightMove(node,self)
+            }
+        }
+
+
+    },
+
+
+
+
+    // LIFE-CYCLE CALLBACKS:
+
+    onLoad() {
+        
+
+        cc.gameSpace = {}
+
+        //player one
+
+        //flag Troop is choosed
+        cc.gameSpace.chooseTroop = false
+
+        cc.gameSpace.chooseArcher = false
+
+        cc.gameSpace.chooseKnight = false
+
+        //flag Troop have point point place
+        cc.gameSpace.chooseTroopPoint = false
+
+        cc.gameSpace.chooseArcherPoint = false
+
+        cc.gameSpace.chooseKnightPoint = false
+
+        //flag 
+
+        //flag the troop move point
+        cc.gameSpace.troopMovePoint = { x: 0, y: 0 }
+
+        cc.gameSpace.ArcherMovePoint = { x: 0, y: 0 }
+
+        cc.gameSpace.KnightMovePoint = { x: 0, y: 0 }
+
+        //Troop locations
+        cc.gameSpace.ArcherLocation = { x: 0, y: 0 , playerFlag : 'player1' }
+
+        cc.gameSpace.TroopLocation = { x: 0, y: 0 ,playerFlag : 'player1'}
+
+        cc.gameSpace.KnightLocation = { x: 0, y: 0 ,playerFlag: 'player1' }
+
+        //City location
+        cc.gameSpace.bottomCityLocation = { x: 0, y: 0 ,playerFlag: 'player1'}
+
+
+        //player2
+
+        //flag choosed
+        cc.gameSpace.chooseTroop2 = false
+
+        cc.gameSpace.chooseArcher2 = false
+
+        cc.gameSpace.chooseKnight2 = false
+
+        //choose point
+        cc.gameSpace.chooseTroopPoint2 = false
+
+        cc.gameSpace.chooseArcherPoint2 = false
+
+        cc.gameSpace.chooseKnightPoint2 = false
+
+        //flag the troop move point
+        cc.gameSpace.troopMovePoint2 = { x: 0, y: 0 }
+
+        cc.gameSpace.ArcherMovePoint2 = { x: 0, y: 0 }
+
+        cc.gameSpace.KnightMovePoint2 = { x: 0, y: 0 }
+
+        //player2's troop location
+        cc.gameSpace.ArcherLocation2 = { x: 0, y: 0 , playerFlag : 'player2' }
+
+        cc.gameSpace.TroopLocation2 = { x: 0, y: 0 ,playerFlag : 'player2'}
+
+        cc.gameSpace.KnightLocation2 = { x: 0, y: 0 ,playerFlag: 'player2' }
+
+        //player2's city location
+        cc.gameSpace.leftCityLocation = { x: 0, y: 0 ,playerFlag: 'player2'}
+
+
+
+        //player3
+
+        //flag choosed
+        cc.gameSpace.chooseTroop3 = false
+
+        cc.gameSpace.chooseArcher3 = false
+
+        cc.gameSpace.chooseKnight3 = false
+
+        //choose point
+        cc.gameSpace.chooseTroopPoint3 = false
+
+        cc.gameSpace.chooseArcherPoint3 = false
+
+        cc.gameSpace.chooseKnightPoint3 = false
+
+        //flag the troop move point
+        cc.gameSpace.troopMovePoint3 = { x: 0, y: 0 }
+
+        cc.gameSpace.ArcherMovePoint3 = { x: 0, y: 0 }
+
+        cc.gameSpace.KnightMovePoint3 = { x: 0, y: 0 }
+
+        //player2's troop location
+        cc.gameSpace.ArcherLocation3 = { x: 0, y: 0 , playerFlag : 'player3' }
+
+        cc.gameSpace.TroopLocation3 = { x: 0, y: 0 ,playerFlag : 'player3'}
+
+        cc.gameSpace.KnightLocation3 = { x: 0, y: 0 ,playerFlag: 'player3' }
+
+        //player2's city location
+        cc.gameSpace.rightCityLocation = { x: 0, y: 0 ,playerFlag: 'player3'}
+
+
+
+
+
+        this.InitRegin()
+    },
+
+    start() {
+        
+        
+    },
+
+    update(dt) {
+
+        //icon animation
+        if (this.FightFlag) {
+            let fighticon = cc.find('Canvas/background/fightIcon')
+            fighticon.opacity = fighticon.opacity - (dt * 60) * 2
+            fighticon.y = fighticon.y - dt * 20
+            this.FightTimer--
+            if (this.FightTimer == 0) {
+
+                if (fighticon.isValid) {
+                    fighticon.destroy()
+                    this.FightFlag = false
+                }
+            }
+        }
+
+        if(this.TipFlag){
+            let tip = cc.find('Canvas/background/FightTip')
+            this.TipTimer--
+            if(this.TipTimer == 0){
+                if(tip.isValid){
+                    tip.destroy()
+                    this.TipFlag = false
+                }
+            }
+        }
+    },
+});

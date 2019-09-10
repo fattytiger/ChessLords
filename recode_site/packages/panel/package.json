@@ -1,0 +1,22 @@
+{
+  "name": "panel",
+  "version": "0.0.1",
+  "description": "The package template for getting started.",
+  "author": "Cocos Creator",
+  "main": "main.js",
+  "main-menu": {
+    "i18n:MAIN_MENU.package.title/panel/open": {
+      "message": "panel:open"
+    },
+    "i18n:MAIN_MENU.package.title/panel/hello": {
+      "message": "panel:say-hello"
+    }
+  },
+  "panel": {
+    "main": "panel/index.js",
+    "type": "dockable",
+    "title": "panel",
+    "width": 400,
+    "height": 300
+  }
+}
