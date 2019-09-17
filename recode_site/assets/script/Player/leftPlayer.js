@@ -1,3 +1,6 @@
+const Fighting = require('Fighting')
+const Fight = new Fighting()
+
 
 cc.Class({
     extends: cc.Component,
@@ -14,7 +17,11 @@ cc.Class({
         TroopAvatar: {
             type: cc.Node,
             default: null
-        }
+        },
+        leftCityLive:{
+            type:cc.ProgressBar,
+            default:null
+        },
     },
 
     onLoad() {
@@ -61,6 +68,7 @@ cc.Class({
         let realY = cityY + troopY
 
         cc.gameSpace.TroopLocation2 = { x: realX - 100, y: realY - 100 }
+        console.log(cc.gameSpace.TroopLocation2)
     },
 
     initKnightLocation: function () {
@@ -139,11 +147,74 @@ cc.Class({
         cc.gameSpace.chooseKnight3 = false
     },
 
+    //fight Bottom city
+    fightBottomCity: function (node) {
+        let returnFlag = false
+        let node0007 = cc.find('Canvas/background/node0007')
+        let node0008 = cc.find('Canvas/background/node0008')
+        let node0009 = cc.find('Canvas/background/node0009')
+        let node0107 = cc.find('Canvas/background/node0107')
+        let node0108 = cc.find('Canvas/background/node0108')
+        let node0109 = cc.find('Canvas/background/node0109')
+        let node0207 = cc.find('Canvas/background/node0207')
+        let node0208 = cc.find('Canvas/background/node0208')
+        let node0209 = cc.find('Canvas/background/node0209')
+        let bottomNode = [node0007, node0008, node0009, node0107, node0108, node0109, node0207, node0208, node0209]
+        for (let i = 0; i < bottomNode.length; i++) {
+            if (node.x == bottomNode[i].x && node.y == bottomNode[i].y) {
+                returnFlag = true
+                break
+            }
+        }
+        return returnFlag
+    },
+    //fight Left city
+    fightLeftCity:function(node){
+        let returnFlag = false
+        let node0801 = cc.find('Canvas/background/node0801')
+        let node0802 = cc.find('Canvas/background/node0802')
+        let node0803 = cc.find('Canvas/background/node0803')
+        let node0901 = cc.find('Canvas/background/node0901')
+        let node0902 = cc.find('Canvas/background/node0902')
+        let node0903 = cc.find('Canvas/background/node0903')
+        let node1001 = cc.find('Canvas/background/node1001')
+        let node1002 = cc.find('Canvas/background/node1002')
+        let node1003 = cc.find('Canvas/background/node1003')
+        let bottomNode = [node0801, node0802, node0803, node0901, node0902, node0903, node1001, node1002, node1003]
+        for (let i = 0; i < bottomNode.length; i++) {
+            if (node.x == bottomNode[i].x && node.y == bottomNode[i].y) {
+                returnFlag = true
+                break
+            }
+        }
+        return returnFlag
+    },
+
+    fightRightCity:function(node){
+        let returnFlag = false
+        let node0816 = cc.find('Canvas/background/node0816')
+        let node0817 = cc.find('Canvas/background/node0817')
+        let node0818 = cc.find('Canvas/background/node0818')
+        let node0916 = cc.find('Canvas/background/node0916')
+        let node0917 = cc.find('Canvas/background/node0917')
+        let node0918 = cc.find('Canvas/background/node0918')
+        let node1016 = cc.find('Canvas/background/node1016')
+        let node1017 = cc.find('Canvas/background/node1017')
+        let node1018 = cc.find('Canvas/background/node1018')
+        let bottomNode = [node0816, node0817, node0818, node0916, node0917, node0918, node1016, node1017, node1018]
+        for (let i = 0; i < bottomNode.length; i++) {
+            if (node.x == bottomNode[i].x && node.y == bottomNode[i].y) {
+                returnFlag = true
+                break
+            }
+        }
+        return returnFlag
+    },
+
 
 
 
     limitTroopMove: function (node, self) {
-        console.log('player2 tropp')
         let troopMoveDistanceX = Math.abs((cc.gameSpace.troopMovePoint2.x - cc.gameSpace.TroopLocation2.x))
         let troopMoveDistanceY = Math.abs((cc.gameSpace.troopMovePoint2.y - cc.gameSpace.TroopLocation2.y))
         if (troopMoveDistanceX > 200 || troopMoveDistanceY > 200) {
@@ -157,13 +228,7 @@ cc.Class({
             } else if (node.x == cc.gameSpace.KnightLocation2.x && node.y == cc.gameSpace.KnightLocation2.y) {
 
                 self.spawnFightTip()
-
-
-            } else if (node.x == cc.gameSpace.leftCityLocation.x && node.y == cc.gameSpace.leftCityLocation.y) {
-
-                self.spawnFightTip()
-
-            }
+            } 
             //fight player1
             else if (node.x == cc.gameSpace.TroopLocation.x && node.y == cc.gameSpace.TroopLocation.y) {
                 //fight troop
@@ -179,7 +244,7 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.troop2FightTroop(xdistance, ydistance)
+                Fight.TroopAtacked(xdistance,ydistance)
             } else if (node.x == cc.gameSpace.KnightLocation.x && node.y == cc.gameSpace.KnightLocation.y) {
                 //fight troop
                 let troopLocationX = cc.gameSpace.TroopLocation2.x
@@ -194,7 +259,7 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.troop2FightKnight(xdistance, ydistance)
+                Fight.KnightAtacked(xdistance,ydistance)
             } else if (node.x == cc.gameSpace.ArcherLocation.x && node.y == cc.gameSpace.ArcherLocation.y) {
                 //fight archer
                 let troopLocationX = cc.gameSpace.TroopLocation2.x
@@ -209,7 +274,7 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.troop2FightArcher(xdistance, ydistance)
+                Fight.ArcherAtacked(xdistance,ydistance)
             }
 
 
@@ -229,7 +294,7 @@ cc.Class({
                 self.FightFlag = true
                 console.log('troop 2 fight troop 3')
 
-                this.troop2FightTroop3(xdistance, ydistance)
+                Fight.Troop3Atacked(xdistance,ydistance)
             } else if (node.x == cc.gameSpace.KnightLocation3.x && node.y == cc.gameSpace.KnightLocation3.y) {
                 //fight troop
                 let troopLocationX = cc.gameSpace.TroopLocation2.x
@@ -244,7 +309,7 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.troop2FightKnight3(xdistance, ydistance)
+                Fight.Knight3Atacked(xdistance,ydistance)
             } else if (node.x == cc.gameSpace.ArcherLocation3.x && node.y == cc.gameSpace.ArcherLocation3.y) {
                 //fight archer
                 let troopLocationX = cc.gameSpace.TroopLocation2.x
@@ -259,250 +324,22 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.troop2FightArcher3(xdistance, ydistance)
+                Fight.Archer3Atacked(xdistance,ydistance)
             }
             else {
-                this.TroopAction()
+                if(this.fightLeftCity(node)){
+                    self.spawnFightTip()
+                }else if(this.fightRightCity(node)){
+                    Fight.rightcityLoseLive()
+                }else if(this.fightBottomCity(node)){
+                    Fight.bottomcityLoseLive()
+                }else {
+                    this.TroopAction()
+                }
             }
 
         }
     },
-
-    troop2FightTroop: function (xdistance,ydistance) {
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('troop', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/BottomCity/troop')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-
-    },
-    troop2FightKnight: function (xdistance,ydistance) {
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('knight', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/BottomCity/knight')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-
-    },
-    troop2FightArcher: function (xdistance,ydistance) {
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('troop', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/BottomCity/archer')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-
-    },
-
-    troop2FightTroop3: function (xdistance,ydistance) {
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('troop3', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/RightCity/troop')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-
-    },
-    troop2FightKnight3: function (xdistance,ydistance) {
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('knight3', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/RightCity/knight')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-
-    },
-    troop2FightArcher3: function (xdistance,ydistance) {
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('archer3', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/RightCity/archer')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-    },
-
 
 
     limitKnightMove: function (node, self) {
@@ -521,12 +358,7 @@ cc.Class({
 
                 self.spawnFightTip()
 
-            } else if (node.x == cc.gameSpace.leftCityLocation.x && node.y == cc.gameSpace.leftCityLocation.y) {
-
-                //Knight fight bottomCity
-                console.log('fight the bottom city')
-                self.spawnFightTip()
-            }
+            } 
 
             //fight player1
             else if (node.x == cc.gameSpace.TroopLocation.x && node.y == cc.gameSpace.TroopLocation.y) {
@@ -543,7 +375,7 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.knight2FightTroop(xdistance, ydistance)
+                Fight.TroopAtacked(xdistance,ydistance)
             } else if (node.x == cc.gameSpace.KnightLocation.x && node.y == cc.gameSpace.KnightLocation.y) {
                 //fight troop
                 let troopLocationX = cc.gameSpace.KnightLocation2.x
@@ -558,7 +390,7 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.knight2FightKnight(xdistance, ydistance)
+                Fight.KnightAtacked(xdistance,ydistance)
             } else if (node.x == cc.gameSpace.ArcherLocation.x && node.y == cc.gameSpace.ArcherLocation.y) {
                 //fight archer
                 let troopLocationX = cc.gameSpace.KnightLocation2.x
@@ -573,7 +405,7 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.knight2FightArcher(xdistance, ydistance)
+                Fight.ArcherAtacked(xdistance,ydistance)
             }
 
 
@@ -592,7 +424,7 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.knight2FightTroop3(xdistance, ydistance)
+                Fight.Troop3Atacked(xdistance,ydistance)
             } else if (node.x == cc.gameSpace.KnightLocation3.x && node.y == cc.gameSpace.KnightLocation3.y) {
                 //fight troop
                 let troopLocationX = cc.gameSpace.KnightLocation2.x
@@ -607,7 +439,7 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.knight2FightKnight3(xdistance, ydistance)
+                Fight.Knight3Atacked(xdistance,ydistance)
             } else if (node.x == cc.gameSpace.ArcherLocation3.x && node.y == cc.gameSpace.ArcherLocation3.y) {
                 //fight archer
                 let troopLocationX = cc.gameSpace.KnightLocation2.x
@@ -622,245 +454,19 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.knight2FightArcher3(xdistance, ydistance)
+                Fight.Archer3Atacked(xdistance,ydistance)
             }
 
             else {
-                this.KnightAction()
-            }
-        }
-
-    },
-    knight2FightTroop: function (xdistance,ydistance) {
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('troop', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/BottomCity/troop')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-
-    },
-    knight2FightKnight: function (xdistance,ydistance) {
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('knight', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/BottomCity/knight')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-
-    },
-    knight2FightArcher: function (xdistance,ydistance) {
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('archer', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/BottomCity/archer')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-
-    },
-    knight2FightTroop3: function (xdistance,ydistance) {
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('troop3', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/RightCity/troop')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-
-    },
-    knight2FightKnight3: function (xdistance,ydistance) {
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('knight3', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/RightCity/knight')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-
-    },
-    knight2FightArcher3: function (xdistance,ydistance) {
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('archer3', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/RightCity/archer')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
+                if(this.fightLeftCity(node)){
+                    self.spawnFightTip()
+                }else if(this.fightBottomCity(node)){
+                    Fight.bottomcityLoseLive()
+                }else if(this.fightRightCity(node)){
+                    Fight.rightcityLoseLive()
+                }else {
+                    this.KnightAction()
+                }
             }
         }
     },
@@ -884,10 +490,7 @@ cc.Class({
 
                 self.spawnFightTip()
 
-            } else if (node.x == cc.gameSpace.leftCityLocation.x && node.y == cc.gameSpace.leftCityLocation.y) {
-
-                self.spawnFightTip()
-            }
+            } 
 
             //fight player1
             else if (node.x == cc.gameSpace.TroopLocation.x && node.y == cc.gameSpace.TroopLocation.y) {
@@ -904,7 +507,7 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.archer2FightTroop(xdistance, ydistance)
+                Fight.TroopAtacked(xdistance,ydistance)
             } else if (node.x == cc.gameSpace.KnightLocation.x && node.y == cc.gameSpace.KnightLocation.y) {
                 //fight troop
                 let troopLocationX = cc.gameSpace.ArcherLocation2.x
@@ -919,7 +522,7 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.archer2FightKnight(xdistance, ydistance)
+                Fight.KnightAtacked(xdistance,ydistance)
             } else if (node.x == cc.gameSpace.ArcherLocation.x && node.y == cc.gameSpace.ArcherLocation.y) {
                 //fight archer
                 let troopLocationX = cc.gameSpace.ArcherLocation2.x
@@ -934,7 +537,7 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.archer2FightArcher(xdistance, ydistance)
+                Fight.ArcherAtacked(xdistance,ydistance)
             }
 
 
@@ -953,7 +556,7 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.archer2FightTroop3(xdistance, ydistance)
+                Fight.Troop3Atacked(xdistance,ydistance)
             } else if (node.x == cc.gameSpace.KnightLocation3.x && node.y == cc.gameSpace.KnightLocation3.y) {
                 //fight troop
                 let troopLocationX = cc.gameSpace.ArcherLocation2.x
@@ -968,7 +571,7 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.archer2FightKnight3(xdistance, ydistance)
+                Fight.Knight3Atacked(xdistance,ydistance)
             } else if (node.x == cc.gameSpace.ArcherLocation3.x && node.y == cc.gameSpace.ArcherLocation3.y) {
                 //fight archer
                 let troopLocationX = cc.gameSpace.ArcherLocation2.x
@@ -983,258 +586,24 @@ cc.Class({
 
                 self.FightFlag = true
 
-                this.archer2FightArcher3(xdistance, ydistance)
+                Fight.Archer3Atacked(xdistance,ydistance)
             }
 
 
             else {
-                this.ArcherAction()
+                if(this.fightLeftCity(node)){
+                    self.spawnFightTip()
+                }else if(this.fightBottomCity(node)){
+                    Fight.bottomcityLoseLive()
+                }else if (this.fightRightCity(node)){
+                    Fight.rightcityLoseLive()
+                }else {
+                    this.ArcherAction()
+                }
             }
         }
     },
 
-    archer2FightTroop:function(xdistance,ydistance){
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('troop', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/BottomCity/troop')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-    },
-    archer2FightKnight:function(xdistance,ydistance){
-
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('knight', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/BottomCity/knight')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-
-    
-    },
-    archer2FightArcher:function(xdistance,ydistance){
-
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('archer', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/BottomCity/archer')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-
-    
-    },
-    archer2FightTroop3:function(xdistance,ydistance){
-
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('troop3', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/RightCity/troop')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-
-    
-    },
-    archer2FightKnight3:function(xdistance,ydistance){
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('knight3', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/RightCity/knight')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-
-    
-
-    },
-    archer2FightArcher3:function(xdistance,ydistance){
-
-        //find the troop node and get the position
-        this.notChooseAll()
-
-        this.avatarLoseLive('archer3', 0.5)
-        let ArcherAvatar = cc.find('Canvas/background/RightCity/archer')
-        if (xdistance > 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, -200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, -200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, -200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else if (xdistance == 0) {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 0, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance < 0) {
-                let moveTo = cc.moveBy(0.5, 0, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        } else {
-            if (ydistance > 0) {
-                let moveTo = cc.moveBy(0.5, 200, -200)
-                return ArcherAvatar.runAction(moveTo)
-            } else if (ydistance == 0) {
-                let moveTo = cc.moveBy(0.5, 200, 0)
-                return ArcherAvatar.runAction(moveTo)
-            } else {
-                let moveTo = cc.moveBy(0.5, 200, 200)
-                return ArcherAvatar.runAction(moveTo)
-            }
-        }
-    
-    },
 
 
 
@@ -1263,7 +632,9 @@ cc.Class({
             let moveY = cc.gameSpace.troopMovePoint2.y
 
             //start move
-            let moveTo = cc.moveBy(0.5, cc.v2(moveX - realX + 100, moveY - realY + 100)).easing(cc.easeIn(1.0))
+            let moveTo = cc.moveBy(0.5, cc.v2(moveX - realX + 100, moveY - realY + 100))
+            cc.gameSpace.TroopLocation2.x = moveX
+            cc.gameSpace.TroopLocation2.y = moveY
             return TroopAvatar.runAction(moveTo)
         }
     },
@@ -1292,7 +663,9 @@ cc.Class({
             let moveY = cc.gameSpace.KnightMovePoint2.y
 
             //start move
-            let moveTo = cc.moveBy(0.5, cc.v2(moveX - realX + 100, moveY - realY + 100)).easing(cc.easeIn(1.0))
+            let moveTo = cc.moveBy(0.5, cc.v2(moveX - realX + 100, moveY - realY + 100))
+            cc.gameSpace.KnightLocation2.x = moveX
+            cc.gameSpace.KnightLocation2.y = moveY
             return TroopAvatar.runAction(moveTo)
         }
     },
@@ -1319,47 +692,12 @@ cc.Class({
             let moveY = cc.gameSpace.ArcherMovePoint2.y
 
             //start move
-            let moveTo = cc.moveBy(0.5, cc.v2(moveX - realX + 100, moveY - realY + 100)).easing(cc.easeIn(1.0))
+            let moveTo = cc.moveBy(0.5, cc.v2(moveX - realX + 100, moveY - realY + 100))
+            cc.gameSpace.ArcherLocation2.x = moveX
+            cc.gameSpace.ArcherLocation2.y = moveY
             return TroopAvatar.runAction(moveTo)
         }
 
-    },
-
-    avatarLoseLive: function (nodeName, num) {
-        if (nodeName == 'troop') {
-            let troopAvatar = cc.find('Canvas/background/BottomCity/troop')
-            let trooplive = troopAvatar.children[0].getComponent(cc.ProgressBar)
-            trooplive.progress -= num
-            if (trooplive.progress <= 0) {
-                //if the troop live < 0 go back to the start position
-            }
-        } else if (nodeName == 'knight') {
-            let knightAvatar = cc.find('Canvas/background/BottomCity/knight')
-            let knightLive = knightAvatar.children[0].getComponent(cc.ProgressBar)
-            knightLive.progress -= num
-        } else if (nodeName == 'archer') {
-            let archerAvatar = cc.find('Canvas/background/BottomCity/archer')
-            let archerlive = archerAvatar.children[0].getComponent(cc.ProgressBar)
-            archerlive.progress -= num
-            if (archerlive.progress <= 0) {
-                //if the troop live < 0 go back to the start position
-            }
-        }else if(nodeName == 'troop3'){
-            let troopAvatar = cc.find('Canvas/background/RightCity/troop')
-            let trooplive = troopAvatar.children[0].getComponent(cc.ProgressBar)
-            trooplive.progress -= num
-            if (trooplive.progress <= 0) {
-                //if the troop live < 0 go back to the start position
-            }
-        }else if (nodeName == 'knight3') {
-            let knightAvatar = cc.find('Canvas/background/RightCity/knight')
-            let knightLive = knightAvatar.children[0].getComponent(cc.ProgressBar)
-            knightLive.progress -= num
-        } else if (nodeName == 'archer3') {
-            let archerAvatar = cc.find('Canvas/background/RightCity/archer')
-            let archerlive = archerAvatar.children[0].getComponent(cc.ProgressBar)
-            archerlive.progress -= num
-        }
     },
 
 

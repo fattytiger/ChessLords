@@ -1,13 +1,11 @@
 
 const DEFAULT = { BLOCKCHAIN: 'icon', NETWORK: 'mainnet', LANGUAGE_CODE: 'en' }
-
+const ws = new WebSocket('ws://120.78.68.145:8000', 'echo-protocol')
 const i18n = require("LanguageData")
 const SoundManager = require('SoundManage')
 const HttpEvent = require('HttpEvent')
-
-
-
-
+const http = new HttpEvent()
+const soundManager = new SoundManager()
 //http setting
 
 cc.Class({
@@ -26,71 +24,15 @@ cc.Class({
             default: null,
             type: cc.Label
         },
-        bgSound: {
-            default: null,
-            type: cc.AudioClip
-        },
         SocialButtonRoot: {
             default: null,
             type: cc.Node
         },
-        testPrefab: {
-            default: null,
-            type: cc.Prefab
+        LoginTip:{
+            type:cc.Prefab,
+            default:null
         }
     },
-
-    //init the app
-    appInit() {
-        cc.global = {}
-
-        cc.nodeName = {}
-
-        cc.global.HttpEvent = new HttpEvent()
-
-        cc.nodeName.progressBar = cc.find('Canvas/bgLayer/progressBar')
-
-        cc.nodeName.playButton = cc.find('Canvas/bgLayer/playButton')
-
-        cc.gameSpace = {},
-
-        cc.user = {}
-
-        cc.user.login = false
-
-        cc.user.name = ''
-    },
-
-    connectServer: function (self) {
-        const ws = new WebSocket('ws://localhost:8080', 'echo-protocol')
-        switch (ws.readyState) {
-            case WebSocket.CONNECTING:
-                console.log('connecting')
-                break
-            case WebSocket.OPEN:
-                console.log('open')
-                break
-            case WebSocket.CLOSING:
-                console.log('closing')
-                break
-            case WebSocket.CLOSED:
-                console.log('closed')
-            default:
-                break
-        }
-        ws.onopen = function (evt) {
-            let message = JSON.stringify(cc.user)
-            ws.send(message)
-        }
-        ws.onmessage = function (evt) {
-            let res = JSON.parse(evt.data)
-            if (res.login == true) {
-                self.LocationButton.node.active = true
-                self.progressBar.node.active = false
-            }
-        }
-    },
-
 
 
 
@@ -102,9 +44,12 @@ cc.Class({
             this.loadingProgress.string = `Loading audio resource ${completeCount}/${totalCount}`
             this.progressBar.progress = completeCount / totalCount
         }, (err, resource) => {
-            console.log('load the source is OK')
-            //check the cocos server and wallet
-            this.login()
+            if (window.BcxWeb) {
+                console.log(window.BcxWeb)
+                http.connectServer(window.BcxWeb.account_name,this)
+            } else {
+                console.log('no have bcxweb')
+            }
         })
 
     },
@@ -138,35 +83,33 @@ cc.Class({
 
     //buttonOption
     playOption: function () {
-        cc.global.soundManager.onPlayEffect('Battle_Start_Button')
+        soundManager.basicclickSound()
+        // if(!http.sendMatching()){
+        //     let tipPanel = cc.instantiate(this.LoginTip)
+        //     tipPanel.setPosition(0,0)
+        //     let canvas = cc.find('Canvas')
+        //     canvas.addChild(tipPanel)
+        // }else {
+        //     cc.director.loadScene("FightScene");
+        // }
+        http.sendMatching(this)
+        
     },
 
     onLoad() {
         this.LocationButton.node.active = false
         this.progressBar.node.active = true
-        this.appInit()
-        cc.audioEngine.playMusic(this.bgSound, false)
+        soundManager.onPlayWorldBgSound()
         this.loadImage()
-
     },
 
-    login: function () {
-        if (window.BcxWeb) {
-            console.log(window.BcxWeb)
-            cc.user.login = true
-            cc.user.name = window.BcxWeb.account_name
 
-            let self = this
-            this.connectServer(self)
-        } else {
-            console.log('no have bcxweb')
-        }
-    },
+    
 
 
 
     start() {
-
+        cc.login = false
     },
 
     update(dt) { },

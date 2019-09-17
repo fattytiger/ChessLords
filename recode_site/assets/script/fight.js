@@ -30,6 +30,9 @@ cc.Class({
             type:cc.Prefab,
             default:null
         },
+        
+        
+
         FightTimer: 0,
         FightFlag: false,
 
@@ -161,9 +164,11 @@ cc.Class({
         let mouseOption = require('mouseOption')
         let mouse = new mouseOption()
         node.on('mouseenter', function () {
-            node.opacity = 100
+            // node.opacity = 100
 
-
+            mouse.mouseEnterBottomCity(node)
+            mouse.mouseEnterLeftCity(node)
+            mouse.mouseEnterRightCity(node)
             //player 1
             if (node.x == cc.gameSpace.ArcherLocation.x && node.y == cc.gameSpace.ArcherLocation.y) {
                 //mouse enter the palyer1 archer
@@ -174,10 +179,7 @@ cc.Class({
             } else if (node.x == cc.gameSpace.KnightLocation.x && node.y == cc.gameSpace.KnightLocation.y) {
                  //mouse enter the palyer1 knight
                 mouse.mouseEnterKnight(node)
-            } else if (node.x == cc.gameSpace.bottomCityLocation.x && node.y == cc.gameSpace.bottomCityLocation.y) {
-                //mouse enter the player1 city
-                mouse.mouseEnterCity(node)
-            }
+            } 
 
 
             //player2
@@ -190,9 +192,6 @@ cc.Class({
             }else if(node.x == cc.gameSpace.KnightLocation2.x && node.y == cc.gameSpace.KnightLocation2.y){
                 //mouse enter the palyer1 knight
                 mouse.mouseEnterKnight2(node)
-            }else if(node.x == cc.gameSpace.leftCityLocation.x && node.y == cc.gameSpace.leftCityLocation.y){
-                //mouse enter the player1 city
-                mouse.mouseEnterCity(node)
             }
 
             //player3
@@ -205,9 +204,6 @@ cc.Class({
             }else if(node.x == cc.gameSpace.KnightLocation3.x && node.y == cc.gameSpace.KnightLocation3.y){
                 //mouse enter the palyer1 knight
                 mouse.mouseEnterKnight3(node)
-            }else if(node.x == cc.gameSpace.rightCityLocation.x && node.y == cc.gameSpace.rightCityLocation.y){
-                //mouse enter the player1 city
-                mouse.mouseEnterCity(node)
             }
 
 
@@ -359,7 +355,6 @@ cc.Class({
 
             cc.gameSpace.troopMovePoint2 = { x: node.x, y: node.y }
 
-            console.log(cc.gameSpace.chooseTroop2,cc.gameSpace.chooseTroopPoint2)
             if (cc.gameSpace.chooseTroopPoint2) {
                 player2.limitTroopMove(node,self)
             }
@@ -479,14 +474,14 @@ cc.Class({
         cc.gameSpace.KnightMovePoint = { x: 0, y: 0 }
 
         //Troop locations
-        cc.gameSpace.ArcherLocation = { x: 0, y: 0 , playerFlag : 'player1' }
+        cc.gameSpace.ArcherLocation = { x: 0, y: 0 }
 
-        cc.gameSpace.TroopLocation = { x: 0, y: 0 ,playerFlag : 'player1'}
+        cc.gameSpace.TroopLocation = { x: 0, y: 0 }
 
-        cc.gameSpace.KnightLocation = { x: 0, y: 0 ,playerFlag: 'player1' }
+        cc.gameSpace.KnightLocation = { x: 0, y: 0 }
 
         //City location
-        cc.gameSpace.bottomCityLocation = { x: 0, y: 0 ,playerFlag: 'player1'}
+        cc.gameSpace.bottomCityLocation = { x: 0, y: 0}
 
 
         //player2
@@ -513,14 +508,14 @@ cc.Class({
         cc.gameSpace.KnightMovePoint2 = { x: 0, y: 0 }
 
         //player2's troop location
-        cc.gameSpace.ArcherLocation2 = { x: 0, y: 0 , playerFlag : 'player2' }
+        cc.gameSpace.ArcherLocation2 = { x: 0, y: 0 }
 
-        cc.gameSpace.TroopLocation2 = { x: 0, y: 0 ,playerFlag : 'player2'}
+        cc.gameSpace.TroopLocation2 = { x: 0, y: 0 }
 
-        cc.gameSpace.KnightLocation2 = { x: 0, y: 0 ,playerFlag: 'player2' }
+        cc.gameSpace.KnightLocation2 = { x: 0, y: 0 }
 
         //player2's city location
-        cc.gameSpace.leftCityLocation = { x: 0, y: 0 ,playerFlag: 'player2'}
+        cc.gameSpace.leftCityLocation = { x: 0, y: 0 }
 
 
 
@@ -548,18 +543,21 @@ cc.Class({
         cc.gameSpace.KnightMovePoint3 = { x: 0, y: 0 }
 
         //player2's troop location
-        cc.gameSpace.ArcherLocation3 = { x: 0, y: 0 , playerFlag : 'player3' }
+        cc.gameSpace.ArcherLocation3 = { x: 0, y: 0 }
 
-        cc.gameSpace.TroopLocation3 = { x: 0, y: 0 ,playerFlag : 'player3'}
+        cc.gameSpace.TroopLocation3 = { x: 0, y: 0 }
 
-        cc.gameSpace.KnightLocation3 = { x: 0, y: 0 ,playerFlag: 'player3' }
+        cc.gameSpace.KnightLocation3 = { x: 0, y: 0 }
 
         //player2's city location
-        cc.gameSpace.rightCityLocation = { x: 0, y: 0 ,playerFlag: 'player3'}
+        cc.gameSpace.rightCityLocation = { x: 0, y: 0 }
 
 
+        cc.gameSpace.Player1Live = true
 
+        cc.gameSpace.Player2Live = true
 
+        cc.gameSpace.Player3Live = true
 
         this.InitRegin()
     },
@@ -594,6 +592,27 @@ cc.Class({
                     tip.destroy()
                     this.TipFlag = false
                 }
+            }
+        }
+
+        if(!cc.gameSpace.Player1Live){
+            let player = cc.find('Canvas/background/BottomCity')
+            if(player.isValid){
+                player.active = false
+            }
+        }
+
+        if(!cc.gameSpace.Player2Live){
+            let player = cc.find('Canvas/background/LeftCity')
+            if(player.isValid){
+                player.active = false
+            }
+        }
+
+        if(!cc.gameSpace.Player3Live){
+            let player = cc.find('Canvas/background/RightCity')
+            if(player.isValid){
+                player.active = false
             }
         }
     },

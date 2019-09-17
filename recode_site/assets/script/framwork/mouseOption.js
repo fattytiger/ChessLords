@@ -82,19 +82,19 @@ cc.Class({
         const RightPlayer = require('RightPlayer')
         const player3 = new RightPlayer
 
-        this.clearScreen()
+        // this.clearScreen()
         node.opacity = 100
-        player.initArcherLocation()
-        player.initTroopLocation()
-        player.initKnightLocation()
+        // player.initArcherLocation()
+        // player.initTroopLocation()
+        // player.initKnightLocation()
 
-        player2.initArcherLocation()
-        player2.initTroopLocation()
-        player2.initKnightLocation()
+        // player2.initArcherLocation()
+        // player2.initTroopLocation()
+        // player2.initKnightLocation()
 
-        player3.initArcherLocation()
-        player3.initTroopLocation()
-        player3.initKnightLocation()
+        // player3.initArcherLocation()
+        // player3.initTroopLocation()
+        // player3.initKnightLocation()
     },
 
 
@@ -112,6 +112,91 @@ cc.Class({
         let column = parseInt(this.handleNodeNameColumn(nodeName))
         let list = parseInt(this.handleNodeNameList(nodeName))
         this.checkCityLocation(column,list)
+    },
+
+    mouseEnterBottomCity:function(node){
+        let cityArr = ['node0007','node0008','node0009','node0107','node0108','node0109','node0207','node0208','node0209']
+        for(let i = 0;i< cityArr.length;i++){
+            if(node.name == cityArr[i]){
+                this.clearScreen()
+                let node0007 = cc.find('Canvas/background/node0007')
+                let node0008 = cc.find('Canvas/background/node0008')
+                let node0009 = cc.find('Canvas/background/node0009')
+                let node0107 = cc.find('Canvas/background/node0107')
+                let node0108 = cc.find('Canvas/background/node0108')
+                let node0109 = cc.find('Canvas/background/node0109')
+                let node0207 = cc.find('Canvas/background/node0207')
+                let node0208 = cc.find('Canvas/background/node0208')
+                let node0209 = cc.find('Canvas/background/node0209')
+                node0007.opacity = 100
+                node0008.opacity = 100
+                node0009.opacity = 100
+                node0107.opacity = 100
+                node0108.opacity = 100
+                node0109.opacity = 100
+                node0207.opacity = 100
+                node0208.opacity = 100
+                node0209.opacity = 100
+            }
+        }
+    },
+
+
+    mouseEnterLeftCity:function(node){
+        let cityArr = ['node0801','node0802','node0803','node0901','node0902','node0903','node1001','node1002','node1003']
+        for(let i=0;i<cityArr.length;i++){
+            if(node.name == cityArr[i]){
+                this.clearScreen()
+                let node0801 = cc.find('Canvas/background/node0801')
+                let node0802 = cc.find('Canvas/background/node0802')
+                let node0803 = cc.find('Canvas/background/node0803')
+                let node0901 = cc.find('Canvas/background/node0901')
+                let node0902 = cc.find('Canvas/background/node0902')
+                let node0903 = cc.find('Canvas/background/node0903')
+                let node1001 = cc.find('Canvas/background/node1001')
+                let node1002 = cc.find('Canvas/background/node1002')
+                let node1003 = cc.find('Canvas/background/node1003')
+
+                node0801.opacity = 100
+                node0802.opacity = 100
+                node0803.opacity = 100
+                node0901.opacity = 100
+                node0902.opacity = 100
+                node0903.opacity = 100
+                node1001.opacity = 100
+                node1002.opacity = 100
+                node1003.opacity = 100
+            }
+        }
+    },
+
+
+    mouseEnterRightCity:function(node){
+        let cityArr = ['node0816','node0817','node0818','node0916','node0917','node0918','node1016','node1017','node1018']
+        for(let i=0;i<cityArr.length;i++){
+            if(node.name == cityArr[i]){
+                this.clearScreen()
+                let node0816 = cc.find('Canvas/background/node0816')
+                let node0817 = cc.find('Canvas/background/node0817')
+                let node0818 = cc.find('Canvas/background/node0818')
+                let node0916 = cc.find('Canvas/background/node0916')
+                let node0917 = cc.find('Canvas/background/node0917')
+                let node0918 = cc.find('Canvas/background/node0918')
+                let node1016 = cc.find('Canvas/background/node1016')
+                let node1017 = cc.find('Canvas/background/node1017')
+                let node1018 = cc.find('Canvas/background/node1018')
+
+                node0816.opacity = 100
+                node0817.opacity = 100
+                node0818.opacity = 100
+                node0916.opacity = 100
+                node0917.opacity = 100
+                node0918.opacity = 100
+                node1016.opacity = 100
+                node1017.opacity = 100
+                node1018.opacity = 100
+            }
+        }
     },
 
     //into Archer
@@ -167,8 +252,6 @@ cc.Class({
 
     //leave Archer
     mouseLeaveArcher:function(node){
-        const BottomPlayer = require('BottomPlayer')
-        const player = new BottomPlayer()
         this.clearScreen()
         let archer = cc.find('Canvas/background/BottomCity/archer')
         cc.loader.loadRes('image/Map/archer_red', cc.SpriteFrame, (err, spriteFrame) => {
@@ -177,14 +260,11 @@ cc.Class({
             } else {
                 archer.getComponent(cc.Sprite).spriteFrame = spriteFrame
                 node.opacity = 0
-                player.initArcherLocation()
             }
         })
     },
 
     mouseLeaveArcher2:function(node){
-        const LeftPlayer = require('LeftPlayer')
-        const player = new LeftPlayer()
         this.clearScreen()
         let archer = cc.find('Canvas/background/LeftCity/archer')
         cc.loader.loadRes('image/Map/archer_red', cc.SpriteFrame, (err, spriteFrame) => {
@@ -193,13 +273,10 @@ cc.Class({
             } else {
                 archer.getComponent(cc.Sprite).spriteFrame = spriteFrame
                 node.opacity = 0
-                player.initArcherLocation()
             }
         })
     },
     mouseLeaveArcher3:function(node){
-        const RightPlayer = require('RightPlayer')
-        const player = new RightPlayer()
         this.clearScreen()
         let archer = cc.find('Canvas/background/RightCity/archer')
         cc.loader.loadRes('image/Map/archer_red', cc.SpriteFrame, (err, spriteFrame) => {
@@ -208,7 +285,6 @@ cc.Class({
             } else {
                 archer.getComponent(cc.Sprite).spriteFrame = spriteFrame
                 node.opacity = 0
-                player.initArcherLocation()
             }
         })
     },
@@ -234,7 +310,7 @@ cc.Class({
     mouseEnterTroop2:function(node){
         this.clearScreen()
         let tro = cc.find('Canvas/background/LeftCity/troop')
-        console.log('a')
+        console.log(cc.gameSpace.TroopLocation2)
         cc.loader.loadRes('image/Map/troop_yellow_highlighted', cc.SpriteFrame, (err, spriteFrame) => {
             if (err) {
                 console.log(err)
@@ -268,8 +344,6 @@ cc.Class({
     //leave the troop
     mouseLeaveTroop:function(node){
         this.clearScreen()
-        const BottomPlayer = require('bottomPlayer')
-        const player = new BottomPlayer()
         let tro = cc.find('Canvas/background/BottomCity/troop')
         cc.loader.loadRes('image/Map/troop_yellow', cc.SpriteFrame, (err, spriteFrame) => {
             if (err) {
@@ -277,29 +351,23 @@ cc.Class({
             } else {
                 tro.getComponent(cc.Sprite).spriteFrame = spriteFrame
                 node.opacity = 0
-                player.initArcherLocation()
             }
         })
     },
     mouseLeaveTroop2:function(node){
         this.clearScreen()
-        const LeftPlayer = require('LeftPlayer')
-        const player = new LeftPlayer()
-        let tro = cc.find('Canvas/background/LeftCity/troop')
+        let troop = cc.find('Canvas/background/LeftCity/troop')
         cc.loader.loadRes('image/Map/troop_yellow', cc.SpriteFrame, (err, spriteFrame) => {
             if (err) {
                 console.log(err)
             } else {
-                tro.getComponent(cc.Sprite).spriteFrame = spriteFrame
+                troop.getComponent(cc.Sprite).spriteFrame = spriteFrame
                 node.opacity = 0
-                player.initArcherLocation()
             }
         })
     },
     mouseLeaveTroop3:function(node){
         this.clearScreen()
-        const RightPlayer = require('RightPlayer')
-        const player = new RightPlayer()
         let tro = cc.find('Canvas/background/RightCity/troop')
         cc.loader.loadRes('image/Map/troop_yellow', cc.SpriteFrame, (err, spriteFrame) => {
             if (err) {
@@ -307,7 +375,6 @@ cc.Class({
             } else {
                 tro.getComponent(cc.Sprite).spriteFrame = spriteFrame
                 node.opacity = 0
-                player.initArcherLocation()
             }
         })
     },
@@ -368,8 +435,6 @@ cc.Class({
 
     //leave the knight
     mouseLeaveKnight:function(node){
-        const BottomPlayer = require('bottomPlayer')
-        const player = new BottomPlayer()
         this.clearScreen()
         let knight = cc.find('Canvas/background/BottomCity/knight')
         cc.loader.loadRes('image/Map/knight_blue', cc.SpriteFrame, (err, spriteFrame) => {
@@ -378,13 +443,10 @@ cc.Class({
             } else {
                 knight.getComponent(cc.Sprite).spriteFrame = spriteFrame
                 node.opacity = 0
-                player.initKnightLocation()
             }
         })
     },
     mouseLeaveKnight2:function(node){
-        const LeftPlayer = require('LeftPlayer')
-        const player = new LeftPlayer()
         this.clearScreen()
         let knight = cc.find('Canvas/background/LeftCity/knight')
         cc.loader.loadRes('image/Map/knight_blue', cc.SpriteFrame, (err, spriteFrame) => {
@@ -393,13 +455,10 @@ cc.Class({
             } else {
                 knight.getComponent(cc.Sprite).spriteFrame = spriteFrame
                 node.opacity = 0
-                player.initKnightLocation()
             }
         })
     },
     mouseLeaveKnight3:function(node){
-        const RightCity = require('RightPlayer')
-        const player = new RightCity()
         this.clearScreen()
         let knight = cc.find('Canvas/background/RightCity/knight')
         cc.loader.loadRes('image/Map/knight_blue', cc.SpriteFrame, (err, spriteFrame) => {
@@ -408,7 +467,6 @@ cc.Class({
             } else {
                 knight.getComponent(cc.Sprite).spriteFrame = spriteFrame
                 node.opacity = 0
-                player.initKnightLocation()
             }
         })
     },

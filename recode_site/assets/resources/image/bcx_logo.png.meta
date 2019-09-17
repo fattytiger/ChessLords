@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "2c514f10-301f-4ab9-9784-b073c133892b",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "bcx_logo": {
+      "ver": "1.0.3",
+      "uuid": "8b1da133-9b36-4b52-a657-b7a784cc568a",
+      "rawTextureUuid": "2c514f10-301f-4ab9-9784-b073c133892b",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 142,
+      "trimY": 30,
+      "width": 488,
+      "height": 520,
+      "rawWidth": 772,
+      "rawHeight": 580,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
