@@ -55,12 +55,12 @@ wsServer.on('request', function(request) {
             }
             if(userData.type == 'match'){
                 if(clients.length < 2 ){
-                    clients.forEach(function () {
+                    clients.forEach(function (connection) {
                         console.log(clientsNum)
                         connection.sendUTF(JSON.stringify(rescode.matchNow))
                     })
                 }else if(clients.length >= 2){
-                    clients.forEach(function () {
+                    clients.forEach(function (connection) {
                         connection.sendUTF(JSON.stringify(rescode.matchSuccess))
                     })
                 }
