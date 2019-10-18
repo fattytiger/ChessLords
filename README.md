@@ -12,147 +12,147 @@
 + 已经在链上部署了一些简单的智能合约
 
 ### 前端项目架构
-│  app.js
-│  app.js.meta
-│  cocosBcxSDK.meta
-│  common.meta
-│  fight.js
-│  fight.js.meta
-│  framwork.meta
-│  Login.js
-│  Login.js.meta
-│  Player.meta
-│  tool.meta
-│
-├─cocosBcxSDK
-│      bcx.min.js
-│      bcx.min.js.meta
-│      bcxAdapter.js
-│      bcxAdapter.js.meta
-│      core.min.js
-│      core.min.js.meta
-│      plugins.min.js
-│      plugins.min.js.meta
-│
-├─common
-│      loaderManager.js
-│      loaderManager.js.meta
-│      mapNodeLocation.js
-│      mapNodeLocation.js.meta
-│      mapNodeStatus.js
-│      mapNodeStatus.js.meta
-│      Table.js
-│      Table.js.meta
-│
-├─framwork
-│      clientEvent.js
-│      clientEvent.js.meta
-│      eventListener.js
-│      eventListener.js.meta
-│      HttpEvent.js
-│      HttpEvent.js.meta
-│      mouseOption.js
-│      mouseOption.js.meta
-│      NetInfo.js
-│      NetInfo.js.meta
-│      poolManager.js
-│      poolManager.js.meta
-│      SoundManage.js
-│      SoundManage.js.meta
-│      uiManager.js
-│      uiManager.js.meta
-│
-├─Player
-│  │  Animations.js
-│  │  Animations.js.meta
-│  │  bottomplayer.js
-│  │  bottomplayer.js.meta
-│  │  bottomplayer.meta
-│  │  City.js
-│  │  City.js.meta
-│  │  Fighting.js
-│  │  Fighting.js.meta
-│  │  leftPlayer.js
-│  │  leftPlayer.js.meta
-│  │  leftplayer.meta
-│  │  MapBlocks.js
-│  │  MapBlocks.js.meta
-│  │  playerAction.js
-│  │  playerAction.js.meta
-│  │  playerFightCity.js
-│  │  playerFightCity.js.meta
-│  │  rightPlayer.js
-│  │  rightPlayer.js.meta
-│  │  rightplayer.meta
-│  │
-│  ├─bottomplayer
-│  │  │  BottomPlayer.js
-│  │  │  BottomPlayer.js.meta
-│  │  │  solider.meta
-│  │  │
-│  │  └─solider
-│  │          bottomArcher.js
-│  │          bottomArcher.js.meta
-│  │          bottomKnight.js
-│  │          bottomKnight.js.meta
-│  │          bottomTroop.js
-│  │          bottomTroop.js.meta
-│  │
-│  ├─leftplayer
-│  │  │  leftPlayer.js
-│  │  │  leftPlayer.js.meta
-│  │  │  solider.meta
-│  │  │
-│  │  └─solider
-│  │          leftArcher.js
-│  │          leftArcher.js.meta
-│  │          leftKnight.js
-│  │          leftKnight.js.meta
-│  │          leftTroop.js
-│  │          leftTroop.js.meta
-│  │
-│  └─rightplayer
-│      │  rightPlayer.js
-│      │  rightPlayer.js.meta
-│      │  solider.meta
-│      │
-│      └─solider
-│              rightArcher.js
-│              rightArcher.js.meta
-│              rightKnight.js
-│              rightKnight.js.meta
-│              rightTroop.js
-│              rightTroop.js.meta
-│
-└─tool
+		│  app.js
+		│  app.js.meta
+		│  cocosBcxSDK.meta
+		│  common.meta
+		│  fight.js
+		│  fight.js.meta
+		│  framwork.meta
+		│  Login.js
+		│  Login.js.meta
+		│  Player.meta
+		│  tool.meta
+		│
+		├─cocosBcxSDK
+		│      bcx.min.js
+		│      bcx.min.js.meta
+		│      bcxAdapter.js
+		│      bcxAdapter.js.meta
+		│      core.min.js
+		│      core.min.js.meta
+		│      plugins.min.js
+		│      plugins.min.js.meta
+		│
+		├─common
+		│      loaderManager.js
+		│      loaderManager.js.meta
+		│      mapNodeLocation.js
+		│      mapNodeLocation.js.meta
+		│      mapNodeStatus.js
+		│      mapNodeStatus.js.meta
+		│      Table.js
+		│      Table.js.meta
+		│
+		├─framwork
+		│      clientEvent.js
+		│      clientEvent.js.meta
+		│      eventListener.js
+		│      eventListener.js.meta
+		│      HttpEvent.js
+		│      HttpEvent.js.meta
+		│      mouseOption.js
+		│      mouseOption.js.meta
+		│      NetInfo.js
+		│      NetInfo.js.meta
+		│      poolManager.js
+		│      poolManager.js.meta
+		│      SoundManage.js
+		│      SoundManage.js.meta
+		│      uiManager.js
+		│      uiManager.js.meta
+		│
+		├─Player
+		│  │  Animations.js
+		│  │  Animations.js.meta
+		│  │  bottomplayer.js
+		│  │  bottomplayer.js.meta
+		│  │  bottomplayer.meta
+		│  │  City.js
+		│  │  City.js.meta
+		│  │  Fighting.js
+		│  │  Fighting.js.meta
+		│  │  leftPlayer.js
+		│  │  leftPlayer.js.meta
+		│  │  leftplayer.meta
+		│  │  MapBlocks.js
+		│  │  MapBlocks.js.meta
+		│  │  playerAction.js
+		│  │  playerAction.js.meta
+		│  │  playerFightCity.js
+		│  │  playerFightCity.js.meta
+		│  │  rightPlayer.js
+		│  │  rightPlayer.js.meta
+		│  │  rightplayer.meta
+		│  │
+		│  ├─bottomplayer
+		│  │  │  BottomPlayer.js
+		│  │  │  BottomPlayer.js.meta
+		│  │  │  solider.meta
+		│  │  │
+		│  │  └─solider
+		│  │          bottomArcher.js
+		│  │          bottomArcher.js.meta
+		│  │          bottomKnight.js
+		│  │          bottomKnight.js.meta
+		│  │          bottomTroop.js
+		│  │          bottomTroop.js.meta
+		│  │
+		│  ├─leftplayer
+		│  │  │  leftPlayer.js
+		│  │  │  leftPlayer.js.meta
+		│  │  │  solider.meta
+		│  │  │
+		│  │  └─solider
+		│  │          leftArcher.js
+		│  │          leftArcher.js.meta
+		│  │          leftKnight.js
+		│  │          leftKnight.js.meta
+		│  │          leftTroop.js
+		│  │          leftTroop.js.meta
+		│  │
+		│  └─rightplayer
+		│      │  rightPlayer.js
+		│      │  rightPlayer.js.meta
+		│      │  solider.meta
+		│      │
+		│      └─solider
+		│              rightArcher.js
+		│              rightArcher.js.meta
+		│              rightKnight.js
+		│              rightKnight.js.meta
+		│              rightTroop.js
+		│              rightTroop.js.meta
+		│
+		└─tool
 	
 
 ### 后端项目架构
-│  index.js
-│  package-lock.json
-│  package.json
-│
-├─.idea
-│      cocosServer.iml
-│      misc.xml
-│      modules.xml
-│      vcs.xml
-│      workspace.xml
-│
-├─gameSpace
-│  │  mathing.js
-│  │
-│  └─bottomPlayer
-│      └─bottomTroopMove
-│              troopMove
-│
-├─JudgeData
-│      common.js
-│
-├─lib
-│      index.js
-│
-├─node_modules
+		│  index.js
+		│  package-lock.json
+		│  package.json
+		│
+		├─.idea
+		│      cocosServer.iml
+		│      misc.xml
+		│      modules.xml
+		│      vcs.xml
+		│      workspace.xml
+		│
+		├─gameSpace
+		│  │  mathing.js
+		│  │
+		│  └─bottomPlayer
+		│      └─bottomTroopMove
+		│              troopMove
+		│
+		├─JudgeData
+		│      common.js
+		│
+		├─lib
+		│      index.js
+		│
+		├─node_modules
 
 ###基本展示
 
