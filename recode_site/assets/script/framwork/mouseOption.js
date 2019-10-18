@@ -64,7 +64,7 @@ cc.Class({
 
 
     clearScreen: function () {
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 12; i++) {
             for (let j = 0; j < 20; j++) {
                 let block = cc.find(`Canvas/background/node${i > 9 ? i : '0' + i}${j > 9 ? j : '0' + j}`)
                 block.opacity = 0

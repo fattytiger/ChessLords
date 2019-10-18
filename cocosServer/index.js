@@ -1,8 +1,6 @@
 const WebSocketServer = require('websocket').server;
 const  http = require('http');
-const  JudgeLogin = require('./JudgeData/common')
 const rescode = require('./ResCode')
-const lib = require('./lib')
 
 
 const server = http.createServer(function(request, response) {
@@ -64,7 +62,18 @@ wsServer.on('request', function(request) {
                         connection.sendUTF(JSON.stringify(rescode.matchSuccess))
                     })
                 }
-
+            }
+            if(userData.type == 'bottomTroopMove'){
+                clients.forEach(function(connection){
+                    let troopMove = {
+                        code:3001,
+                        xdistance:userData.xdistance,
+                        ydistance:userData.ydistance
+                    }
+                    clients.forEach(function(connection){
+                        connection.sendUTF(JSON.stringify(troopMove))
+                    })
+                })
             }
         }
 

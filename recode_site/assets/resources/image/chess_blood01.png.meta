@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "dc67b23a-ca56-4189-b6da-391a02e21206",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "chess_blood01": {
+      "ver": "1.0.3",
+      "uuid": "de612dde-0210-46d8-9903-53263dfad921",
+      "rawTextureUuid": "dc67b23a-ca56-4189-b6da-391a02e21206",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 128,
+      "height": 8,
+      "rawWidth": 128,
+      "rawHeight": 8,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

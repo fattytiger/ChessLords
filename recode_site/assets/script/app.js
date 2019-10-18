@@ -6,6 +6,9 @@ const SoundManager = require('SoundManage')
 const HttpEvent = require('HttpEvent')
 const http = new HttpEvent()
 const soundManager = new SoundManager()
+const NetInfo = require('NetInfo')
+const netinfo = new NetInfo()
+const bcxAdapter = require('bcxAdapter')
 //http setting
 
 cc.Class({
@@ -46,7 +49,7 @@ cc.Class({
         }, (err, resource) => {
             if (window.BcxWeb) {
                 console.log(window.BcxWeb)
-                http.connectServer(window.BcxWeb.account_name,this)
+                // http.connectServer(window.BcxWeb.account_name,this)
             } else {
                 console.log('no have bcxweb')
             }
@@ -84,19 +87,35 @@ cc.Class({
     //buttonOption
     playOption: function () {
         soundManager.basicclickSound()
-        // if(!http.sendMatching()){
-        //     let tipPanel = cc.instantiate(this.LoginTip)
-        //     tipPanel.setPosition(0,0)
-        //     let canvas = cc.find('Canvas')
-        //     canvas.addChild(tipPanel)
-        // }else {
-        //     cc.director.loadScene("FightScene");
-        // }
-        http.sendMatching(this)
-        
+        // bcxAdapter.sendWinCocos(this.account_name,this.score,function(res){
+        //     console.log("sendWinCocos",res)
+        // })
+        bcxAdapter.transfer(function(res){
+            if(res.code == 1){
+                ws.send(JSON.stringify(netinfo.matchData()))
+            }else {
+                console.log('no transfer')
+            }
+        })
     },
 
     onLoad() {
+        this.account_name = ''
+        let self = this
+        if(bcxAdapter){
+            bcxAdapter.initSDK(function(res){
+                console.log('initSDK',res)
+                if(res){
+                    bcxAdapter.login(function(res){
+                        console.log('login',res)
+                        console.log(res.account_name)
+                        self.account_name = res.account_name
+                    })
+                }
+            })
+        }
+
+
         this.LocationButton.node.active = false
         this.progressBar.node.active = true
         soundManager.onPlayWorldBgSound()
