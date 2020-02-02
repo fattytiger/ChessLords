@@ -51,7 +51,10 @@ cc.Class({
                 console.log(window.BcxWeb)
                 // http.connectServer(window.BcxWeb.account_name,this)
             } else {
+
                 console.log('no have bcxweb')
+                
+
             }
         })
 
@@ -92,7 +95,9 @@ cc.Class({
         // })
         bcxAdapter.transfer(function(res){
             if(res.code == 1){
+
                 ws.send(JSON.stringify(netinfo.matchData()))
+
             }else {
                 console.log('no transfer')
             }
@@ -100,19 +105,27 @@ cc.Class({
     },
 
     onLoad() {
+
         this.account_name = ''
+
         let self = this
+
         if(bcxAdapter){
+
             bcxAdapter.initSDK(function(res){
-                console.log('initSDK',res)
+
                 if(res){
+
                     bcxAdapter.login(function(res){
-                        console.log('login',res)
-                        console.log(res.account_name)
+                        
                         self.account_name = res.account_name
+
                     })
+
                 }
+
             })
+            
         }
 
 
