@@ -41,8 +41,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.36769386574073964,
-      "y": 0.36769386574073964,
+      "x": 0.3868344907407407,
+      "y": 0.3868344907407407,
       "z": 1
     },
     "_quat": {
@@ -516,7 +516,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "loadingProgress",
+    "_name": "progressLabel",
     "_objFlags": 0,
     "_parent": {
       "__id__": 10
@@ -1989,9 +1989,14 @@
     "LocationButton": {
       "__id__": 25
     },
-    "progressLabel": null,
+    "progressLabel": {
+      "__id__": 12
+    },
     "progressBar": {
       "__id__": 16
+    },
+    "playButton": {
+      "__id__": 23
     },
     "_id": "d9zaMNwAlEt6MQbZKQTFFJ"
   }
