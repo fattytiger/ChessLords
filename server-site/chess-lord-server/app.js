@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+
 var app = express();
 
 // view engine setup
@@ -26,6 +27,22 @@ app.use('/users', usersRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+
+
+//websocket 
+const webSocket = require('ws')
+
+const wss = new webSocket.Server({port:8000})
+
+wss.on('connection',function connection(ws){
+  ws.on('message',function message(msg){
+    console.log(msg)
+  })
+  ws.on('close',function close(){
+    console.log('disconected')
+  })
+})
 
 // error handler
 app.use(function(err, req, res, next) {
