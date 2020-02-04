@@ -115,6 +115,7 @@ cc.Class({
     },
 
     finally:function(){
+        cc.zz.net.send(8005,[])
         this.playButton.active = true
         this.progressBar.node.active = false
     }
