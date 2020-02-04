@@ -68,13 +68,27 @@ cc.Class({
 
     //Step 1
     loadCommonSprite:function(){
-        cc.loader.loadRes("common",(completedCount,totalCount) => {
-            this.progressLabel.string = "Loading common sprites:"+completedCount+"/"+totalCount
+        cc.loader.loadResDir("common",(function(completedCount,totalCount){
+            this.progressLabel.string = "Loading common sprites: "+completedCount+"/"+totalCount;
             this.progressBar.progress = completedCount/totalCount
-        },(err,resource) => {
-            if(err){return}
+        }).bind(this),(function(err,resouce){
+            if(err){
+                return
+            }
+            this.loadMapSprites()
+        }).bind(this))
+    },
+
+    loadMapSprites:function(){
+        cc.loader.loadResDir("map",(function(completedCount,totalCount){
+            this.progressLabel.string = "Loading common sprites: "+completedCount+"/"+totalCount;
+            this.progressBar.progress = completedCount/totalCount
+        }).bind(this),(function(err,resouce){
+            if(err){
+                return
+            }
             this.connectToServer()
-        })
+        }).bind(this))
     },
 
     connectToServer:function(){
