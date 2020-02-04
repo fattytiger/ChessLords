@@ -41,8 +41,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.20519386574074075,
-      "y": 0.20519386574074075,
+      "x": 0.36769386574073964,
+      "y": 0.36769386574073964,
       "z": 1
     },
     "_quat": {
@@ -70,19 +70,16 @@
       },
       {
         "__id__": 6
-      },
-      {
-        "__id__": 45
       }
     ],
     "_active": true,
     "_level": 1,
     "_components": [
       {
-        "__id__": 46
+        "__id__": 45
       },
       {
-        "__id__": 47
+        "__id__": 46
       }
     ],
     "_prefab": null,
@@ -329,7 +326,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "hall_bg",
+    "_name": "Background",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
@@ -831,7 +828,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "logo",
+    "_name": "Logo",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
@@ -920,7 +917,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "icon_logo",
+    "_name": "Icon Logo",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
@@ -989,9 +986,7 @@
     "_enabled": true,
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "8b1da133-9b36-4b52-a657-b7a784cc568a"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -1009,13 +1004,13 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "playButton",
+    "_name": "Play Button",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_level": 3,
     "_components": [
       {
@@ -1202,7 +1197,7 @@
         "__id__": 40
       }
     ],
-    "_active": true,
+    "_active": false,
     "_level": 3,
     "_components": [],
     "_prefab": null,
@@ -1325,9 +1320,7 @@
     "_enabled": true,
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "1dc65ac5-6c54-458a-b879-f0d309c7af6c"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 0,
     "_fillType": 0,
@@ -1499,9 +1492,7 @@
     "_enabled": true,
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "867ae1a4-f16d-47d6-9e87-64f80295ebbc"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -1673,9 +1664,7 @@
     "_enabled": true,
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "8dfb773c-150a-4e57-8a1c-1de27c72f7c4"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -1847,9 +1836,7 @@
     "_enabled": true,
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "16e2d55a-2668-42ef-8306-d23c88e5db1e"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -1975,63 +1962,6 @@
     "_id": "5f1Z5MEqJLoo+H1T6nQnGY"
   },
   {
-    "__type__": "cc.Node",
-    "_name": "New Node",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_level": 2,
-    "_components": [],
-    "_prefab": null,
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_rotationX": 0,
-    "_rotationY": 0,
-    "_quat": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_zIndex": 0,
-    "groupIndex": 0,
-    "_id": "c7xn+V6zxO0L5vbunrGBg7"
-  },
-  {
     "__type__": "cc.Canvas",
     "_name": "",
     "_objFlags": 0,
@@ -2059,17 +1989,9 @@
     "LocationButton": {
       "__id__": 25
     },
+    "progressLabel": null,
     "progressBar": {
       "__id__": 16
-    },
-    "loadingProgress": {
-      "__id__": 12
-    },
-    "SocialButtonRoot": {
-      "__id__": 27
-    },
-    "LoginTip": {
-      "__uuid__": "053c064d-b5e9-43b2-8651-e059c628bd8e"
     },
     "_id": "d9zaMNwAlEt6MQbZKQTFFJ"
   }
