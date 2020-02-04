@@ -1,16 +1,8 @@
 
-const DEFAULT = { BLOCKCHAIN: 'icon', NETWORK: 'mainnet', LANGUAGE_CODE: 'en' }
-const ws = new WebSocket('ws://120.78.68.145:8000', 'echo-protocol')
-const i18n = require("LanguageData")
-const SoundManager = require('SoundManage')
-const HttpEvent = require('HttpEvent')
-const http = new HttpEvent()
-const soundManager = new SoundManager()
-const NetInfo = require('NetInfo')
-const netinfo = new NetInfo()
-const bcxAdapter = require('bcxAdapter')
-//http setting
 
+const DEFAULT = { BLOCKCHAIN:'cocosbcx' , NETWORK:'privatenet' ,LANGUAGE_CODE:'en' }
+const EventType = require('EventType')
+const bcxAdapter = require('bcxAdapter')
 cc.Class({
     extends: cc.Component,
 
@@ -19,130 +11,99 @@ cc.Class({
             default: null,
             type: cc.Button
         },
+
+        progressLabel:{
+            default:null,
+            type:cc.Label
+        },
         progressBar: {
             default: null,
             type: cc.ProgressBar
         },
-        loadingProgress: {
-            default: null,
-            type: cc.Label
-        },
-        SocialButtonRoot: {
-            default: null,
-            type: cc.Node
-        },
-        LoginTip:{
-            type:cc.Prefab,
-            default:null
+        playButton:{
+            default:null,
+            type:cc.Node
         }
     },
 
-
-
-
-    //loadsources
-    loadSound: function () {
-
-        cc.loader.loadResDir('sound', cc.AudioClip, (completeCount, totalCount) => {
-            this.loadingProgress.string = `Loading audio resource ${completeCount}/${totalCount}`
-            this.progressBar.progress = completeCount / totalCount
-        }, (err, resource) => {
-            if (window.BcxWeb) {
-                console.log(window.BcxWeb)
-                // http.connectServer(window.BcxWeb.account_name,this)
-            } else {
-
-                console.log('no have bcxweb')
-                
-
-            }
+    onLoad:function(){
+        this.getLoginData(DEFAULT.BLOCKCHAIN,DEFAULT.NETWORK,(logindata) => {
+            this.init(logindata)
         })
-
-    },
-    loadImage: function () {
-
-
-        cc.loader.loadResDir('image', (completeCount, totalCount) => {
-            this.loadingProgress.string = `Loading image resource ${completeCount}/${totalCount}`
-            this.progressBar.progress = completeCount / totalCount
-        }, (err, resource) => {
-            this.loadSound()
-        })
-
     },
 
-    //open Website about blocklordsgame
-    openTwitter: function () {
-        cc.sys.openURL(`https://twitter.com/blocklords`)
-    },
-    openFaceBook: function () {
-        cc.sys.openURL(`https://www.facebook.com/blocklordsgame`)
-    },
-    openDiscord: function () {
-        cc.sys.openURL(`https://discordapp.com/invite/K64J3Vw`)
-    },
-    openTelegram: function () {
-        cc.sys.openURL(`https://t.me/joinchat/HGG3Zg-6yvZthjnYGSPCEA`)
+    start:function(){
+        this.loadCommonSprite()
     },
 
+    init:function(logindata){
 
+        cc.zz = {}
+        cc.zz.http = require('http')
+        cc.zz.fire = require('onfire')
 
-    //buttonOption
-    playOption: function () {
-        soundManager.basicclickSound()
-        // bcxAdapter.sendWinCocos(this.account_name,this.score,function(res){
-        //     console.log("sendWinCocos",res)
-        // })
-        bcxAdapter.transfer(function(res){
-            if(res.code == 1){
+        cc.zz.LoginData = logindata
 
-                ws.send(JSON.stringify(netinfo.matchData()))
+        var Net = require('Net')
+        cc.zz.net = new Net()
 
-            }else {
-                console.log('no transfer')
+        
+    },
+
+    getLoginData:function(blockchain,network,callback){
+        bcxAdapter.initSDK((result) => {
+            if(result === true){
+                bcxAdapter.login((account) => {
+                    const LoginData = require('LoginData')
+                    if(callback){
+                        let logindata = new LoginData(account.account_id,account.account_name,blockchain,network)
+                        callback(logindata)
+                    }
+                })
+            }else{
+                console.log('init SDK FAILD')
             }
         })
     },
 
-    onLoad() {
-
-        this.account_name = ''
-
-        let self = this
-
-        if(bcxAdapter){
-
-            bcxAdapter.initSDK(function(res){
-
-                if(res){
-
-                    bcxAdapter.login(function(res){
-                        
-                        self.account_name = res.account_name
-
-                    })
-
-                }
-
-            })
-            
-        }
-
-
-        this.LocationButton.node.active = false
-        this.progressBar.node.active = true
-        soundManager.onPlayWorldBgSound()
-        this.loadImage()
+    //Step 1
+    loadCommonSprite:function(){
+        cc.loader.loadRes("common",(completedCount,totalCount) => {
+            this.progressLabel.string = "Loading common sprites:"+completedCount+"/"+totalCount
+            this.progressBar.progress = completedCount/totalCount
+        },(err,resource) => {
+            if(err){return}
+            this.connectToServer()
+        })
     },
 
+    connectToServer:function(){
+        this.progressLabel.string = "Connect to server..."
+        this.progressBar.progress = 0.5
 
-    
+        let ipAddress = cc.zz.net.getIpAddress(cc.zz.LoginData.getBlockchainType(),cc.zz.LoginData.getNetType())
+        console.log(ipAddress);
+        
+        cc.zz.net.connect(cc.zz.net.getIpAddress(cc.zz.LoginData.getBlockchainType(),cc.zz.LoginData.getNetType()),(function(){
+            this.finally()
+        }).bind(this),(function(attempts){
+            if(-1 === attempts){
+                this.progressLabel.string = "Failed to connect to server. Please try again later!"
+            }else{
+                let dot = "."
+                let dots = dot.repeat(attempts + 1)
+                console.log(dots);
+                this.progressLabel.string = "Trying to establish a server connection" + dots
+                this.progressLabel.progress = 0.1 + (attempts * 0.1)
+            }
+        }).bind(this))
 
-
-
-    start() {
-        cc.login = false
     },
 
-    update(dt) { },
+    finally:function(){
+        this.playButton.active = true
+        this.progressBar.node.active = false
+    }
+
+
 });
