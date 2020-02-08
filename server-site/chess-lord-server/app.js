@@ -136,9 +136,33 @@ wss.on('connection', function connection(ws) {
         }
       })
     }
+
+
+    if (msgID === COMMANDS.HERO_READ) {
+
+      let nowDate = new Date()
+
+      let hero_id = receivedData[0]      
+      
+      Player.findOne({ hero_id: hero_id }, function (err, res) {
+
+        if (err) { console.log(err); return }
+
+        let msgData = res
+
+        let sendMesaage = [COMMANDS.HERO_READ, nowDate, msgData]
+
+        client.send(JSON.stringify(sendMesaage))
+
+        client.hero = res.hero_id
+      })
+
+    }
+
+
   })
 
-  
+
   ws.on('close', function close() {
     console.log('disconected')
     Player.find({}, function (err, res) {
