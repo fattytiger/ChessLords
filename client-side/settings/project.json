@@ -59,13 +59,13 @@
   "fit-height": true,
   "fit-width": false,
   "group-list": [
+    "MAIN",
+    "FIXED UI",
     "",
-    "background",
-    "mapnode",
-    "righttopback",
-    "rightbottomback",
-    "lefttopback",
-    "leftbottom"
+    "",
+    "",
+    "",
+    ""
   ],
   "last-module-event-record-time": 0,
   "simulator-orientation": false,
@@ -73,7 +73,7 @@
     "height": 640,
     "width": 960
   },
+  "start-scene": "f19f1737-4f63-49cc-a4e7-542762f2e6c4",
   "use-customize-simulator": false,
-  "use-project-simulator-setting": false,
-  "start-scene": "current"
+  "use-project-simulator-setting": false
 }
