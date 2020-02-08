@@ -11,6 +11,9 @@ cc.Class({
         this.maxConnectTimes = 5;
         this.handlers = {};
         this.constants = {
+            LOGIN_SERVER:8005,
+            PLAYER_READY:8006,
+
             HERO_SET_TROOPS_PROPORTIONS: 4015,
             MAP_DATA: 6001,
             MAP_ACCOUNT: 8007,
@@ -133,16 +136,10 @@ cc.Class({
 
         
         var data = JSON.parse(msg.data);
-        // if (data[0] == 10007) {
-        // console.log("Went to hero Profile");
-        // this.unschedule(this.sendHeart);
-        // this.socket.close();
-        // }
         if (data != null && data != undefined) {
             var msgID = parseInt(data[0]);
             var timeStamp = data[1];
             var msgData = data[2];
-            console.log(msgID)
             cc.zz.utils.realTime = timeStamp;
             if (msgID === 9001) {
                 cc.error('Error: ', data);
