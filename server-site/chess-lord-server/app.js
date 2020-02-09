@@ -58,135 +58,16 @@ mongoose.connection.on('disconnected', function () {
  * **/
 const webSocket = require('ws')
 const COMMANDS = require('./commands')
+const Handler  = require('./handler')
 const Player = require('./models/players/player')
 //establish a websocket server
 const wss = new webSocket.Server({ port: 8000 })
-
 let clients = []
 
 wss.on('connection', function connection(ws) {
   let client = ws
   clients.push(client)
-  ws.on('message', function message(msg) {
-    let received = JSON.parse(msg)
-    let msgID = received[0]
-    let receivedData = received[1]
-    /**
-     * 
-     * 8005 code 
-     * 
-     * **/
-    if (msgID === 8005) {
-      let hero_id = receivedData[0]
-      let hero_name = receivedData[1]
-      Player.findOne({ hero_id: hero_id }, function (err, doc) {
-        if (err) { console.log(err.message); }
-        console.log(doc)
-        //if search result is null ,illustrate does not have the hero information in databse
-        if (doc === null) {
-          let hero = new Player({
-            hero_id: hero_id,
-            hero_name: hero_name,
-            login: true,
-            ready: false
-          })
-          hero.save(function (err, res) {
-            if (err) { console.log(err); }
-
-            let nowDate = new Date()
-
-            let msgData = res
-
-            let sendMesaage = [COMMANDS.HERO_INFO, nowDate, msgData]
-
-            client.send(JSON.stringify(sendMesaage))
-
-            client.hero = res.hero_id
-
-          })
-        }
-
-        //if search result is exist ,illustrate there already have player information in database
-        if (doc) {
-          //search condition
-          let searchCondition = { 'hero_id': hero_id }
-
-          //excute the data update
-          let updateCondition = { 'login': true }
-
-          Player.updateOne(searchCondition, updateCondition, function (err, res) {
-            if (err) { console.log(err); }
-
-            let nowDate = new Date()
-
-            //find the updated data
-            Player.findOne({ hero_id: hero_id }, function (err, res) {
-
-              if (err) { console.log(err); return }
-
-              let msgData = res
-
-              let sendMesaage = [COMMANDS.HERO_INFO, nowDate, msgData]
-
-              client.send(JSON.stringify(sendMesaage))
-
-              client.hero = res.hero_id
-            })
-          })
-        }
-      })
-    }
-
-
-    if (msgID === COMMANDS.HERO_READ) {
-
-      let nowDate = new Date()
-
-      let hero_id = receivedData[0]      
-      
-      Player.findOne({ hero_id: hero_id }, function (err, res) {
-
-        if (err) { console.log(err); return }
-
-        let msgData = res
-
-        let sendMesaage = [COMMANDS.HERO_READ, nowDate, msgData]
-
-        client.send(JSON.stringify(sendMesaage))
-
-        client.hero = res.hero_id
-      })
-
-    }
-
-
-  })
-
-
-  ws.on('close', function close() {
-    console.log('disconected')
-    Player.find({}, function (err, res) {
-      if (err) { console.log(err); return }
-
-      for (let i = 0; i < res.length; i++) {
-        let item = res[i].hero_id
-        if (item === client.hero) {
-
-          //search condition
-          let searchCondition = { 'hero_id': item }
-
-          //excute the data update
-          let updateCondition = { 'login': false }
-
-          Player.updateOne(searchCondition, updateCondition, function (err, res) {
-            if (err) { console.log(err); }
-            console.log('player logout')
-          })
-        }
-      }
-    })
-
-  })
+  Handler.receiveRequest(client)  
 })
 
 // error handler
