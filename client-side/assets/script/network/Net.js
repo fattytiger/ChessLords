@@ -11,8 +11,9 @@ cc.Class({
         this.maxConnectTimes = 5;
         this.handlers = {};
         this.constants = {
-            LOGIN_SERVER:8005,
-            PLAYER_READY:8006,
+            HERO_LOGIN:8005,
+            HERO_READY:8006,
+            INTO_GAME:8007,
 
             HERO_SET_TROOPS_PROPORTIONS: 4015,
             MAP_DATA: 6001,
