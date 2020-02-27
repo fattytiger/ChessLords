@@ -33,23 +33,24 @@ cc.Class({
 
     },
     bindEvents: function () {
-        cc.zz.net.addHandler(cc.zz.net.constants.LOGIN_SERVER, this.initServer.bind(this))
-        cc.zz.net.addHandler(cc.zz.net.constants.PLAYER_READY, this.loadingMap.bind(this))
-        cc.zz.fire.on(EventType.POP_UP, this.showPopup.bind(this))
+        cc.zz.net.addHandler(cc.zz.net.constants.HERO_LOGIN, this.initServer.bind(this))
+        cc.zz.net.addHandler(cc.zz.net.constants.HERO_READY, this.playerReady.bind(this))
+        cc.zz.net.addHandler(cc.zz.net.constants.INTO_GAME,this.intoGame.bind(this))
+        cc.zz.fire.on(EventType.POP_UP, this.showPopup.bind(this),true)
     },
 
     onDisable: function () {
-        cc.zz.net.removeHandler(cc.zz.net.constants.LOGIN_SERVER, this.initServer.bind(this))
-        cc.zz.net.removeHandler(cc.zz.net.constants.PLAYER_READY, this.loadingMap.bind(this))
-        cc.zz.fire.un(EventType.POP_UP, this.showPopup.bind(this))
+        cc.zz.net.removeHandler(cc.zz.net.constants.HERO_LOGIN, this.initServer.bind(this))
+        cc.zz.net.removeHandler(cc.zz.net.constants.HERO_READY, this.playerReady.bind(this))
+        cc.zz.net.removeHandler(cc.zz.net.constants.INTO_GAME,this.intoGame.bind(this))
+        cc.zz.fire.un(EventType.POP_UP, this.showPopup.bind(this),true)
+        
     },
 
     onLoad: function () {
-
         this.getLoginData(DEFAULT.BLOCKCHAIN, DEFAULT.NETWORK, (logindata) => {
             this.init(logindata)
         })
-
     },
 
     start: function () {
@@ -68,13 +69,12 @@ cc.Class({
                     }
                 })
             } else {
-                console.log('init SDK FAILD')
+                alert('install the COCOS wallet at first')
             }
         })
     },
 
     initServer: function (data) {
-        console.log(data)
         let loginStatus = data.login
 
         if (loginStatus === true) {
@@ -170,31 +170,28 @@ cc.Class({
         //init the hero
         let heroID = cc.zz.LoginData.getHeroID()
         let heroName = cc.zz.LoginData.getHeroName()
-        cc.zz.net.send(cc.zz.net.constants.LOGIN_SERVER, [heroID, heroName])
+        cc.zz.net.send(cc.zz.net.constants.HERO_LOGIN, [heroID, heroName])
     },
 
     showPopup: function (type, data, callback) {
         this.popupContainer.getComponent('pop-up').show(type, data, callback)
     },
 
-    loadingMap: function (data) {
+    playerReady: function (data) {
+        cc.zz.fire.fire(EventType.POP_UP,cc.zz.Popup.TYPE.WAITTING_ANOTHER_PLAYER.id,{})
+    },
 
-        //involved the smart contract
-        bcxAdapter.chesslordGameStart(function(result){
-            console.log(result)
-            //success into the MainScene
-            if(result.code === 1){
-                console.log(result)
-                cc.director.preloadScene('MainScene',function(){
-                    cc.director.loadScene("MainScene")
-                })
-            }
-        })
+    intoGame:function(data){
+        console.log(data)
+        cc.zz.fire.fire(EventType.POP_UP,cc.zz.Popup.TYPE.FIND_ANOTHER_PLAYER.id,{})
+        // cc.director.preloadScene('MainScene',function(){
+        //     cc.director.loadScene("MainScene")
+        // })
     },
 
     onClickPlayBtn: function () {
         let heroID = cc.zz.LoginData.getHeroID()
-        cc.zz.net.send(cc.zz.net.constants.PLAYER_READY, [heroID])
+        cc.zz.net.send(cc.zz.net.constants.HERO_READY, [heroID])
     }
 
 });
