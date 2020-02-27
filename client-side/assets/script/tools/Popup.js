@@ -45,6 +45,31 @@ var Popup = cc.Class({
                 button_enabled: true,
                 is_important: false
             },
+            WAITTING_ANOTHER_PLAYER:{
+                id:"WAITTING_ANOTHER_PLAYER",
+                view_type:view_types.SIMPLE,
+                icon:'common/loading_01',
+                action:'rotate',
+                title:'',
+                normal_paragraph:'Finding another player,please wait...',
+                small_paragraph:'',
+                link:undefined,
+                has_custom_data:false,
+                button_enabled:false,
+                is_important:false
+            },
+            FIND_ANOTHER_PLAYER:{
+                id:'FIND_ANOTHER_PLAYER',
+                view_type:view_types.SIMPLE,
+                icon:'common/icon_001',
+                title:'Success',
+                normal_paragraph:'Finding another player',
+                small_paragraph:'',
+                link:undefined,
+                has_custom_data:false,
+                button_enabled:true,
+                is_important:false
+            }
         };
         this.VIEW_TYPE = view_types;
     },
