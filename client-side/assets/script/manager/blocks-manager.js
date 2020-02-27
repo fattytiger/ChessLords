@@ -350,7 +350,6 @@ cc.Class({
     },
 
     getBlockScriptByID: function (id) {
-
         if (id == null) {
             console.warn(`the id of block you wanna to find is null`)
         }
@@ -360,8 +359,6 @@ cc.Class({
         if (typeof _id != 'number') {
             console.warn(`the type of _id was invalid`);
         }
-
         return this.blocksScriptArray[_id - 1]
-
     },
 });
