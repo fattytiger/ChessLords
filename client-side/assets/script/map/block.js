@@ -92,7 +92,9 @@ cc.Class({
         }
     },
     mouseLeftClick() {
+        //get the can move information 
         let moving = parseInt(this.move)
+
         if(moving == 0){
             return 
         }
@@ -140,7 +142,6 @@ cc.Class({
         if(this.move === "0"){
             return
         }
-
         
         //hilight the movement block
         cc.zz.fire.fire(EventType.CHANGE_BLOCK_LIGHT, this.blockPic, this.movementBlock)
