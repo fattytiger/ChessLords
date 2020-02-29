@@ -25,7 +25,6 @@ module.exports = {
         }
 
         client.hero = hero_id
-        console.log(client.hero)
 
         heroOption.findHeroByHeroID(hero_id)
             .then((document) => {
@@ -58,16 +57,12 @@ module.exports = {
         //find another ready player ,if find send into the game
         let heroID = parameters[0]
 
-        console.log()
-
         //find the ready hero
         heroOption.findAnotherReadyHero().then(documents => {
-            console.log(documents)
             let heroAccount = documents.length
             if (heroAccount === 0) {
                 heroOption.updateHeroReadyByHeroID(heroID, true)
                     .then((res) => {
-                        console.log(res)
                         if (res.ok === 1) {
                             ClientManager.sendSimpleData(client, COMMANDS.HERO_READY, COMMANDS.TIP_MESSAGE.WAITTING_PLAYER)
                         }
@@ -76,7 +71,6 @@ module.exports = {
             }
             //have been find ,into the game
             if (heroAccount !== 0) {
-                console.log('have another one', documents)
                 this.onIntoGame(heroID, documents[0].hero_id)
             }
         })
