@@ -58,14 +58,14 @@ mongoose.connection.on('disconnected', function () {
  * **/
 const webSocket = require('ws')
 const handler  = require('./handler')
-const brodcast = require('./handler/allclients')
+const ClientManager = require('./handler/ClientManager')
 //establish a websocket server
 const wss = new webSocket.Server({ port: 8000 })
 // let clients = []
 wss.on('connection', function connection(ws) {
   handler.onClientMessage(ws)  
   handler.onClientClose(ws)
-  brodcast.onClientConnect(ws)
+  ClientManager.onClientConnect(ws)
 })
 
 
