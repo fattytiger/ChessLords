@@ -1,7 +1,6 @@
 const COMMANDS = require('../commands')
 const heroOption = require('../databaseOption/HeroOptions')
-const sendData = require('../common/SendData')
-const allclients = require('../handler/allclients')
+const ClientManager = require('../handler/ClientManager')
 
 
 module.exports = {
@@ -14,7 +13,6 @@ module.exports = {
      * 
      * **/
     login: function (client, parameters) {
-        console.log(client)
         let hero_id = parameters[0]
         let hero_name = parameters[1]
 
@@ -22,7 +20,7 @@ module.exports = {
         if (!hero_id || !hero_name) {
             //The data which you need to send
             let messageData = `please login with COCOS wallet`
-            sendData.sendDataToclient(client, COMMANDS.ERROR_COMMAND, messageData)
+            ClientManager.sendSimpleData(client, COMMANDS.ERROR_COMMAND, messageData)
             return
         }
 
@@ -36,7 +34,7 @@ module.exports = {
                     heroOption
                         .createHeroByHeroID(hero_id, hero_name, client)
                         .then((document) => {
-                            sendData.sendDataToclient(client, COMMANDS.HERO_LOGIN, document)
+                            ClientManager.sendSimpleData(client, COMMANDS.HERO_LOGIN, document)
                         })
                 }
                 //update hero login status when the database already have the hero
@@ -50,7 +48,7 @@ module.exports = {
                             //find hero 
                             return heroOption.findHeroByHeroID(hero_id)
                         }).then((document) => {
-                            sendData.sendDataToclient(client, COMMANDS.HERO_LOGIN, document)
+                            ClientManager.sendSimpleData(client, COMMANDS.HERO_LOGIN, document)
                         })
                 }
             })
@@ -71,7 +69,7 @@ module.exports = {
                     .then((res) => {
                         console.log(res)
                         if (res.ok === 1) {
-                            sendData.sendDataToclient(client, COMMANDS.HERO_READY, COMMANDS.TIP_MESSAGE.WAITTING_PLAYER)
+                            ClientManager.sendSimpleData(client, COMMANDS.HERO_READY, COMMANDS.TIP_MESSAGE.WAITTING_PLAYER)
                         }
                     })
                 return
@@ -85,13 +83,19 @@ module.exports = {
     },
 
     into: function (self_hero_id, other_hero_id) {
-        //get all clients
-        let selfClient = allclients.getClientByHeroID(self_hero_id)
-        let otherClient = allclients.getClientByHeroID(other_hero_id)
-        let message = `aaaa`
-        console.log(otherClient, 'otherclient')
-        sendData.sendDataToclient(selfClient, COMMANDS.INTO_GAME, message)
-        sendData.sendDataToclient(otherClient, COMMANDS.INTO_GAME, message)
+        //save anamy info
+        heroOption.updateHeroAnamyByHeroID(self_hero_id, other_hero_id)
+            .then(() => {
+                return heroOption.updateHeroAnamyByHeroID(other_hero_id, self_hero_id)
+            })
+            .then(() => {
+                //get all clients
+                let selfClient = ClientManager.getClientByHeroID(self_hero_id)
+                let otherClient = ClientManager.getClientByHeroID(other_hero_id)
+                let message = `player into the game`
+                ClientManager.sendSimpleData(selfClient, COMMANDS.INTO_GAME, message)
+                ClientManager.sendSimpleData(otherClient, COMMANDS.INTO_GAME, message)
+            })
     },
 
     onIntoGame: function (self_hero_id, other_hero_id) {
@@ -109,7 +113,7 @@ module.exports = {
             }).then(() => {
                 return heroOption.updateHeroCampByHeroID(other_hero_id, 'red')
             }).then(() => {
-                let clients = allclients.getAllClient()
+                let clients = ClientManager.getAllClient()
                 let findcont = 0
                 for (let i = 0; i < clients.length; i++) {
                     let client = clients[i]
@@ -134,7 +138,6 @@ module.exports = {
                 }
             })
     },
-
     /**
      * @param {Object} client the instance of the client
      * **/
