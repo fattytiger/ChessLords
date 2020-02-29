@@ -7,7 +7,8 @@ const TroopSchema = new Schema({
     troop_type:{type:Number,required:true},
     troop_name:{type:String,required:true},
     troop_hp:{type:Number,required:true},
-    camp:{type:String,required:true}
+    camp:{type:String,required:true},
+    master_troop:{type:Boolean,default:false}
 })
 
 

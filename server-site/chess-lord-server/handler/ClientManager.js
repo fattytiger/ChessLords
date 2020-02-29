@@ -17,6 +17,7 @@ module.exports = {
         client.send(transferdata)
     },
     sendBroadCastData:function(commands,data){
+        console.log("broadCastData")
         //get now date
         let nowDate = new Date()
         //data need to send to client
@@ -24,14 +25,12 @@ module.exports = {
         //transfer data
         let transferdata = JSON.stringify(sentdata)
         //send data to all clients
-        for (let i = 0; i < clientPool.length; i++) {
-            let client = clientPool[i]
+        clientPool.forEach(client => {
             client.send(transferdata)
-        }
+        });
     },
     onClientConnect:function(client){
         clientPool.push(client)
-        console.log(clientPool.length)
     },
     getAllClient:function(){
         return clientPool
@@ -45,6 +44,8 @@ module.exports = {
         }
     },
     deleteClient:function(client){
+        console.log('some one disconnected')
+
         for (let index = 0; index < clientPool.length; index++) {
             let element = clientPool[index]
             if(element.hero === client.hero){
