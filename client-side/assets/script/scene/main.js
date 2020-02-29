@@ -18,7 +18,6 @@ cc.Class({
         this.popupContainer.getComponent('pop-up').show(type, data, callback)
     },
     onLoad:function(){
-        let heroID = cc.zz.LoginData.getHeroID()
-        cc.zz.net.send(cc.zz.net.constants.MAP_DATA,[heroID])
+       
     }
 });
