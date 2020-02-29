@@ -1,6 +1,7 @@
 const COMMANDS = require('../commands')
 const LOGIN_SERVER = require('../heropart/LoginServer')
-const MAP = require('../map_part/map')
+const clientManager = require('../handler/ClientManager')
+const MAP = require('../mappart/map')
 
 module.exports = {
     onClientMessage: function (client) {
@@ -24,7 +25,7 @@ module.exports = {
             }
             //when player login in the game
             if (messageID === COMMANDS.MAP_DATA) {
-                MAP.init_map(client, parameters)
+                MAP.mapdata(client, parameters)
             }
         })
     },
@@ -33,6 +34,8 @@ module.exports = {
         client.on("close", function close() {
             //illustrate the hero is closed of the game
             LOGIN_SERVER.heroCloseServer(client)
+            //delete the client instance
+            clientManager.deleteClient(client)
         })
     },
 }
