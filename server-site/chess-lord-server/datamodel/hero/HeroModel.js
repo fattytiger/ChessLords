@@ -9,7 +9,8 @@ const heroSchema = new Schema(
         ready:{type:Boolean,require:true},
         ingame:{type:Boolean,require:true},
         camp:{type:String,require:true},
-        anamy:{type:String,default:null}
+        anamy:{type:String,default:null},
+        troops:{type:Array,default:[]}
     }
 )
 module.exports = mongoose.model('hero',heroSchema)
