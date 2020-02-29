@@ -61,7 +61,7 @@ cc.Class({
      */
     getBlockData(index){
         if(this.blocksData[index]){
-            return this.blocksData[index]
+            return this.blocksData[index-1]
         }
     }
 
