@@ -184,9 +184,10 @@ cc.Class({
     intoGame:function(data){
         console.log(data)
         cc.zz.fire.fire(EventType.POP_UP,cc.zz.Popup.TYPE.FIND_ANOTHER_PLAYER.id,{})
-        // cc.director.preloadScene('MainScene',function(){
-        //     cc.director.loadScene("MainScene")
-        // })
+        cc.director.preloadScene('MainScene',function(){
+            cc.director.loadScene("MainScene")
+        })
+        
     },
 
     onClickPlayBtn: function () {
