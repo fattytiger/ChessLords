@@ -105,6 +105,17 @@ module.exports = {
             })
         })
     },
+    pushTroopByHeroID:function(hero_id,object_id){
+        let troop = object_id
+        return new Promise((resolved,reject) => {
+            let searchCondition = {"hero_id":hero_id}
+            let updateCondition = { "$push":{troops:troop} }
+            hero.updateOne(searchCondition,updateCondition,(err,document) => {
+                if(err){reject}
+                resolved(document)
+            })
+        })
+    },
 
 
     createHeroByHeroID:function(hero_id,hero_name,client){
