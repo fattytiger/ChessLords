@@ -38,14 +38,17 @@ cc.Class({
     start: function () {
         this.blocksNodeArray = []
         this.blocksScriptArray = []
-        this.initBlocksAtBegining()
+        this.initBlocksAtBegining((function(){
+            let heroID = cc.zz.LoginData.getHeroID()
+            cc.zz.net.send(cc.zz.net.constants.MAP_DATA,[heroID])
+        }).bind(this))
     },
 
     onLoad: function () {
 
     },
 
-    initBlocksAtBegining: function () {
+    initBlocksAtBegining: function (callback) {
 
         let blockNum = 0
 
@@ -88,277 +91,14 @@ cc.Class({
             }
 
         }
+        callback()
     },
-
-    showMoveBlockHighlight: function (tile_id) {
-        let tileID = parseInt(tile_id)
-        let uperTileID = tileID - 40
-        let downTileID = tileID + 40
-        let rightTileID = tileID + 1
-        let leftTileID = tileID - 1
-
-        if (uperTileID > 1000 || uperTileID < 1) {
-            console.warn(`uper tile was invalid`);
-            uperTileID = tileID
-        }
-
-        if (downTileID > 1000 || downTileID < 1) {
-            console.warn(`down tile was invalid`);
-            downTileID = tileID
-        }
-
-        if (rightTileID > 1000 || rightTileID < 1) {
-            console.warn(`right tile was invalid`);
-            rightTileID = tileID
-        }
-
-        if (leftTileID > 1000 || leftTileID < 1) {
-            console.warn(`right tile was invalid`);
-            leftTileID = tileID
-        }
-
-        let ceBlock = this.getBlockScriptByID(tileID)
-        let upBlock = this.getBlockScriptByID(uperTileID)
-        let doBlock = this.getBlockScriptByID(downTileID)
-        let riBlock = this.getBlockScriptByID(rightTileID)
-        let leBlock = this.getBlockScriptByID(leftTileID)
-
-        if (upBlock.getRangeFlag() === false) {
-            ceBlock.setMoveDirectionLight(this.HIGHLIGHT_DIRECTION.UP)
-        }
-        if (doBlock.getRangeFlag() === false) {
-            ceBlock.setMoveDirectionLight(this.HIGHLIGHT_DIRECTION.DOWN)
-        }
-        if (riBlock.getRangeFlag() === false) {
-            ceBlock.setMoveDirectionLight(this.HIGHLIGHT_DIRECTION.RIGHT)
-        }
-        if (leBlock.getRangeFlag() === false) {
-            ceBlock.setMoveDirectionLight(this.HIGHLIGHT_DIRECTION.LEFT)
-        }
-
-    },
-
-    hideMoveBlockHighlight: function (tile_id) {
-
-        let tileID = parseInt(tile_id)
-        let uperTileID = tileID - 40
-        let downTileID = tileID + 40
-        let rightTileID = tileID + 1
-        let leftTileID = tileID - 1
-
-        if (uperTileID > 1000 || uperTileID < 1) {
-            console.warn(`uper tile was invalid`);
-            uperTileID = tileID
-        }
-
-        if (downTileID > 1000 || downTileID < 1) {
-            console.warn(`down tile was invalid`);
-            downTileID = tileID
-        }
-
-        if (rightTileID > 1000 || rightTileID < 1) {
-            console.warn(`right tile was invalid`);
-            rightTileID = tileID
-        }
-
-        if (leftTileID > 1000 || leftTileID < 1) {
-            console.warn(`right tile was invalid`);
-            leftTileID = tileID
-        }
-        let ceBlock = this.getBlockScriptByID(tileID)
-        let upBlock = this.getBlockScriptByID(uperTileID)
-        let doBlock = this.getBlockScriptByID(downTileID)
-
-        //clear his highlight area
-        ceBlock.unHighLightMoveBlock()
-
-        if (upBlock.getRangeFlag() === true) {
-            upBlock.setDirectionHighlight(this.HIGHLIGHT_DIRECTION.DOWN)
-        }
-
-        if (doBlock.getRangeFlag() === true) {
-            doBlock.setDirectionHighlight(this.HIGHLIGHT_DIRECTION.UP)
-        }
-    },
-
-
-
-
-    highlightBuildBlock: function (wallet_address, tile_id) {
-        let walletAddress = wallet_address
-
-        let tileID = parseInt(tile_id)
-        let uperTileID = tileID - 40
-        let downTileID = tileID + 40
-        let rightTileID = tileID + 1
-        let leftTileID = tileID - 1
-
-        if (uperTileID > 1000 || uperTileID < 1) {
-            console.warn(`uper tile was invalid`);
-            uperTileID = tileID
-        }
-
-        if (downTileID > 1000 || downTileID < 1) {
-            console.warn(`down tile was invalid`);
-            downTileID = tileID
-        }
-
-        if (rightTileID > 1000 || rightTileID < 1) {
-            console.warn(`right tile was invalid`);
-            rightTileID = tileID
-        }
-
-        if (leftTileID > 1000 || leftTileID < 1) {
-            console.warn(`right tile was invalid`);
-            leftTileID = tileID
-        }
-
-        let ceBlock = this.getBlockScriptByID(tileID)
-        let upBlock = this.getBlockScriptByID(uperTileID)
-        let doBlock = this.getBlockScriptByID(downTileID)
-        let riBlock = this.getBlockScriptByID(rightTileID)
-        let leBlock = this.getBlockScriptByID(leftTileID)
-
-        if (upBlock.getConquerInfo() === null || upBlock.getConquerInfo() !== walletAddress) {
-
-            ceBlock.setDirectionHighlight(walletAddress, this.HIGHLIGHT_DIRECTION.UP)
-        }
-
-        if (doBlock.getConquerInfo() === null || doBlock.getConquerInfo() !== walletAddress) {
-            ceBlock.setDirectionHighlight(walletAddress, this.HIGHLIGHT_DIRECTION.DOWN)
-        }
-
-        if (riBlock.getConquerInfo() === null || riBlock.getConquerInfo() !== walletAddress) {
-            riBlock.setDirectionHighlight(walletAddress, this.HIGHLIGHT_DIRECTION.LEFT)
-        }
-
-        if (leBlock.getConquerInfo() === null || leBlock.getConquerInfo() !== walletAddress) {
-            ceBlock.setDirectionHighlight(walletAddress, this.HIGHLIGHT_DIRECTION.LEFT)
-        }
-
-
-    },
-
-    reverseHighlightBuildBlock: function (wallet_address, tile_id) {
-
-    },
-
-
-    highLightHeroBlock: function (wallet_address, tile_to) {
-
-        let tileID = parseInt(tile_to)
-        let selfWallet = cc.zz.LoginData.getWallet()
-        let tileToBlock = this.getBlockScriptByID(tileID)
-
-        if (!tileToBlock) {
-            console.warn(`can not find the tileID`);
-            return
-        }
-
-        if (wallet_address === selfWallet) {
-            tileToBlock.onHighlightSelfHeroBlock()
-        }
-
-        if (wallet_address !== selfWallet) {
-            tileToBlock.onHighlightOtherHeroBlock()
-        }
-    },
-
-
-    reverseHighlightHeroBlock: function (wallet_address, tile_from) {
-
-        let tileID = parseInt(tile_from)
-        let selfWallet = cc.zz.LoginData.getWallet()
-        let tileFromBlock = this.getBlockScriptByID(tileID)
-
-        if (!tileFromBlock) {
-            console.warn(`can not find the tileID`);
-            return
-        }
-
-        if (wallet_address === selfWallet) {
-            tileFromBlock.unHighlightSelfHeroBlock()
-        }
-
-        if (wallet_address !== selfWallet) {
-            tileFromBlock.unHighlightOtherHeroBlock()
-        }
-    },
-
-    isOccupied: function (parm) {
-        return parm === 1
-    },
-
-    onMapData: function (data) {
-
-        //init the private variables at first
-        this.selfConqueredTile = []
-        this.otherConqueredTile = []
-
-        if (data && data.conquered_tiles) {
-            this.saveConqueredTiles(data.conquered_tiles)
-        }
-    },
-
-    saveConqueredTiles: function (tiles) {
-
-        let selfWallet = cc.zz.LoginData.getWallet()
-        let tileArray = tiles
-
-        for (let index = 0; index < tileArray.length; index++) {
-
-            let id = tileArray[index].id
-            let walletAddress = tileArray[index].occupier_address
-            let elem = {}
-            elem.id = id
-            elem.wallet_address = walletAddress
-
-
-            if (walletAddress == selfWallet) {
-                this.selfConqueredTile.push(elem)
-            }
-
-            if (walletAddress != selfWallet) {
-                this.otherConqueredTile.push(elem)
-            }
-
-            //show the block belongs to
-            this.getBlockScriptByID(id).conqueredHighLight(walletAddress)
-        }
-
-    },
-
-
 
     getBlockPositionByID: function (id) {
-        if (id == null) {
-            console.warn(`the id of block you wanna to find is null`)
-        }
-
-        let _id = parseInt(id)
-
-        if (typeof _id != 'number') {
-            console.warn(`the type of _id was invalid`);
-        }
-
-        let _position = {}
-        _position.x = this.blocksNodeArray[_id - 1].x
-        _position.y = this.blocksNodeArray[_id - 1].y
-
-        return _position
-
-    },
-
-    getBlockScriptByID: function (id) {
-        if (id == null) {
-            console.warn(`the id of block you wanna to find is null`)
-        }
-
-        let _id = parseInt(id)
-
-        if (typeof _id != 'number') {
-            console.warn(`the type of _id was invalid`);
-        }
-        return this.blocksScriptArray[_id - 1]
+        let blockID = parseInt(id)
+        let position = {}
+        position.x = this.blocksNodeArray[blockID - 1].x
+        position.y = this.blocksNodeArray[blockID - 1].y
+        return position
     },
 });
