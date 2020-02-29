@@ -1,5 +1,5 @@
 
-const hero = require('../models/hero/HeroModel')
+const hero = require('../datamodel/hero/HeroModel')
 
 module.exports = {
 
@@ -89,6 +89,16 @@ module.exports = {
         return new Promise((resolved,reject) => {
             let searchCondition = {"hero_id":hero_id}
             let updateCondition = {"client":client}
+            hero.updateOne(searchCondition,updateCondition,(err,document) => {
+                if(err){reject}
+                resolved(document)
+            })
+        })
+    },
+    updateHeroAnamyByHeroID:function(hero_id,anmy_id){
+        return new Promise((resolved,reject) => {
+            let searchCondition = {"hero_id":hero_id}
+            let updateCondition = {"anamy":anmy_id}
             hero.updateOne(searchCondition,updateCondition,(err,document) => {
                 if(err){reject}
                 resolved(document)
