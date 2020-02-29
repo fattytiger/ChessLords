@@ -106,8 +106,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 96,
-      "height": 130
+      "width": 161,
+      "height": 249
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -152,7 +152,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "11bfc756-aa1a-4df3-81fe-aecde5228c45"
+      "__uuid__": "0421080c-c4a4-4837-980f-fd948108e0be"
     },
     "_type": 0,
     "_sizeMode": 2,
@@ -164,9 +164,11 @@
     },
     "_fillStart": 0,
     "_fillRange": 0,
-    "_isTrimmedMode": true,
+    "_isTrimmedMode": false,
     "_state": 0,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "4f52cc3e-6171-4f0c-937b-4a5c6f2991d9"
+    },
     "_id": ""
   },
   {
@@ -215,7 +217,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
+      "width": 150,
       "height": 10
     },
     "_anchorPoint": {
@@ -226,7 +228,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 100,
-      "y": 60,
+      "y": 30,
       "z": 0
     },
     "_scale": {
@@ -278,7 +280,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 40,
+      "width": 150,
       "height": 8
     },
     "_anchorPoint": {
@@ -288,7 +290,7 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -50,
+      "x": -75,
       "y": 0,
       "z": 0
     },
@@ -388,12 +390,12 @@
       "__id__": 5
     },
     "_enabled": true,
-    "_N$totalLength": 100,
+    "_N$totalLength": 150,
     "_N$barSprite": {
       "__id__": 7
     },
     "_N$mode": 0,
-    "_N$progress": 0.4,
+    "_N$progress": 1,
     "_N$reverse": false,
     "_id": ""
   },
