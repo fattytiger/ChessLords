@@ -41,8 +41,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.13586120293460632,
-      "y": 0.13586120293460632,
+      "x": 0.1887998958585858,
+      "y": 0.1887998958585858,
       "z": 1
     },
     "_quat": {
@@ -224,8 +224,8 @@
       "__id__": 3
     },
     "_enabled": true,
-    "_cullingMask": 1,
-    "_clearFlags": 7,
+    "_cullingMask": 65,
+    "_clearFlags": 6,
     "_backgroundColor": {
       "__type__": "cc.Color",
       "r": 0,
@@ -1741,7 +1741,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "_zIndex": 0,
-    "groupIndex": 0,
+    "groupIndex": 1,
     "_id": "79/slRg4ZDuqyPu13gRo94"
   },
   {
