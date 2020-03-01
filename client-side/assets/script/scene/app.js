@@ -36,15 +36,10 @@ cc.Class({
         cc.zz.net.addHandler(cc.zz.net.constants.HERO_LOGIN, this.initServer.bind(this))
         cc.zz.net.addHandler(cc.zz.net.constants.HERO_READY, this.playerReady.bind(this))
         cc.zz.net.addHandler(cc.zz.net.constants.INTO_GAME,this.intoGame.bind(this))
-        cc.zz.fire.on(EventType.POP_UP, this.showPopup.bind(this),true)
     },
 
     onDisable: function () {
-        cc.zz.net.removeHandler(cc.zz.net.constants.HERO_LOGIN, this.initServer.bind(this))
-        cc.zz.net.removeHandler(cc.zz.net.constants.HERO_READY, this.playerReady.bind(this))
-        cc.zz.net.removeHandler(cc.zz.net.constants.INTO_GAME,this.intoGame.bind(this))
-        cc.zz.fire.un(EventType.POP_UP, this.showPopup.bind(this),true)
-        
+        cc.zz.net.fnError = undefined
     },
 
     onLoad: function () {
@@ -77,6 +72,10 @@ cc.Class({
     initServer: function (data) {
         let loginStatus = data.login
 
+        //prevent the disconnected button
+        if(this.playButton === null){
+            return
+        }
         if (loginStatus === true) {
             this.playButton.active = true
             this.progressBar.node.active = false
@@ -103,6 +102,7 @@ cc.Class({
         var Net = require('Net')
         cc.zz.net = new Net()
 
+        cc.zz.fire.on(EventType.POP_UP, this.showPopup.bind(this))
     },
 
     //Step 1
@@ -184,6 +184,10 @@ cc.Class({
     intoGame:function(data){
         console.log(data)
         cc.zz.fire.fire(EventType.POP_UP,cc.zz.Popup.TYPE.FIND_ANOTHER_PLAYER.id,{})
+        cc.zz.fire.un(EventType.POP_UP, this.showPopup.bind(this))
+        cc.zz.net.removeHandler(cc.zz.net.constants.HERO_LOGIN, this.initServer.bind(this))
+        cc.zz.net.removeHandler(cc.zz.net.constants.HERO_READY, this.playerReady.bind(this))
+        cc.zz.net.removeHandler(cc.zz.net.constants.INTO_GAME,this.intoGame.bind(this))
         cc.director.preloadScene('MainScene',function(){
             cc.director.loadScene("MainScene")
         })
