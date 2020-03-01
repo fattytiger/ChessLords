@@ -59,10 +59,30 @@ cc.Class({
 
     onEnable: function() {
         cc.zz.net.addHandler(cc.zz.net.constants.MAP_DATA, this.onMapData.bind(this), true);
+        cc.zz.fire.on(EventType.CHOOSE_TROOP_FLAG,this.chooseTroopFlag.bind(this))
     },
 
     onDisable: function() {
         cc.zz.net.removeHandler(cc.zz.net.constants.MAP_DATA, this.onMapData.bind(this), true)
+        cc.zz.fire.un(EventType.CHOOSE_TROOP_FLAG,this.chooseTroopFlag.bind(this))
+    },
+
+    cancleAllChooseFlag:function(){
+        for (let i = 0; i < this.onlineTroops.length; i++) {
+            const troop = this.onlineTroops[i];
+            let troopScript = troop.getComponent('online-hero')
+            troopScript.cancleChooseFlag()
+        }
+    },
+
+    chooseTroopFlag:function(troop_id){
+        this.cancleAllChooseFlag()
+        let troop = this.getTroopScriptByTroopID(troop_id)
+        let tileTo = troop.getTroopTileTO()
+        let posX = this.blocksManager.getBlockPositionByID(tileTo).x - this.mainCamera.node.x 
+        let posY = this.blocksManager.getBlockPositionByID(tileTo).y - this.mainCamera.node.y 
+        this.mainCamera.node.runAction( cc.moveBy(0.5,cc.v2(posX,posY)))
+        troop.onChooseFlag()
     },
 
 
@@ -81,12 +101,6 @@ cc.Class({
             this.showOnlineTroops(data.troops)
         }
     },
-    /**
-     * !#en Show heroes on the map 
-     * !#zh 
-     * @method showOnlineHeroes
-     * @param  {Array} heroes
-     */
     showOnlineTroops (troops) {
 
         for (let i = 0; i < troops.length; i++) {
@@ -111,44 +125,21 @@ cc.Class({
         }
     },
 
-
-    lockCameraAtHero:function(){
-        let selfWallet = cc.zz.LoginData.getWallet()
-
-        let tileID = this.getHeroLocationByWallet(selfWallet)
-
-        let posX = this.blocksManager.getBlockPositionByID(tileID).x - this.mainCamera.node.x 
-        let posY = this.blocksManager.getBlockPositionByID(tileID).y - this.mainCamera.node.y 
-
-        this.mainCamera.node.runAction( cc.moveBy(0.5,cc.v2(posX,posY)))
-    },
-
-
-
-    /**
-     * !#en Get the hero node on the map by hero id
-     * !#zh 
-     * @method getHeroNode
-     * @param {number} heroId 
-     * @return {cc.Node|null}
-     */
-    getHeroNode (heroId) {
-        if (!this.heroMappings) {
-            return null;
+    getTroopScriptByTroopID :function(troop_id){
+        if(!this.troopMappings){
+            console.log('this.heroMappings')
+            return null
         }
-
-        if (this.heroMappings[heroId] == undefined) {
-            return null;
+        if(this.troopMappings[troop_id] === undefined){
+            console.log('this.heroMappings[heroId]'+this.heroMappings[heroId])
+            return null
         }
-
-        // index of node on a nodes list
-        let i = this.heroMappings[heroId];
-    
-        if (this.onlineTroops[i] == undefined) {
-            return null;
+        let index = this.troopMappings[troop_id]
+        if(this.onlineTroops[index] === undefined){
+            console.log('this.onlineHero[index]'+this.onlineTroops[index])
+            return null
         }
-
-        return this.onlineTroops[i];
+        return this.onlineTroops[index].getComponent('online-hero')
     },
 
 });
