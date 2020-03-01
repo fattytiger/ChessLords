@@ -8,7 +8,7 @@ cc.Class({
         }
     },
     onEnable:function(){
-        cc.zz.fire.on(EventType.POP_UP, this.showpopup.bind(this),true)
+        
     },
     onDisable:function(){
         cc.zz.fire.un(EventType.POP_UP, this.showpopup.bind(this),true)
@@ -18,6 +18,6 @@ cc.Class({
         this.popupContainer.getComponent('pop-up').show(type, data, callback)
     },
     onLoad:function(){
-       
+        cc.zz.fire.on(EventType.POP_UP, this.showpopup.bind(this),true)
     }
 });
