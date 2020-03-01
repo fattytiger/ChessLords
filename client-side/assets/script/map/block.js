@@ -98,6 +98,7 @@ cc.Class({
         if(moving == 0){
             return 
         }
+        console.log('aa')
         // cc.zz.fire.fire(EventType.SEND_HERO_MOVE,this.id)
     },
     mouseRightClick() {

@@ -6,36 +6,61 @@ cc.Class({
         heroSprite:{
             default:null,
             type:cc.Sprite
+        },
+        troopHPPro:{
+            default:null,
+            type:cc.ProgressBar
+        },
+        troopStamina:{
+            default:null,
+            type:cc.ProgressBar
+        },
+        chooseFlag:{
+            default:null,
+            type:cc.Node
         }
     },
-    // LIFE-CYCLE CALLBACKS:
+    ///////////////////////////////////////////////////////////////////////////////
+    // Life cycle Methods
+    ///////////////////////////////////////////////////////////////////////////////
+    onLoad:function(){
+        this.continueTime  = -1
+        this.continueClick = false
+        this.safeTime = 1000
 
-    onLoad () {
-        this.heroSprite.node.on(cc.Node.EventType.MOUSE_DOWN, this.mouseClick, this)
+        this.node.on(cc.Node.EventType.MOUSE_DOWN,this.mouseClick,this)
     },
 
-    start () {
-
-    },
-
-    mouseClick(event) {
-        if (event.getButton() == cc.Event.EventMouse.BUTTON_LEFT) {
-            this.mouseLeftClick()
+    ///////////////////////////////////////////////////////////////////////////////
+    // Click method
+    ///////////////////////////////////////////////////////////////////////////////
+    mouseClick:function(){
+        if(this.continueTime === -1){
+            this.continueTime = new Date().getTime()
+            this.clickMouse()
+            return
         }
-
-        if (event.getButton() == cc.Event.EventMouse.BUTTON_RIGHT) {
-            this.mouseRightClick()
+        let now = new Date().getTime()
+        if(now - this.continueTime < this.safeTime){
+            return
+        }else{
+            this.continueTime = now
+            this.clickMouse()
+        }  
+    },
+    clickMouse:function(){
+        let selfHeroID = cc.zz.LoginData.getHeroID()
+        console.log('click troop')
+        if(selfHeroID !==  this.heroID){
+            return
+        }
+        if(selfHeroID === this.heroID){
+            cc.zz.fire.fire(EventType.CHOOSE_TROOP_FLAG,this.troopID)
         }
     },
-
-    mouseLeftClick:function(){
-        console.log('left click')
-    },
-    mouseRightClick:function(){
-        console.log('right click');
-    },
-
-    // update (dt) {},
+    ///////////////////////////////////////////////////////////////////////////////
+    // Private Method
+    ///////////////////////////////////////////////////////////////////////////////
     initConfig:function(){        
         this.blocksManager = cc.Canvas.instance.node.getComponent('blocks-manager')
     },
@@ -70,12 +95,33 @@ cc.Class({
     setTroopHP:function(troop_hp){
         this.troopHP = parseInt(troop_hp)
     },
+
     setTroopMaster:function(troop_master){
+        let selfHeroID = cc.zz.LoginData.getHeroID()
         this.troopMaster = troop_master
+        if(this.troopMaster === true && selfHeroID === this.heroID){
+            cc.zz.fire.fire(EventType.CHOOSE_TROOP_FLAG,this.troopID)
+        }
     },
     setHeroLocation:function(){
         let pos = this.blocksManager.getBlockPositionByID(this.tile_from)
-        this.node.x = pos.x
-        this.node.y = pos.y
-    }
+        this.node.x = pos.x + 100
+        this.node.y = pos.y + 150
+    },
+
+    getTroopTileTO:function(){
+        return this.tile_to
+    },
+    onChooseFlag:function(){
+        this.master_troop = true
+        this.chooseFlag.active = true
+    },
+    cancleChooseFlag:function(){
+        this.master_troop = false
+        this.chooseFlag.active = false
+    },
+    ///////////////////////////////////////////////////////////////////////////////
+    // Movement
+    ///////////////////////////////////////////////////////////////////////////////
+    
 });
