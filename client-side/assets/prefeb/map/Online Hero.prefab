@@ -36,6 +36,9 @@
         "__id__": 24
       },
       {
+        "__id__": 25
+      },
+      {
         "__id__": 26
       }
     ],
@@ -803,87 +806,27 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Button",
+    "__type__": "ca222Z2Ws9EfJ/NgN3UPuHp",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "duration": 0.1,
-    "zoomScale": 1.2,
-    "clickEvents": [
-      {
-        "__id__": 25
-      }
-    ],
-    "_N$interactable": true,
-    "_N$enableAutoGrayEffect": true,
-    "_N$transition": 0,
-    "transition": 0,
-    "_N$normalColor": {
-      "__type__": "cc.Color",
-      "r": 214,
-      "g": 214,
-      "b": 214,
-      "a": 255
-    },
-    "_N$pressedColor": {
-      "__type__": "cc.Color",
-      "r": 211,
-      "g": 211,
-      "b": 211,
-      "a": 255
-    },
-    "pressedColor": {
-      "__type__": "cc.Color",
-      "r": 211,
-      "g": 211,
-      "b": 211,
-      "a": 255
-    },
-    "_N$hoverColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "hoverColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_N$disabledColor": {
-      "__type__": "cc.Color",
-      "r": 124,
-      "g": 124,
-      "b": 124,
-      "a": 255
-    },
-    "_N$normalSprite": null,
-    "_N$pressedSprite": null,
-    "pressedSprite": null,
-    "_N$hoverSprite": null,
-    "hoverSprite": null,
-    "_N$disabledSprite": null,
-    "_N$target": null,
     "_id": ""
   },
   {
-    "__type__": "cc.ClickEvent",
-    "target": {
+    "__type__": "fe6cdiwUJBJIbKaVjeM/d8Y",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
       "__id__": 1
     },
-    "component": "",
-    "_componentId": "d67e48+LTlE8KQkykMG1v/Q",
-    "handler": "onClickTroop",
-    "customEventData": ""
+    "_enabled": true,
+    "_id": ""
   },
   {
-    "__type__": "ca222Z2Ws9EfJ/NgN3UPuHp",
+    "__type__": "2d449h69LxO1brUXOZPiH8E",
     "_name": "",
     "_objFlags": 0,
     "node": {
