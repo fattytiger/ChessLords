@@ -226,16 +226,16 @@ cc.Class({
         }
 
         //north
-        if (this.isLegalTile(_tile) && this.isLegalTile(_tile - 40)) {
-            let _pushId = _tile - 40
+        if (this.isLegalTile(_tile) && this.isLegalTile(_tile - 20)) {
+            let _pushId = _tile - 20
             let node = {}
             node.id = _pushId
             node.visit = false
             ret.push(node)
         }
         //east
-        if (this.isLegalTile(_tile) && this.isLegalTile(_tile + 40)) {
-            let _pushId = _tile + 40
+        if (this.isLegalTile(_tile) && this.isLegalTile(_tile + 20)) {
+            let _pushId = _tile + 20
             let node = {}
             node.id = _pushId
             node.visit = false
@@ -243,8 +243,8 @@ cc.Class({
         }
 
         //westnorth
-        if (this.isLegalTile(_tile - 1) && this.isLegalTile(_tile - 40)) {
-            let _pushId = _tile - 40 - 1
+        if (this.isLegalTile(_tile - 1) && this.isLegalTile(_tile - 20)) {
+            let _pushId = _tile - 20 - 1
             let node = {}
             node.id = _pushId
             node.visit = false
@@ -252,8 +252,8 @@ cc.Class({
         }
 
         //eastnorth
-        if (this.isLegalTile(_tile + 1) && this.isLegalTile(_tile - 40)) {
-            let _pushId = _tile - 40 + 1
+        if (this.isLegalTile(_tile + 1) && this.isLegalTile(_tile - 20)) {
+            let _pushId = _tile - 20 + 1
             let node = {}
             node.id = _pushId
             node.visit = false
@@ -261,8 +261,8 @@ cc.Class({
         }
 
         //westsourth
-        if (this.isLegalTile(_tile - 1) && this.isLegalTile(_tile + 40)) {
-            let _pushId = _tile + 40 - 1
+        if (this.isLegalTile(_tile - 1) && this.isLegalTile(_tile + 20)) {
+            let _pushId = _tile + 20 - 1
             let node = {}
             node.id = _pushId
             node.visit = false
@@ -270,8 +270,8 @@ cc.Class({
         }
 
         //eastsourth
-        if (this.isLegalTile(_tile + 1) && this.isLegalTile(_tile + 40)) {
-            let _pushId = _tile + 40 + 1
+        if (this.isLegalTile(_tile + 1) && this.isLegalTile(_tile + 20)) {
+            let _pushId = _tile + 20 + 1
             let node = {}
             node.id = _pushId
             node.visit = false
