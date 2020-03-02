@@ -101,4 +101,10 @@ cc.Class({
         position.y = this.blocksNodeArray[blockID - 1].y
         return position
     },
+
+    getBlockScriptByID:function(id){
+        let blockID = parseInt(id)
+        let block = this.blocksNodeArray[blockID - 1]
+        return block.getComponent('block')
+    }
 });
