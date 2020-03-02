@@ -7,11 +7,7 @@
  the move logic of your hero ,in terms of hero stamina & solider type to caculate the solider move range on the map 
 ****************************************************************************/
 
-const soilderConsume = [
-    { id : 3, type : "Archer"  , stamina : 5, blocks : 1},
-    { id : 2, type : "Cavalry" , stamina : 3, blocks : 2},
-    { id : 1, type : "Infantry", stamina : 4, blocks : 1},
-]
+
 
 cc.Class({
     extends: cc.Component,
@@ -20,77 +16,10 @@ cc.Class({
         
     },
 
-    ctor:function(){
-        this.MOVE_ACTION = {
-            MOVE_TO:"MOVE_TO",
-            ESCAPE_FROM:"ESCAPE_FROM"
-        }
-    },
-
     onLoad:function(){
         this.blocksManager = cc.Canvas.instance.node.getComponent('blocks-manager')
-        this.heroRangeArea = this.node.getComponent('range-area')
     },
-
-    init:function(troop_type){
-        this.troopType = parseInt(troop_type)
-    },
-
-    moveAction(move_type,tile_id){
-        //calculate the range area
-        let rangeArr = this.calculateMoveRange(tile_id)
-        //move to the a tile,highlight the tile
-        if(move_type === this.MOVE_ACTION.MOVE_TO){
-            //set the tile_id this.tile_id
-            this.tile_id = tile_id
-            //highlight the move range
-            for (let index = 0; index < rangeArr.length; index++) {
-                let lightScript = this.blocksManager.getBlockScriptByID(rangeArr[index].id)
-                if(lightScript === undefined){
-                    continue
-                }
-                lightScript.moveHighLight()
-            }
-        }
-        //escape from the tile ,unlight the tile
-        if(move_type === this.MOVE_ACTION.ESCAPE_FROM){
-            //set the tile_from as this.tile_form
-            this.tile_from = tile_id
-            //unhighlight the move range
-            for (let index = 0; index < rangeArr.length; index++) {
-                let lightScript = this.blocksManager.getBlockScriptByID(rangeArr[index].id)
-
-                if(lightScript === undefined){
-                    continue
-                }
-                lightScript.leaveHighLight()
-            }
-        }
-    },
-
-    /**
-     * @method getCircleAmount get the circle amount based on the troop type
-     * @returns {Number} the circle num
-     * **/
-    getCircleAmount(){
-        let troopType = 0
-        for (let index = 0; index < soilderConsume.length; index++) {
-            if(this.troopType == soilderConsume[index].id){
-                troopType  = soilderConsume[index].blocks
-            }
-        }
-        return troopType
-    },
-    /**
-     * @method calculateMoveRange calculate the move range based on the tile_id 
-     * @param tile_id the tile id on the map
-     * @returns {Array} the range of the movement array
-     * **/
-    calculateMoveRange(tile_id){
-        let circle = this.getCircleAmount()  
-        let rangeArr = this.heroRangeArea.calcRange(tile_id,circle)
-        return rangeArr
-    },
+    
 
     /**
      * @method isLegalTile judge the tile is legal or not
