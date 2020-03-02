@@ -6,6 +6,11 @@ const SOLDIER_CONSUME = [
     { NAME:"archer" ,CONSUME:25 ,RECOVERY_TIME: 5}
  ]
 
+ const SOLDIER_PROPERTY = [
+    { ID : 3, NAME : "Archer"  ,  MOVE_CIRCLE : 1, ATTACK_CIRCLE:2},
+    { ID : 2, NAME : "Cavalry" ,  MOVE_CIRCLE : 2, ATTACK_CIRCLE:1},
+    { ID : 1, NAME : "Infantry",  MOVE_CIRCLE : 1, ATTACK_CIRCLE:1},
+]
 cc.Class({
     extends: cc.Component,
 
@@ -46,11 +51,19 @@ cc.Class({
         this.continueClick = false
         this.safeTime = 1000
         this.node.on(cc.Node.EventType.MOUSE_DOWN,this.mouseClick,this)
+        this.node.on(cc.Node.EventType.MOUSE_ENTER,this.mouseEnter,this)
     },
 
     ///////////////////////////////////////////////////////////////////////////////
     // Click method
     ///////////////////////////////////////////////////////////////////////////////
+    mouseEnter:function(){
+        let selfHeroID = cc.zz.LoginData.getHeroID()
+        if(this.heroID !== selfHeroID){
+            cc.zz.fire.fire(EventType)
+        }
+    },
+
     mouseClick:function(){
         if(this.continueTime === -1){
             this.continueTime = new Date().getTime()
@@ -80,7 +93,8 @@ cc.Class({
     ///////////////////////////////////////////////////////////////////////////////
     initConfig:function(){        
         this.blocksManager = cc.Canvas.instance.node.getComponent('blocks-manager')
-        this.moveLogic = this.node.getComponent('move-logic')
+        this.movelogic = this.node.getComponent('move-logic')
+        this.rangearea = this.node.getComponent('range-area')
     },
     initOriginData:function(troop){
         this.initConfig()
@@ -102,7 +116,6 @@ cc.Class({
     setTroopType:function(troop_type){
 
         this.troop_type = parseInt(troop_type)
-        this.moveLogic.init(this.troop_type)
         let color = null
         let selfHeroID = cc.zz.LoginData.getHeroID()
         if(this.heroID === selfHeroID){
@@ -125,11 +138,11 @@ cc.Class({
 
     onChooseFlag:function(){
         this.chooseFlag.active = true
-        this.moveLogic.moveAction(this.MOVE_ACTION.MOVE_TO,this.tile_to)
+        this.moveAction(this.MOVE_ACTION.MOVE_TO,this.tile_to)
     },
     cancleChooseFlag:function(){
         this.chooseFlag.active = false
-        this.moveLogic.moveAction(this.MOVE_ACTION.ESCAPE_FROM,this.tile_to)
+        this.moveAction(this.MOVE_ACTION.ESCAPE_FROM,this.tile_to)
     },
 
     setTroopTileFrom:function(tile_from){
@@ -196,9 +209,8 @@ cc.Class({
             console.warn('there already have the interval');
             return
         }
-        
         this.havetimer = true
-
+        
         let amount = SOLDIER_CONSUME[this.troop_type - 1].CONSUME
         let interval = SOLDIER_CONSUME[this.troop_type - 1].RECOVERY_TIME
         console.log(amount,interval)
@@ -215,20 +227,11 @@ cc.Class({
         },interval, cc.macro.REPEAT_FOREVER)
     },
 
-
-    moveActionTo:function(tile_id){
-        this.moveLogic.moveAction(this.MOVE_ACTION.MOVE_TO,tile_id)
-    },
-
-    moveActionFrom:function(tile_from){
-        this.moveLogic.moveAction(this.MOVE_ACTION.ESCAPE_FROM,tile_from)
-    },
-
     excuteMoveTask() {
         //set hero protect when he is moving
         this.setTroopMoveProtect()
         //get the move path from the moveLogic.researchPath function
-        let movePath = this.moveLogic.researchPath(this.tile_from, this.tile_to)
+        let movePath = this.movelogic.researchPath(this.tile_from, this.tile_to)
         //init the move array
         this.moveTask = []
         for (let index = 0; index < movePath.length; index++) {
@@ -270,8 +273,8 @@ cc.Class({
             -this.blocksManager.getBlockPositionByID(task.from).y + this.blocksManager.getBlockPositionByID(task.to).y
         ))), cc.callFunc(function () {
             if(selfHeroID === this.heroID){
-                this.moveActionFrom(task.from)
-                this.moveActionTo(task.to)
+                this.moveAction(this.MOVE_ACTION.ESCAPE_FROM,task.from)
+                this.moveAction(this.MOVE_ACTION.MOVE_TO,task.to)
             }
 
             for (let index = 0; index < this.moveTask.length; index++) {
@@ -284,6 +287,60 @@ cc.Class({
         }, this)))
     },
 
-    
+    moveAction(move_type,tile_id){
+        //calculate the range area
+        let circle = this.getCircleAmount()
+        let rangeArea = this.rangearea.calcRange(this.tile_to,circle)
+        //move to the a tile,highlight the tile
+        if(move_type === this.MOVE_ACTION.MOVE_TO){
+            //set the tile_id this.tile_id
+            this.tile_id = tile_id
+            //highlight the move range
+            for (let index = 0; index < rangeArea.length; index++) {
+                let lightScript = this.blocksManager.getBlockScriptByID(rangeArea[index].id)
+                if(lightScript === undefined){
+                    continue
+                }
+                lightScript.moveHighLight()
+            }
+        }
+        //escape from the tile ,unlight the tile
+        if(move_type === this.MOVE_ACTION.ESCAPE_FROM){
+            //set the tile_from as this.tile_form
+            this.tile_from = tile_id
+            //unhighlight the move range
+            for (let index = 0; index < rangeArea.length; index++) {
+                let lightScript = this.blocksManager.getBlockScriptByID(rangeArea[index].id)
+                if(lightScript === undefined){
+                    continue
+                }
+                lightScript.leaveHighLight()
+            }
+        }
+    },
+    getCircleAmount(){
+        for (let index = 0; index < SOLDIER_PROPERTY.length; index++) {
+            if(this.troop_type == SOLDIER_PROPERTY[index].ID){
+                return SOLDIER_PROPERTY[index].MOVE_CIRCLE
+            }
+        }
+    },
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Attack
+    ///////////////////////////////////////////////////////////////////////////////
+
+    showAttackArea:function(){
+        let circle =  this.getAttackCircleAmount()
+        let rangeArea = this.rangeArea.calcRange(this.tile_to,circle)
+    },
+
+    getAttackCircleAmount(){
+        for(let index = 0;index < SOLDIER_PROPERTY.length ; index ++){
+            if(this.troopType === SOLDIER_PROPERTY[index].ID){
+                return SOLDIER_PROPERTY[index].ATTACK_CIRCLE
+            }
+        }
+    },
 
 });
