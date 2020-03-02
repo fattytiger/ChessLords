@@ -14,27 +14,10 @@ cc.Class({
             HERO_LOGIN:8005,
             HERO_READY:8006,
             INTO_GAME:8007,
-
-            HERO_SET_TROOPS_PROPORTIONS: 4015,
             MAP_DATA: 6001,
-            MAP_ACCOUNT: 8007,
-            GENERAL_ERROR: 9001,
-            MOVEMENT_NOTIFICATION: 10011,
-            HERO_APPEARANCE_CHANGE_NOTIFICATION: 10016,
-            BUILDING_REWARD: 10018,
-            ARMORY_ADD_ITEMS: 12001,
-            ARMORY_REMOVE_ITEMS: 12002,
-            ARMORY_GET_DATA: 12003,
-            ARMORY_SET_MILITARY_ADVANCEMENT: 12005,
-            REFILL_HERO_TROOPS: 13001,
-            MANAGE_BUILDING_DEFENSE: 13003,
-            REGISTER_USER: 14001,
-            LOGIN_USER: 14002,
-            IS_USER_LOGGED_IN: 14003,
-            LOGOUT_USER: 14004,
-            FIRST_JOIN_MAP: 10019,
-            GET_TASK_LIST: 15001,
-            CLAIM_TASK_REWARD: 15002,
+            
+            SEND_TROOP_MOVE:10000,
+            RECEIVE_TROOP_MOVE:10001
         };
     },
 
