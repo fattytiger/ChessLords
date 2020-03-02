@@ -13,6 +13,38 @@ module.exports = {
         })
     },
 
+
+    updateTroopTileFromByID:function(object_id,tile_from){
+        return new Promise((resolved,reject) => {
+            let searchCondition = {"_id":object_id}
+            let updateCondition = {"tile_from":tile_from}
+            TroopModel.updateOne(searchCondition,updateCondition,(err,document) => {
+                if(err){reject}
+                resolved(document)
+            })
+        })
+    },
+    updateTroopTileToByID:function(object_id,tile_to){
+        return new Promise((resolved,reject) => {
+            let searchCondition = {"_id":object_id}
+            let updateCondition = {"tile_to":tile_to}
+            TroopModel.updateOne(searchCondition,updateCondition,(err,document) => {
+                if(err){reject}
+                resolved(document)
+            })
+        })
+    },
+    updateTroopStaminaByID:function(object_id,stamina){
+        return new Promise((resolved,reject) => {
+            let searchCondition = {"_id":object_id}
+            let updateCondition = {"troop_stamina":stamina}
+            TroopModel.updateOne(searchCondition,updateCondition,(err,document) => {
+                if(err){reject}
+                resolved(document)
+            })
+        })
+    },
+
     createRedSoldierByHeroID: function (hero_id) {
         return new Promise((resolved, reject) => {
             let newTroop = new TroopModel({
