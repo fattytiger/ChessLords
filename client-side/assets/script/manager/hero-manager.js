@@ -50,7 +50,10 @@ cc.Class({
     ///////////////////////////////////////////////////////////////////////////////
 
     ctor: function() {
-        
+        this.LIGHT_ACTION = {
+            HIGH_LIGHT:"HIGH_LIGHT",
+            UNHIGH_LIGHT:"UNHIGH_LIGHT"
+        }
     },
     start: function() { 
         this.blocksManager  = this.node.getComponent('blocks-manager')
@@ -67,6 +70,7 @@ cc.Class({
         cc.zz.fire.on(EventType.CHOOSE_TROOP_FLAG,this.chooseTroopFlag.bind(this))
         cc.zz.fire.on(EventType.REQUEST_TROOP_MOVE,this.requestTroopMove.bind(this))
         cc.zz.fire.on(EventType.SHOW_ATTACK_AREA,this.showAttackArea.bind(this))
+        cc.zz.fire.on(EventType.HIDE_ATTACK_AREA,this.hideAttackArea.bind(this))
     },
 
     onDisable: function() {
@@ -76,6 +80,7 @@ cc.Class({
         cc.zz.fire.un(EventType.CHOOSE_TROOP_FLAG,this.chooseTroopFlag.bind(this))
         cc.zz.fire.un(EventType.REQUEST_TROOP_MOVE,this.requestTroopMove.bind(this))
         cc.zz.fire.un(EventType.SHOW_ATTACK_AREA,this.showAttackArea.bind(this))
+        cc.zz.fire.un(EventType.HIDE_ATTACK_AREA,this.hideAttackArea.bind(this))
     },
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -84,7 +89,11 @@ cc.Class({
 
     showAttackArea:function(){
         let troop = this.getTroopScriptByTroopID(this.masterTrooID)
-        troop.showAttackArea()
+        troop.showAttackArea(this.LIGHT_ACTION.HIGH_LIGHT)
+    },
+    hideAttackArea:function(){
+        let troop = this.getTroopScriptByTroopID(this.masterTrooID)
+        troop.showAttackArea(THIS.LIGHT_ACTION.UNHIGH_LIGHT)
     },
     
 
