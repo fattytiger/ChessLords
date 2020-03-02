@@ -28,6 +28,10 @@ cc.Class({
             default:null,
             type:cc.Sprite
         },
+        attackmentBlock:{
+            default:null,
+            type:cc.Sprite
+        },
 
         animDuration: {
             default: 0.5,
@@ -50,15 +54,13 @@ cc.Class({
         this.continueTime  = -1
         this.continueClick = false
         this.safeTime = 1000
-
-        this.node.on(cc.Node.EventType.MOUSE_DOWN, this.mouseClick, this)
+        this.node.on(cc.Node.EventType.MOUSE_DOWN,this.mouseClick,this)
     },
 
 
     ///////////////////////////////////////////////////////////////////////////////
     // Private Methods
     ///////////////////////////////////////////////////////////////////////////////
-
     mouseClick(event) {
         console.log(this.id)
         if(this.continueTime === -1){
@@ -117,19 +119,23 @@ cc.Class({
         this.blockPic = table_info.block_pic
 
         this.canmove = false
+        this.attackarea = false
 
         this.initBlockSprite()  
     },
 
     initBlockSprite:function(){
         let atalasPath = `atalasElements/map`
-        let lightAtalasPath = `atalasElements/map`
         let lightUrl = `${this.blockPic}h`
+        let attackLightUrl = `${this.blockPic}blue`
         cc.zz.fire.fire(EventType.LOAD_ATLAS_RESOURCE,atalasPath,this.blockPic,(function(sprite){
             this.masterBlock.spriteFrame = sprite
         }).bind(this))
-        cc.zz.fire.fire(EventType.LOAD_ATLAS_RESOURCE,lightAtalasPath,lightUrl,(function(sprite){
+        cc.zz.fire.fire(EventType.LOAD_ATLAS_RESOURCE,atalasPath,lightUrl,(function(sprite){
             this.movementBlock.spriteFrame = sprite
+        }).bind(this))
+        cc.zz.fire.fire(Event.LOAD_ATLAS_RESOURCE,atalasPath,attackLightUrl,(function(sprite){
+            this.attackmentBlock.spriteFrame = sprite
         }).bind(this))
     },
 
@@ -145,6 +151,15 @@ cc.Class({
     leaveHighLight:function(){
         this.canmove = false
         this.movementBlock.node.runAction(cc.fadeOut(this.animDuration))
+    },
+
+    attackHighlight:function(){
+        this.attackarea = true
+        this.attackmentBlock.node.runAction(cc.fadeIn(this.animDuration))
+    },
+    unattackHighlight:function(){
+        this.attackarea = false
+        this.attackmentBlock.node.runAction(cc.fadeOut(this.animDuration))
     }
 
 
