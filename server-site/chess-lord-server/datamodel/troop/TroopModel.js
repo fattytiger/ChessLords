@@ -6,6 +6,7 @@ const TroopSchema = new Schema({
     tile_to:{type:Number,required:true},
     troop_type:{type:Number,required:true},
     troop_name:{type:String,required:true},
+    troop_stamina:{type:Number,default:100},
     troop_hp:{type:Number,required:true},
     camp:{type:String,required:true},
     master_troop:{type:Boolean,default:false}
