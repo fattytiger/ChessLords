@@ -66,6 +66,7 @@ cc.Class({
 
         cc.zz.fire.on(EventType.CHOOSE_TROOP_FLAG,this.chooseTroopFlag.bind(this))
         cc.zz.fire.on(EventType.REQUEST_TROOP_MOVE,this.requestTroopMove.bind(this))
+        cc.zz.fire.on(EventType.SHOW_ATTACK_AREA,this.showAttackArea.bind(this))
     },
 
     onDisable: function() {
@@ -74,6 +75,16 @@ cc.Class({
 
         cc.zz.fire.un(EventType.CHOOSE_TROOP_FLAG,this.chooseTroopFlag.bind(this))
         cc.zz.fire.un(EventType.REQUEST_TROOP_MOVE,this.requestTroopMove.bind(this))
+        cc.zz.fire.un(EventType.SHOW_ATTACK_AREA,this.showAttackArea.bind(this))
+    },
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // COMMON FUNCTIONS
+    ///////////////////////////////////////////////////////////////////////////////
+
+    showAttackArea:function(){
+        let troop = this.getTroopScriptByTroopID(this.masterTrooID)
+        troop.showAttackArea()
     },
     
 
