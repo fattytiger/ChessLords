@@ -10,6 +10,7 @@
 
 const EventType = require("EventType");
 
+
 cc.Class({
     extends: cc.Component,
 
@@ -52,20 +53,75 @@ cc.Class({
         
     },
     start: function() { 
-        this.blocksManager = cc.Canvas.instance.node.getComponent('blocks-manager')
+        this.blocksManager  = this.node.getComponent('blocks-manager')
+        this.staminaManager = this.node.getComponent('stamina-manager')
         this.onlineTroops = [];
         this.troopMappings = {};
+        this.masterTrooID = null
     },
 
     onEnable: function() {
-        cc.zz.net.addHandler(cc.zz.net.constants.MAP_DATA, this.onMapData.bind(this), true);
+        cc.zz.net.addHandler(cc.zz.net.constants.MAP_DATA, this.onMapData.bind(this),true);
+        cc.zz.net.addHandler(cc.zz.net.constants.RECEIVE_TROOP_MOVE,this.receiveTroopMove.bind(this),true)
+
         cc.zz.fire.on(EventType.CHOOSE_TROOP_FLAG,this.chooseTroopFlag.bind(this))
+        cc.zz.fire.on(EventType.REQUEST_TROOP_MOVE,this.requestTroopMove.bind(this))
     },
 
     onDisable: function() {
-        cc.zz.net.removeHandler(cc.zz.net.constants.MAP_DATA, this.onMapData.bind(this), true)
+        cc.zz.net.removeHandler(cc.zz.net.constants.MAP_DATA, this.onMapData.bind(this),true)
+        cc.zz.net.removeHandler(cc.zz.net.constants.RECEIVE_TROOP_MOVE,this.receiveTroopMove.bind(this),true)
+
         cc.zz.fire.un(EventType.CHOOSE_TROOP_FLAG,this.chooseTroopFlag.bind(this))
+        cc.zz.fire.un(EventType.REQUEST_TROOP_MOVE,this.requestTroopMove.bind(this))
     },
+    
+
+    requestTroopMove:function(block_id){
+        let troop = this.getTroopScriptByTroopID(this.masterTrooID)
+
+        let tileFrom = troop.getTroopTileTO()
+        let tileTo = parseInt(block_id)
+        if(tileFrom === tileTo){
+            return 
+        }
+        let moveProtect = troop.getTroopMoveProtect()
+        if(moveProtect === true){
+            return
+        }
+        let block = this.blocksManager.getBlockScriptByID(block_id)
+        let canmove = block.getCanmove()
+        if(canmove === false){
+            console.warn(`out of the hero range`);
+            return
+        }
+
+        let changedstamina = this.staminaManager.beChangedStamina(this.masterTrooID,block_id)
+        if(changedstamina < 0){
+            console.warn('does not have enough stamina')
+            return
+        }
+        cc.zz.net.send(cc.zz.net.constants.SEND_TROOP_MOVE,[this.masterTrooID,changedstamina,tileFrom,tileTo])
+    },
+
+    
+
+    receiveTroopMove:function(data){
+        console.log(data)
+        let troopID = data._id
+        let tileFrom = parseInt(data.tile_from)
+        let tileTo   = parseInt(data.tile_to)
+        let troop =  this.getTroopScriptByTroopID(troopID)
+        let stamina = parseInt(data.troop_stamina)
+        
+        troop.setTroopStamina(stamina)
+        troop.setTroopTileFrom(tileFrom)
+        troop.setTroopTileTo(tileTo)
+        troop.heroMove(tileFrom,tileTo)
+    },
+
+    
+
 
     cancleAllChooseFlag:function(){
         for (let i = 0; i < this.onlineTroops.length; i++) {
@@ -76,6 +132,7 @@ cc.Class({
     },
 
     chooseTroopFlag:function(troop_id){
+        this.masterTrooID = troop_id
         this.cancleAllChooseFlag()
         let troop = this.getTroopScriptByTroopID(troop_id)
         let tileTo = troop.getTroopTileTO()
