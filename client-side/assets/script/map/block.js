@@ -28,33 +28,6 @@ cc.Class({
             default:null,
             type:cc.Sprite
         },
-        /**
-         * !#en 
-         * self high light sprite
-         * @property selfHighLight
-         * @type cc.SpriteFrame
-         */
-        selfHighLight:{
-            default:[],
-            type:cc.Sprite
-        },
-
-        rangeHighlight:{
-            default:[],
-            type:cc.Sprite
-        },
-        
-
-        /**
-         * !#en 
-         * other high light sprite
-         * @property otherHighLight
-         * @type cc.SpriteFrame
-         */
-        otherHighLight:{
-            default:[],
-            type:cc.Sprite
-        },
 
         animDuration: {
             default: 0.5,
@@ -74,6 +47,10 @@ cc.Class({
     },
 
     onLoad() {
+        this.continueTime  = -1
+        this.continueClick = false
+        this.safeTime = 1000
+
         this.node.on(cc.Node.EventType.MOUSE_DOWN, this.mouseClick, this)
     },
 
@@ -83,26 +60,45 @@ cc.Class({
     ///////////////////////////////////////////////////////////////////////////////
 
     mouseClick(event) {
-        if (event.getButton() == cc.Event.EventMouse.BUTTON_LEFT) {
-            this.mouseLeftClick()
+        console.log(this.id)
+        if(this.continueTime === -1){
+            this.continueTime = new Date().getTime()
+            if(event.getButton() == cc.Event.EventMouse.BUTTON_LEFT){
+                this.leftMouseClick()
+            }
+            if(event.getButton() == cc.Event.EventMouse.BUTTON_RIGHT){
+                this.rightMouseClick()
+            }
+            return
         }
-
-        if (event.getButton() == cc.Event.EventMouse.BUTTON_RIGHT) {
-            this.mouseRightClick()
+        let now = new Date().getTime()
+        if(now - this.continueTime < this.safeTime){
+            return
+        }else{
+            this.continueTime = now
+            if(event.getButton() == cc.Event.EventMouse.BUTTON_LEFT){
+                this.leftMouseClick()
+            }
+            if(event.getButton() == cc.Event.EventMouse.BUTTON_RIGHT){
+                this.rightMouseClick()
+            }
+        }  
+    },
+    leftMouseClick:function(){
+        console.log(this.move)
+        if(this.move === 0){
+            return
+        }
+        if(this.move === 1){
+            cc.zz.fire.fire(EventType.REQUEST_TROOP_MOVE,this.id)
         }
     },
-    mouseLeftClick() {
-        //get the can move information 
-        let moving = parseInt(this.move)
-
-        if(moving == 0){
-            return 
-        }
-        console.log('aa')
-        // cc.zz.fire.fire(EventType.SEND_HERO_MOVE,this.id)
+    rightMouseClick:function(){
+        console.log(this.move)
     },
-    mouseRightClick() {
-        cc.log(this.id,this.move)
+
+    getCanmove(){
+        return this.canmove
     },
 
     initOriginData(table_info) {
@@ -120,23 +116,36 @@ cc.Class({
         this.move = table_info.move
         this.blockPic = table_info.block_pic
 
-        this.canMove = false
-        this.buildingAround = false
-        this.conqueredWallet = null
-        this._standHero =false
-        this.rangeFlag = false
-        
-        this.initBlockSprite()
-        
+        this.canmove = false
+
+        this.initBlockSprite()  
     },
 
     initBlockSprite:function(){
         let atalasPath = `atalasElements/map`
+        let lightAtalasPath = `atalasElements/map`
+        let lightUrl = `${this.blockPic}h`
         cc.zz.fire.fire(EventType.LOAD_ATLAS_RESOURCE,atalasPath,this.blockPic,(function(sprite){
             this.masterBlock.spriteFrame = sprite
         }).bind(this))
+        cc.zz.fire.fire(EventType.LOAD_ATLAS_RESOURCE,lightAtalasPath,lightUrl,(function(sprite){
+            this.movementBlock.spriteFrame = sprite
+        }).bind(this))
     },
 
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Public Methods
+    ///////////////////////////////////////////////////////////////////////////////
+
+    moveHighLight:function(){
+        this.canmove = true
+        this.movementBlock.node.runAction(cc.fadeIn(this.animDuration))
+    },
+    leaveHighLight:function(){
+        this.canmove = false
+        this.movementBlock.node.runAction(cc.fadeOut(this.animDuration))
+    }
 
 
 });
