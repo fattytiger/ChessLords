@@ -1,6 +1,7 @@
 const COMMANDS = require('../commands')
 const LOGIN_SERVER = require('../heropart/LoginServer')
 const clientManager = require('../handler/ClientManager')
+const troopMove = require('../mappart/TroopMove')
 const MAP = require('../mappart/map')
 
 module.exports = {
@@ -26,6 +27,11 @@ module.exports = {
             //when player login in the game
             if (messageID === COMMANDS.MAP_DATA) {
                 MAP.mapdata(client, parameters)
+            }
+
+            //Troop move
+            if(messageID === COMMANDS.SEND_TROOP_MOVE){
+                troopMove.troopMove(parameters)
             }
         })
     },
