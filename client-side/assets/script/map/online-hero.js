@@ -34,6 +34,10 @@ cc.Class({
         animDuration: {
             default: 0.5,
             type: cc.Float
+        },
+        attackerCDPro:{
+            default:null,
+            type:cc.Sprite
         }
     },
     ///////////////////////////////////////////////////////////////////////////////
@@ -47,6 +51,16 @@ cc.Class({
         this.LIGHT_ACTION = {
             HIGH_LIGHT: "HIGH_LIGHT",
             UNHIGH_LIGHT: "UNHIGH_LIGHT"
+        }
+        this.ATTACK_CD = {
+            "ARCHER"   : 20,
+            "INFANTRY" : 15,
+            "CAVALRY"  : 10
+        },
+        this.TROOP_TYPE_NAME = {
+            "INFANTRY":1,
+            "CAVALRY":2,
+            "ARCHER"   : 3
         }
     },
 
@@ -94,13 +108,13 @@ cc.Class({
     },
     clickMouse: function () {
         let selfHeroID = cc.zz.LoginData.getHeroID()
-        console.log('click troop')
         if (selfHeroID !== this.heroID) {
-            return
+            cc.zz.fire.fire(EventType.REQUEST_FIGHT_OTHER, this.troopID)
         }
         if (selfHeroID === this.heroID) {
             cc.zz.fire.fire(EventType.CHOOSE_TROOP_FLAG, this.troopID)
         }
+
     },
     ///////////////////////////////////////////////////////////////////////////////
     // Private Method
@@ -116,19 +130,21 @@ cc.Class({
         this.troopID = troop._id
         this.tile_from = parseInt(troop.tile_from)
         this.tile_to = parseInt(troop.tile_to)
+        this.troop_name = troop.troop_name
         this.havetimer = false
 
         this.moveProtect = false
+        this.fightProtect = false
+        this.lockAttack = false
 
+        this.setTroopColor()
         this.setHeroLocation()
         this.setTroopType(troop.troop_type)
         this.setTroopHP(troop.troop_hp)
         this.setTroopStamina(troop.troop_stamina)
         this.setTroopMaster(troop.master_troop)
-
     },
     setTroopType: function (troop_type) {
-
         this.troop_type = parseInt(troop_type)
         let color = null
         let selfHeroID = cc.zz.LoginData.getHeroID()
@@ -140,7 +156,6 @@ cc.Class({
         }
         let path = "atalasElements/unit"
         let url = `unit_${color}0${this.troop_type}`
-
         cc.zz.fire.fire(EventType.LOAD_ATLAS_RESOURCE, path, url, (function (sprite) {
             this.heroSprite.spriteFrame = sprite
         }).bind(this))
@@ -173,7 +188,21 @@ cc.Class({
         return this.tile_to
     },
 
+    setTroopColor: function () {
+        let selfHeroID = cc.zz.LoginData.getHeroID()
+        if (this.heroID === selfHeroID) {
+            this.troop_color = "blue"
+        }
+        if (this.heroID !== selfHeroID) {
+            this.troop_color = "red"
+        }
+    },
+
     setTroopHP: function (troop_hp) {
+        if (troop_hp <= 0) {
+            this.troop_hp = 0
+            this.troopHPPro.progress = 0 / 100
+        }
         this.troop_hp = parseInt(troop_hp)
         this.troopHPPro.progress = this.troop_hp / 100
     },
@@ -204,6 +233,18 @@ cc.Class({
     },
     getTroopMoveProtect: function () {
         return this.moveProtect
+    },
+    setFightProtect: function () {
+        this.fightProtect = !this.fightProtect
+    },
+    getFightProtect:function(){
+        return this.fightProtect
+    },
+    setLockAttack:function(){
+        this.lockAttack = !this.lockAttack
+    },
+    getLockAttack:function(){
+        return this.lockAttack
     },
 
 
@@ -376,5 +417,158 @@ cc.Class({
             }
         }
     },
+
+    attackAnimation: function (anim_direction, hp) {
+        if (anim_direction === "RIGHT_UP"
+            || anim_direction === "RIGHT_CENTER"
+            || anim_direction === "RIGHT_BOTTOM") {
+            //change animSprite scale based on animation direction 
+            this.node.scaleX = -1
+        }
+        if (anim_direction === "LEFT_UP"
+            || anim_direction === "LEFT_CENTER"
+            || anim_direction === "LEFT_BOTTOM"
+            || anim_direction === "UP"
+            || anim_direction === "DOWN") {
+            //change animSprite scale based on animation direction 
+            this.node.scaleX = 1
+        }
+        //set fight protect
+        this.setFightProtect()
+        //play animation
+        let animation = this.node.getComponent(cc.Animation)
+        //play animation
+        cc.zz.fire.fire(EventType.GET_ANIMATION_NAME, this.troop_type, this.troop_color, anim_direction, (function (animation_name) {
+            console.log(animation_name)
+            let animationState = animation.getAnimationState(animation_name)
+            //set animation acelerate speed
+            animationState.speed = 1
+            //set the animation model as warpMode
+            animationState.wrapMode = cc.WrapMode.Normal
+            //set the animation repeat count as 3
+            animationState.repeatCount = 5
+            //play the animation
+            animation.play(animation_name)
+            //listen when animation finished
+            animation.on('finished', function () { this.attackAnimationFinished(anim_direction, hp) }, this)
+        }).bind(this))
+    },
+
+
+
+    attackAnimationFinished: function (troop_hp) {
+        console.log('finished animation')
+        //set fight protect as false
+        this.setFightProtect()
+        //replace the troop sprite
+        this.setTroopType(this.troop_type)
+        //set the troop hp
+        this.setTroopHP(troop_hp)
+        //set the attacker CD
+        this.setAttackCD()
+    },
+
+    setAttackCD:function(){
+        //set attack lock as true
+        this.setLockAttack()
+        //set fillRange as 1
+        this.attackerCDPro.fillRange = 1
+        //start interval
+        if(this.troop_type === this.TROOP_TYPE_NAME.INFANTRY){
+            //get wattingCD
+            let interval = this.ATTACK_CD.INFANTRY 
+            //get the decrease
+            let decrease = 1 / 1000
+            //start interval
+            let timer =  setInterval(() => {
+                if(this.attackerCDPro.fillRange <= 0){
+                    //cancle attack lock 
+                    this.setLockAttack()
+                    //set fillrange as 0
+                    this.attackerCDPro.fillRange = 0
+                    //clear timer
+                    clearInterval(timer)
+                }
+                if(this.attackerCDPro.fillRange > 0){
+                    this.attackerCDPro.fillRange -= decrease
+                }
+            }, interval);
+        }
+        if(this.troop_type === this.TROOP_TYPE_NAME.CAVALRY){
+            //get wattingCD
+            let interval = this.ATTACK_CD.INFANTRY 
+            let decrease = 1 / 1000
+            //start interval
+            let timer =  setInterval(() => {
+                if(this.attackerCDPro.fillRange <= 0){
+                    //cancle attack lock 
+                    this.setLockAttack()
+                    //set fillrange as 0
+                    this.attackerCDPro.fillRange = 0
+                    //clear timer
+                    clearInterval(timer)
+                }
+                if(this.attackerCDPro.fillRange > 0){
+                    this.attackerCDPro.fillRange -= decrease
+                }
+            }, interval);
+        }
+        if(this.troop_type === this.TROOP_TYPE_NAME.ARCHER){
+            //get wattingCD
+            let interval = this.ATTACK_CD.INFANTRY 
+            let decrease = 1 / 1000
+            //start interval
+            let timer =  setInterval(() => {
+                if(this.attackerCDPro.fillRange <= 0){
+                    //cancle attack lock 
+                    this.setLockAttack()
+                    //set fillrange as 0
+                    this.attackerCDPro.fillRange = 0
+                    //clear timer
+                    clearInterval(timer)
+                }
+                if(this.attackerCDPro.fillRange > 0){
+                    this.attackerCDPro.fillRange -= decrease
+                }
+            }, interval);
+        }
+    },
+
+
+    defendAnimation: function (anim_direction, troop_hp) {
+        if (anim_direction === "RIGHT_UP"
+            || anim_direction === "RIGHT_CENTER"
+            || anim_direction === "RIGHT_BOTTOM") {
+            //change animSprite scale based on animation direction 
+            this.node.scaleX = -1
+        }
+        if (anim_direction === "LEFT_UP"
+            || anim_direction === "LEFT_CENTER"
+            || anim_direction === "LEFT_BOTTOM"
+            || anim_direction === "UP"
+            || anim_direction === "DOWN") {
+            //change animSprite scale based on animation direction 
+            this.node.scaleX = 1
+        }
+        let moveDistance = 10
+        //set the fightProtect as true
+        this.setFightProtect()
+        let moveAnim = cc.sequence(
+            cc.moveBy(this.animDuration, cc.v2(-moveDistance, 0)),
+            cc.moveBy(this.animDuration, cc.v2(moveDistance, 0)),
+            cc.moveBy(this.animDuration, cc.v2(moveDistance, 0)),
+            cc.moveBy(this.animDuration, cc.v2(-moveDistance, 0)))
+        let colorAnim = cc.sequence(
+            cc.tintBy(this.animDuration, 255, 125, 125),
+            cc.tintBy(this.animDuration, 255, 0, 0),
+            cc.tintBy(this.animDuration, 255, 125, 125),
+            cc.tintBy(this.animDuration, 255, 255, 255), cc.callFunc(function () {
+                //set the fightProtect as false
+                this.setFightProtect()
+                //change the hp
+                this.setTroopHP(troop_hp)
+            }, this))
+        this.heroSprite.node.runAction(cc.spawn(moveAnim, colorAnim))
+    }
 
 });
