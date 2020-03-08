@@ -44,6 +44,16 @@ module.exports = {
             })
         })
     },
+    updateTroopHPByID:function(object_id,troop_hp){
+        return new Promise((resolved,reject) => {
+            let searchCondition = {"_id":object_id}
+            let updateCondition = {"troop_hp":troop_hp}
+            TroopModel.updateOne(searchCondition,updateCondition,(err,document) => {
+                if(err){reject}
+                resolved(document)
+            })
+        })
+    },
 
     createRedSoldierByHeroID: function (hero_id) {
         return new Promise((resolved, reject) => {
