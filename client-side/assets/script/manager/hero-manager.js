@@ -202,6 +202,10 @@ cc.Class({
         }
     },
 
+    ///////////////////////////////////////////////////////////////////////////////
+    // GETTING METHOD
+    ///////////////////////////////////////////////////////////////////////////////
+
     getTroopScriptByTroopID :function(troop_id){
         if(!this.troopMappings){
             console.log('this.heroMappings')
@@ -218,5 +222,11 @@ cc.Class({
         }
         return this.onlineTroops[index].getComponent('online-hero')
     },
+
+    getMasterTroopID:function(){
+        return this.masterTrooID
+    },
+
+    
 
 });
