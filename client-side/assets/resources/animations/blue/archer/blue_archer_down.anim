@@ -1,0 +1,55 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "blue_archer_down",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.85,
+  "sample": 60,
+  "speed": 2,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "eb1eca1f-f9cc-4e94-98bd-1372f4f1a7f3"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "4fd20ce2-830f-420a-9e5b-878bb407a109"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "92caea99-fc1b-4bcc-af5b-39d97cf55959"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "c0519ca8-6e88-4692-b707-503939f91d1a"
+            }
+          },
+          {
+            "frame": 0.6666666666666666,
+            "value": {
+              "__uuid__": "357cfcbb-4ec9-4674-8d69-9c1100260028"
+            }
+          },
+          {
+            "frame": 0.8333333333333334,
+            "value": {
+              "__uuid__": "7364d4e7-1de9-45b8-a28b-a6eb9783afe5"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

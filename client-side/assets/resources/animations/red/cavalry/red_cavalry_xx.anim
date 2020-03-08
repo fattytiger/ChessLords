@@ -1,0 +1,49 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "red_cavalry_xx",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.6833333333333333,
+  "sample": 60,
+  "speed": 2,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "3cd237ba-a56e-4295-bd23-69e7dd2a6989"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "a9c8ea6c-b506-4735-baaf-d8d530276568"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "c0dc2032-7535-4b79-81b5-28631baef13f"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "0d34201a-2292-44b1-896b-4f2648d6ce0f"
+            }
+          },
+          {
+            "frame": 0.6666666666666666,
+            "value": {
+              "__uuid__": "a0d98255-028f-437f-86e4-710ddc3664d1"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

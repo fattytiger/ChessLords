@@ -1,0 +1,61 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "blue_archer_ce",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.0166666666666666,
+  "sample": 60,
+  "speed": 2,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "aef546f1-753b-4eb9-8c37-8d4050b09630"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "a277c280-6882-4ab3-9497-2340bc45c6b7"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "77caa42c-5021-436b-863a-76a22597bcf0"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "6e76e0c0-65d4-42fb-9148-a34a8fc742eb"
+            }
+          },
+          {
+            "frame": 0.6666666666666666,
+            "value": {
+              "__uuid__": "846a01a0-c4d2-4f53-abfb-ff1448206876"
+            }
+          },
+          {
+            "frame": 0.8333333333333334,
+            "value": {
+              "__uuid__": "a7033403-daa9-48cf-adee-01783bcefe11"
+            }
+          },
+          {
+            "frame": 1,
+            "value": {
+              "__uuid__": "b5937c89-dda4-40c5-82fd-e847f4ce9b08"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

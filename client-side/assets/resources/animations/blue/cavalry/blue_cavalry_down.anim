@@ -1,0 +1,55 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "blue_cavalry_down",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.85,
+  "sample": 60,
+  "speed": 2,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "e2c86c44-49de-41a2-8df9-f87a5648a249"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "8eb77bfb-fb6a-4342-81e6-49081f8b1394"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "f0c2b206-40e9-480c-a7ff-09885886f289"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "0cd37ec0-dff9-46f4-b0b7-762c93cac497"
+            }
+          },
+          {
+            "frame": 0.6666666666666666,
+            "value": {
+              "__uuid__": "db313265-a100-4ba4-ac65-50a161c6bbbd"
+            }
+          },
+          {
+            "frame": 0.8333333333333334,
+            "value": {
+              "__uuid__": "6335facf-ae68-4578-9f9e-092c78788f17"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

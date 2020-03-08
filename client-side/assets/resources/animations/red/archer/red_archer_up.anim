@@ -1,0 +1,55 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "red_archer_up",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.85,
+  "sample": 60,
+  "speed": 2,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "a8cb4cd1-2ab9-47b5-8cb7-9376621fffa8"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "4ef83368-d034-48b9-9319-a28c2ef44a63"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "aa49707c-c3fd-4dfd-a89e-4fb796f05b4e"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "481da4f7-eb92-4c46-b11d-f1cfbf3ebdea"
+            }
+          },
+          {
+            "frame": 0.6666666666666666,
+            "value": {
+              "__uuid__": "5c310737-8a51-43a3-8ab1-cb4d004f98f0"
+            }
+          },
+          {
+            "frame": 0.8333333333333334,
+            "value": {
+              "__uuid__": "28265bd9-e072-444c-9d43-39e5dd36af1d"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

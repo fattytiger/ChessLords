@@ -1,0 +1,55 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "red_soldier_down",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.85,
+  "sample": 60,
+  "speed": 2,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "43371612-4ea6-4e01-965c-6336f816352a"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "1d14d0a1-8dfa-4dd9-9c58-c63971d9a6b0"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "04801ddd-e1fa-4ae8-b8fd-249de9f864f4"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "eab72192-ceca-428f-8f01-dfb5e9aae2ac"
+            }
+          },
+          {
+            "frame": 0.6666666666666666,
+            "value": {
+              "__uuid__": "d8a0b6d5-b5c5-4f6f-8fcd-885c24da0dda"
+            }
+          },
+          {
+            "frame": 0.8333333333333334,
+            "value": {
+              "__uuid__": "7805cbcd-0de6-4452-aa9e-2c47afeeb9b5"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

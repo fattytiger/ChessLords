@@ -1,0 +1,49 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "red_soldier_ce",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.6833333333333333,
+  "sample": 60,
+  "speed": 2,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "985db542-b9c6-473c-a202-38ebfae488c3"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "43bd38b1-3605-4566-9e20-d9f1006a7e04"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "8311c12f-235f-4c75-af0b-981d17fe4d17"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "a54f5ba5-5929-4df9-af25-569ebb2de459"
+            }
+          },
+          {
+            "frame": 0.6666666666666666,
+            "value": {
+              "__uuid__": "da649947-f184-4a5a-80f8-85619b533b4b"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

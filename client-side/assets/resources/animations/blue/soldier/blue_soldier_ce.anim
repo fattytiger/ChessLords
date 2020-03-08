@@ -1,0 +1,49 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "blue_soldier_ce",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.6833333333333333,
+  "sample": 60,
+  "speed": 2,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "1f2f7fdc-584a-4a26-97d6-ffe443c2bead"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "b10a8608-c672-452e-b926-b2f8e8e78828"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "67031bb7-243f-4b5d-9bc5-b17c1d85a08a"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "e6aea1e6-3e58-40a6-a729-1cc39152d5f5"
+            }
+          },
+          {
+            "frame": 0.6666666666666666,
+            "value": {
+              "__uuid__": "4e9ec914-6128-4f24-87e1-0ef657d976b3"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

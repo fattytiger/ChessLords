@@ -1,0 +1,55 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "blue_soldier_down",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.85,
+  "sample": 60,
+  "speed": 2,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "78db3ef7-753c-420f-926a-7d5670e1b54c"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "5bbacd01-7e80-406e-8fc2-3377b3eceac3"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "70cc4b9e-3c32-4fe9-b815-257557e50e56"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "d45707c5-1087-498f-8891-a163005a2040"
+            }
+          },
+          {
+            "frame": 0.6666666666666666,
+            "value": {
+              "__uuid__": "0d1d72e1-5d08-464f-92d3-6aee8d6d0b0d"
+            }
+          },
+          {
+            "frame": 0.8333333333333334,
+            "value": {
+              "__uuid__": "17d9b860-c209-4640-b344-7a3e2e1c4fd3"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
