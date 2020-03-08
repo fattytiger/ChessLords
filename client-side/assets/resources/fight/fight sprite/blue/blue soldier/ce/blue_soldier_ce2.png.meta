@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "cf64da5c-5ff9-4ec2-ba84-8d9f5e25f308",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "blue_soldier_ce2": {
+      "ver": "1.0.3",
+      "uuid": "b10a8608-c672-452e-b926-b2f8e8e78828",
+      "rawTextureUuid": "cf64da5c-5ff9-4ec2-ba84-8d9f5e25f308",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -13,
+      "offsetY": -27.5,
+      "trimX": 55,
+      "trimY": 127,
+      "width": 203,
+      "height": 208,
+      "rawWidth": 339,
+      "rawHeight": 407,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

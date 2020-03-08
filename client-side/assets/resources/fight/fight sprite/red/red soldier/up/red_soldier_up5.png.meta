@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "f5b27d87-a03c-4b65-b9f3-acadcfebfdcd",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "red_soldier_up5": {
+      "ver": "1.0.3",
+      "uuid": "4c6656fc-4fe5-4679-ac63-c969243fa29d",
+      "rawTextureUuid": "f5b27d87-a03c-4b65-b9f3-acadcfebfdcd",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -53.5,
+      "offsetY": -10,
+      "trimX": 29,
+      "trimY": 92,
+      "width": 174,
+      "height": 243,
+      "rawWidth": 339,
+      "rawHeight": 407,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
