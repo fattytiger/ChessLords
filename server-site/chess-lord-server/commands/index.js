@@ -10,6 +10,9 @@ module.exports = {
     SEND_TROOP_MOVE:10000,
     RECEIVE_TROOP_MOVE:10001,
 
+    REQUEST_TROOP_FIGHT:20000,
+    RECEIVE_TROOP_FIGHT:20001,
+
 
     TIP_MESSAGE:{
         "WAITTING_PLAYER":'please watting another one'
