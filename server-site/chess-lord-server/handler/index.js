@@ -2,6 +2,7 @@ const COMMANDS = require('../commands')
 const LOGIN_SERVER = require('../heropart/LoginServer')
 const clientManager = require('../handler/ClientManager')
 const troopMove = require('../mappart/TroopMove')
+const troopFight = require('../fightpart/TroopFight')
 const MAP = require('../mappart/map')
 
 module.exports = {
@@ -32,6 +33,11 @@ module.exports = {
             //Troop move
             if(messageID === COMMANDS.SEND_TROOP_MOVE){
                 troopMove.troopMove(parameters)
+            }
+
+            //Troop fight
+            if(messageID === COMMANDS.REQUEST_TROOP_FIGHT){
+                troopFight.troopFighting(parameters)
             }
         })
     },
