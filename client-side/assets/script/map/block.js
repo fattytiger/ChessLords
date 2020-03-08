@@ -99,10 +99,9 @@ cc.Class({
         console.log(this.move)
     },
 
-    getCanmove(){
-        return this.canmove
-    },
-
+    ///////////////////////////////////////////////////////////////////////////////
+    // Private Methods
+    ///////////////////////////////////////////////////////////////////////////////
     initOriginData(table_info) {
 
         if (table_info == null) {
@@ -137,6 +136,14 @@ cc.Class({
         cc.zz.fire.fire(Event.LOAD_ATLAS_RESOURCE,atalasPath,attackLightUrl,(function(sprite){
             this.attackmentBlock.spriteFrame = sprite
         }).bind(this))
+    },
+
+    getCanmove(){
+        return this.canmove
+    },
+
+    getAttackArea:function(){
+        return this.attackarea
     },
 
 
