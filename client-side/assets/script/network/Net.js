@@ -17,7 +17,9 @@ cc.Class({
             MAP_DATA: 6001,
             
             SEND_TROOP_MOVE:10000,
-            RECEIVE_TROOP_MOVE:10001
+            RECEIVE_TROOP_MOVE:10001,
+            REQUEST_TROOP_FIGHT:20000,
+            RECEIVE_TROOP_FIGHT:20001
         };
     },
 

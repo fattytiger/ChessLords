@@ -178,25 +178,24 @@ cc.Class({
     },
 
     playerReady: function (data) {
-        cc.zz.fire.fire(EventType.POP_UP,cc.zz.Popup.TYPE.WAITTING_ANOTHER_PLAYER.id,{})
+        cc.director.preloadScene('MainScene',function(){
+            cc.zz.fire.fire(EventType.POP_UP,cc.zz.Popup.TYPE.WAITTING_ANOTHER_PLAYER.id,{})
+        })
+        
     },
 
     intoGame:function(data){
         console.log(data)
+        cc.director.loadScene("MainScene")
         cc.zz.fire.fire(EventType.POP_UP,cc.zz.Popup.TYPE.FIND_ANOTHER_PLAYER.id,{})
         cc.zz.fire.un(EventType.POP_UP, this.showPopup.bind(this))
         cc.zz.net.removeHandler(cc.zz.net.constants.HERO_LOGIN, this.initServer.bind(this))
         cc.zz.net.removeHandler(cc.zz.net.constants.HERO_READY, this.playerReady.bind(this))
         cc.zz.net.removeHandler(cc.zz.net.constants.INTO_GAME,this.intoGame.bind(this))
-        cc.director.preloadScene('MainScene',function(){
-            cc.director.loadScene("MainScene")
-        })
-        
     },
 
     onClickPlayBtn: function () {
         let heroID = cc.zz.LoginData.getHeroID()
         cc.zz.net.send(cc.zz.net.constants.HERO_READY, [heroID])
     }
-
 });
