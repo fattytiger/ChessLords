@@ -4,7 +4,7 @@
       "service_id": "235",
       "service_name": "Cocos Analytics",
       "service_icon": "https://account.cocos.com/client/3f8f31ccf66995e183044f167c092395.png",
-      "service_desc": "<p>一键集成，快速定位游戏玩家。统计更准确、数据更安全、接入更简单",
+      "service_desc": "一键集成，快速定位游戏玩家。统计更准确、数据更安全、接入更简单",
       "service_title": "精准了解游戏的新增、活跃、留存、付费等数据",
       "service_guide_url": "https://n-analytics.cocos.com/docs/",
       "service_sample_url": "https://github.com/CocosService/cocosAnalyticsDemo",
@@ -35,7 +35,9 @@
       ],
       "require_verify": 0,
       "service_price": "",
-      "service_protocol": "游戏首次开启该服务时，Cocos会后台通知服务方为游戏开通服务并初始化参数，服务方根据需要可能会获取您的Cocos账户信息，包括账户基本资料、游戏基本资料、账户余额等，点击确认开通按钮即视为您同意该服务访问您的账户信息，详见<a href='http://auth.cocos.com/CocosServiceAgreement.html'>《Cocos用户服务协议》</a>和<a href='http://auth.cocos.com/PrivacyPolicy.html'>《Cocos隐私政策》</a>"
+      "service_protocol": "游戏首次开启该服务时，Cocos会后台通知服务方为游戏开通服务并初始化参数，服务方根据需要可能会获取您的Cocos账户信息，包括账户基本资料、游戏基本资料、账户余额等，点击确认开通按钮即视为您同意该服务访问您的账户信息，详见<a href='http://auth.cocos.com/CocosServiceAgreement.html'>《Cocos用户服务协议》</a>和<a href='http://auth.cocos.com/PrivacyPolicy.html'>《Cocos隐私政策》</a>",
+      "service_group": "",
+      "not_service": false
     },
     {
       "service_id": "241",
@@ -68,7 +70,9 @@
       ],
       "require_verify": 0,
       "service_price": "该服务按使用量计费，<a href='https://www.matchvs.com/price'><font color='#dddddd'>计费规则</font></a>，所产生的费用将由第三方从您的 <a href='https://account.cocos.com/#/finance/finance_list'><font color='#dddddd'>Cocos 账户余额</font></a> 中扣除。",
-      "service_protocol": "游戏首次开启该服务时，Cocos会后台通知服务方为游戏开通服务并初始化参数，服务方根据需要可能会获取您的Cocos账户信息，包括账户基本资料、游戏基本资料、账户余额等，点击确认开通按钮即视为您同意该服务访问您的账户信息，详见<a href='http://auth.cocos.com/CocosServiceAgreement.html'>《Cocos用户服务协议》</a>和<a href='http://auth.cocos.com/PrivacyPolicy.html'>《Cocos隐私政策》</a>"
+      "service_protocol": "游戏首次开启该服务时，Cocos会后台通知服务方为游戏开通服务并初始化参数，服务方根据需要可能会获取您的Cocos账户信息，包括账户基本资料、游戏基本资料、账户余额等，点击确认开通按钮即视为您同意该服务访问您的账户信息，详见<a href='http://auth.cocos.com/CocosServiceAgreement.html'>《Cocos用户服务协议》</a>和<a href='http://auth.cocos.com/PrivacyPolicy.html'>《Cocos隐私政策》</a>",
+      "service_group": "",
+      "not_service": false
     },
     {
       "service_id": "242",
@@ -98,7 +102,9 @@
       ],
       "require_verify": 1,
       "service_price": "该服务按使用量计费，<a href='https://www.agora.io/cn/price/'><font color='#dddddd'>计费规则</font></a>，所产生的费用将由第三方从您的 <a href='https://account.cocos.com/#/finance/finance_list'><font color='#dddddd'>Cocos 账户余额</font></a> 中扣除。",
-      "service_protocol": "游戏首次开启该服务时，Cocos会后台通知服务方为游戏开通服务并初始化参数，服务方根据需要可能会获取您的Cocos账户信息，包括账户基本资料、游戏基本资料、账户余额等，点击确认开通按钮即视为您同意该服务访问您的账户信息，详见<a href='http://auth.cocos.com/CocosServiceAgreement.html'>《Cocos用户服务协议》</a>和<a href='http://auth.cocos.com/PrivacyPolicy.html'>《Cocos隐私政策》</a>"
+      "service_protocol": "游戏首次开启该服务时，Cocos会后台通知服务方为游戏开通服务并初始化参数，服务方根据需要可能会获取您的Cocos账户信息，包括账户基本资料、游戏基本资料、账户余额等，点击确认开通按钮即视为您同意该服务访问您的账户信息，详见<a href='http://auth.cocos.com/CocosServiceAgreement.html'>《Cocos用户服务协议》</a>和<a href='http://auth.cocos.com/PrivacyPolicy.html'>《Cocos隐私政策》</a>",
+      "service_group": "",
+      "not_service": false
     }
   ]
 }
