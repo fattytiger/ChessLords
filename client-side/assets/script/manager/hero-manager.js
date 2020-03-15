@@ -66,21 +66,25 @@ cc.Class({
     onEnable: function() {
         cc.zz.net.addHandler(cc.zz.net.constants.MAP_DATA, this.onMapData.bind(this),true);
         cc.zz.net.addHandler(cc.zz.net.constants.RECEIVE_TROOP_MOVE,this.receiveTroopMove.bind(this),true)
+        cc.zz.net.addHandler(cc.zz.net.constants.CLOSE_CONNECTION,this.closeConnection.bind(this),true)
 
         cc.zz.fire.on(EventType.CHOOSE_TROOP_FLAG,this.chooseTroopFlag.bind(this))
         cc.zz.fire.on(EventType.REQUEST_TROOP_MOVE,this.requestTroopMove.bind(this))
         cc.zz.fire.on(EventType.SHOW_ATTACK_AREA,this.showAttackArea.bind(this))
         cc.zz.fire.on(EventType.HIDE_ATTACK_AREA,this.hideAttackArea.bind(this))
+        cc.zz.fire.on(EventType.RENDER_CONNECTION_HERO,this.renderConnectionHero.bind(this))
     },
 
     onDisable: function() {
         cc.zz.net.removeHandler(cc.zz.net.constants.MAP_DATA, this.onMapData.bind(this),true)
         cc.zz.net.removeHandler(cc.zz.net.constants.RECEIVE_TROOP_MOVE,this.receiveTroopMove.bind(this),true)
+        cc.zz.net.removeHandler(cc.zz.net.constants.CLOSE_CONNECTION,this.closeConnection.bind(this),true)
 
         cc.zz.fire.un(EventType.CHOOSE_TROOP_FLAG,this.chooseTroopFlag.bind(this))
         cc.zz.fire.un(EventType.REQUEST_TROOP_MOVE,this.requestTroopMove.bind(this))
         cc.zz.fire.un(EventType.SHOW_ATTACK_AREA,this.showAttackArea.bind(this))
         cc.zz.fire.un(EventType.HIDE_ATTACK_AREA,this.hideAttackArea.bind(this))
+        cc.zz.fire.un(EventType.RENDER_CONNECTION_HERO,this.renderConnectionHero.bind(this))
     },
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -95,8 +99,6 @@ cc.Class({
         let troop = this.getTroopScriptByTroopID(this.masterTrooID)
         troop.showAttackArea(THIS.LIGHT_ACTION.UNHIGH_LIGHT)
     },
-    
-
     requestTroopMove:function(block_id){
         let troop = this.getTroopScriptByTroopID(this.masterTrooID)
 
@@ -123,9 +125,6 @@ cc.Class({
         }
         cc.zz.net.send(cc.zz.net.constants.SEND_TROOP_MOVE,[this.masterTrooID,changedstamina,tileFrom,tileTo])
     },
-
-    
-
     receiveTroopMove:function(data){
         console.log(data)
         let troopID = data._id
@@ -139,10 +138,6 @@ cc.Class({
         troop.setTroopTileTo(tileTo)
         troop.heroMove(tileFrom,tileTo)
     },
-
-    
-
-
     cancleAllChooseFlag:function(){
         for (let i = 0; i < this.onlineTroops.length; i++) {
             const troop = this.onlineTroops[i];
@@ -162,6 +157,12 @@ cc.Class({
         troop.onChooseFlag()
     },
 
+    closeConnection:function(hero_id){
+        if(hero_id === cc.zz.LoginData.getHeroAnamy()){
+            cc.zz.fire.fire(EventType.POP_UP, cc.zz.Popup.TYPE.WAITTING_ANAMY_RECONNECTION.id, {});
+        }
+    },
+
 
     ///////////////////////////////////////////////////////////////////////////////
     // PRIVATE METHODS
@@ -173,10 +174,24 @@ cc.Class({
      * @param  {data} data
      */
     onMapData (data) {
-        console.log(data)
-        if(data && data.troops){
-            this.showOnlineTroops(data.troops)
+        //push data to the MapData 
+        cc.zz.MapData.pushMapElement(data)
+
+        if(cc.zz.MapData.isEnoughHero() === true){
+            console.log(cc.zz.MapData.mapData)
+            for (let i = 0; i < cc.zz.MapData.mapData.length; i++) {
+                let mapData = cc.zz.MapData.mapData[i]
+                this.showOnlineTroops(mapData.hero.troops)
+            }
         }
+    },
+
+    renderConnectionHero:function(){
+        let heroData = cc.zz.MapData.connectData
+        let selfTroops = heroData.self.troops
+        let anamyTroops = heroData.anamy.troops
+        this.showOnlineTroops(selfTroops)
+        this.showOnlineTroops(anamyTroops)
     },
     showOnlineTroops (troops) {
 
