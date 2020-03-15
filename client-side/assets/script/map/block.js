@@ -162,11 +162,11 @@ cc.Class({
 
     attackHighlight:function(){
         this.attackarea = true
-        this.attackmentBlock.node.runAction(cc.fadeIn(this.animDuration))
+        // this.attackmentBlock.node.runAction(cc.fadeIn(this.animDuration))
     },
     unattackHighlight:function(){
         this.attackarea = false
-        this.attackmentBlock.node.runAction(cc.fadeOut(this.animDuration))
+        // this.attackmentBlock.node.runAction(cc.fadeOut(this.animDuration))
     }
 
 
