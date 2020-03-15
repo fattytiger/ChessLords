@@ -56,7 +56,6 @@ module.exports = {
     ready: function (client, parameters) {
         //find another ready player ,if find send into the game
         let heroID = parameters[0]
-
         //find the ready hero
         heroOption.findAnotherReadyHero().then(documents => {
             let heroAccount = documents.length
@@ -75,23 +74,6 @@ module.exports = {
             }
         })
     },
-
-    into: function (self_hero_id, other_hero_id) {
-        //save anamy info
-        heroOption.updateHeroAnamyByHeroID(self_hero_id, other_hero_id)
-            .then(() => {
-                return heroOption.updateHeroAnamyByHeroID(other_hero_id, self_hero_id)
-            })
-            .then(() => {
-                //get all clients
-                let selfClient = ClientManager.getClientByHeroID(self_hero_id)
-                let otherClient = ClientManager.getClientByHeroID(other_hero_id)
-                let message = `player into the game`
-                ClientManager.sendSimpleData(selfClient, COMMANDS.INTO_GAME, message)
-                ClientManager.sendSimpleData(otherClient, COMMANDS.INTO_GAME, message)
-            })
-    },
-
     onIntoGame: function (self_hero_id, other_hero_id) {
         //set the self hero id and other other id fields
         heroOption.updateHeroReadyByHeroID(self_hero_id, false)
@@ -132,6 +114,21 @@ module.exports = {
                 }
             })
     },
+    into: function (self_hero_id, other_hero_id) {
+        //save anamy info
+        heroOption.updateHeroAnamyByHeroID(self_hero_id, other_hero_id)
+            .then(() => {
+                return heroOption.updateHeroAnamyByHeroID(other_hero_id, self_hero_id)
+            })
+            .then(() => {
+                //get all clients
+                let selfClient = ClientManager.getClientByHeroID(self_hero_id)
+                let otherClient = ClientManager.getClientByHeroID(other_hero_id)
+                let message = `player into the game`
+                ClientManager.sendSimpleData(selfClient, COMMANDS.INTO_GAME, message)
+                ClientManager.sendSimpleData(otherClient, COMMANDS.INTO_GAME, message)
+            })
+    },
     /**
      * @param {Object} client the instance of the client
      * **/
@@ -141,7 +138,9 @@ module.exports = {
             .then(() => {
                 return heroOption.updateHeroReadyByHeroID(heroID, false)
             }).then(() => {
-                heroOption.updateHeroClientByHeroID(heroID, null)
+                return heroOption.updateHeroClientByHeroID(heroID, null)
+            }).then(() => {
+                ClientManager.sendBroadCastData(COMMANDS.CLOSE_CONNECTION,heroID)
             })
 
     }
