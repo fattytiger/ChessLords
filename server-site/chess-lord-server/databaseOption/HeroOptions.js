@@ -1,5 +1,5 @@
 
-const hero = require('../datamodel/hero/HeroModel')
+const hero = require('../datamodel/HeroModel')
 
 module.exports = {
 
@@ -105,6 +105,16 @@ module.exports = {
             })
         })
     },
+    updateBaseByHeroID:function(hero_id,object_id){
+        return new Promise((resolved,reject) => {
+            let searchCondition = {"hero_id":hero_id}
+            let updateCondition = {"base"   :object_id}
+            hero.updateOne(searchCondition,updateCondition,(err,document) => {
+                if(err){reject}
+                resolved(document)
+            })
+        })
+    },
     pushTroopByHeroID:function(hero_id,object_id){
         let troop = object_id
         return new Promise((resolved,reject) => {
@@ -116,6 +126,7 @@ module.exports = {
             })
         })
     },
+    
 
 
     createHeroByHeroID:function(hero_id,hero_name,client){
@@ -127,7 +138,8 @@ module.exports = {
                 login       : true,
                 ready       : false,
                 ingame      : false,
-                camp        : null 
+                camp        : null ,
+                base        : null
             })
             newHero.save((err,document) => {
                 if(err){reject}
