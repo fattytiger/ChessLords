@@ -1,4 +1,4 @@
-const TroopModel = require('../datamodel/troop/TroopModel')
+const TroopModel = require('../datamodel/TroopModel')
 
 module.exports = {
     findTroopByObjecyID:function(object_id){
