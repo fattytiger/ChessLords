@@ -15,11 +15,17 @@ cc.Class({
             HERO_READY:8006,
             INTO_GAME:8007,
             MAP_DATA: 6001,
+            CLOSE_CONNECTION:9001,
+            
+            RECONNECT_REQUEST:9010,
+            RECONNECT_CONNECTION:9011,
             
             SEND_TROOP_MOVE:10000,
             RECEIVE_TROOP_MOVE:10001,
             REQUEST_TROOP_FIGHT:20000,
-            RECEIVE_TROOP_FIGHT:20001
+            RECEIVE_TROOP_FIGHT:20001,
+            REQUEST_FIGHT_BASE:30000,
+            RECEIVE_FIGHT_BASE:30001,
         };
     },
 
