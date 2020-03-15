@@ -33,9 +33,12 @@ cc.Class({
 
     },
     bindEvents: function () {
+        cc.zz.net.addHandler(cc.zz.net.constants.MAP_DATA,this.mapData.bind(this),true)
         cc.zz.net.addHandler(cc.zz.net.constants.HERO_LOGIN, this.initServer.bind(this))
         cc.zz.net.addHandler(cc.zz.net.constants.HERO_READY, this.playerReady.bind(this))
         cc.zz.net.addHandler(cc.zz.net.constants.INTO_GAME,this.intoGame.bind(this))
+        cc.zz.net.addHandler(cc.zz.net.constants.RECONNECT_CONNECTION,this.reconnectConnection.bind(this))
+        
     },
 
     onDisable: function () {
@@ -69,18 +72,32 @@ cc.Class({
         })
     },
 
+    
+
     initServer: function (data) {
-        let loginStatus = data.login
+        console.log(data)
+        //set the hero anamy
+        cc.zz.LoginData.setHeroAnamy(data.anamy)
 
         //prevent the disconnected button
         if(this.playButton === null){
             return
         }
-        if (loginStatus === true) {
+        
+        let ingame = data.ingame
+        console.log(ingame)
+        //if ingame values true,then send send the reconnect
+        if(ingame === true){
+            cc.zz.net.send(cc.zz.net.constants.RECONNECT_REQUEST,[cc.zz.LoginData.getHeroID()])
+            return
+        }
+
+        if(ingame === false){
             this.playButton.active = true
             this.progressBar.node.active = false
-        }
+        }  
     },
+
 
     init: function (logindata) {
 
@@ -101,6 +118,9 @@ cc.Class({
 
         var Net = require('Net')
         cc.zz.net = new Net()
+
+        let MapData = require('restore-data')
+        cc.zz.MapData  = new MapData()
 
         cc.zz.fire.on(EventType.POP_UP, this.showPopup.bind(this))
     },
@@ -178,20 +198,31 @@ cc.Class({
     },
 
     playerReady: function (data) {
+        cc.zz.fire.fire(EventType.POP_UP,cc.zz.Popup.TYPE.WAITTING_ANOTHER_PLAYER.id,{})
         cc.director.preloadScene('MainScene',function(){
-            cc.zz.fire.fire(EventType.POP_UP,cc.zz.Popup.TYPE.WAITTING_ANOTHER_PLAYER.id,{})
+            
         })
-        
     },
 
     intoGame:function(data){
         console.log(data)
-        cc.director.loadScene("MainScene")
         cc.zz.fire.fire(EventType.POP_UP,cc.zz.Popup.TYPE.FIND_ANOTHER_PLAYER.id,{})
         cc.zz.fire.un(EventType.POP_UP, this.showPopup.bind(this))
         cc.zz.net.removeHandler(cc.zz.net.constants.HERO_LOGIN, this.initServer.bind(this))
         cc.zz.net.removeHandler(cc.zz.net.constants.HERO_READY, this.playerReady.bind(this))
         cc.zz.net.removeHandler(cc.zz.net.constants.INTO_GAME,this.intoGame.bind(this))
+        cc.director.loadScene("MainScene")
+    },
+
+    mapData:function(data){
+        cc.zz.MapData.pushMapElement(data)
+    },
+
+    reconnectConnection:function(data){
+        console.log(data)
+        cc.zz.MapData.setConnectionData(data)
+        cc.zz.fire.un(EventType.POP_UP, this.showPopup.bind(this))
+        cc.director.loadScene("MainScene")
     },
 
     onClickPlayBtn: function () {
