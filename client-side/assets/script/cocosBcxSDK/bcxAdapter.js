@@ -26,7 +26,6 @@ let BCXAdpater = cc.Class({
 
     initSDK(callback) {
         this.startContract = "contract.lordsgamestart"; //合约名称
-
         if (window.BcxWeb) {
             this.bcl = window.BcxWeb;
             if (callback) {
@@ -67,8 +66,6 @@ let BCXAdpater = cc.Class({
 
         }
     },
-
-
     checkWindowBcx(callback) {
         let check_count = 0
         let self = this
