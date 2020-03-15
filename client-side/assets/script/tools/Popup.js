@@ -69,6 +69,19 @@ var Popup = cc.Class({
                 has_custom_data:false,
                 button_enabled:true,
                 is_important:false
+            },
+            WAITTING_ANAMY_RECONNECTION:{
+                id:"WAITTING_ANAMY_RECONNECTION",
+                view_type:view_types.SIMPLE,
+                icon:'common/loading_01',
+                action:'rotate',
+                title:'',
+                normal_paragraph:'Your anamy is reconnecting now...',
+                small_paragraph:'',
+                link:undefined,
+                has_custom_data:false,
+                button_enabled:false,
+                is_important:false
             }
         };
         this.VIEW_TYPE = view_types;
