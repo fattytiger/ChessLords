@@ -114,7 +114,6 @@ cc.Class({
         if (selfHeroID === this.heroID) {
             cc.zz.fire.fire(EventType.CHOOSE_TROOP_FLAG, this.troopID)
         }
-
     },
     ///////////////////////////////////////////////////////////////////////////////
     // Private Method
@@ -305,7 +304,6 @@ cc.Class({
         }
         this.moveOneBlock()
     },
-
     moveOneBlock: function () {
         let selfHeroID = cc.zz.LoginData.getHeroID()
         let task = {}
@@ -340,7 +338,6 @@ cc.Class({
             this.moveOneBlock()
         }, this)))
     },
-
     moveAction(move_type, tile_to) {
         //calculate the range area
         let circle = this.getCircleAmount()
@@ -453,9 +450,6 @@ cc.Class({
             animation.on('finished', function () { this.attackAnimationFinished(anim_direction, hp) }, this)
         }).bind(this))
     },
-
-
-
     attackAnimationFinished: function (troop_hp) {
         console.log('finished animation')
         //set fight protect as false
@@ -467,7 +461,6 @@ cc.Class({
         //set the attacker CD
         this.setAttackCD()
     },
-
     setAttackCD:function(){
         //set attack lock as true
         this.setLockAttack()
