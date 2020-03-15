@@ -20,17 +20,23 @@ cc.Class({
 
     onEnable:function(){
         cc.zz.fire.on(EventType.REQUEST_FIGHT_OTHER,this.requestFightOther.bind(this))
+        cc.zz.fire.on(EventType.REQUEST_FIGHT_BASE,this.requestFightBase.bind(this))
 
         cc.zz.net.addHandler(cc.zz.net.constants.RECEIVE_TROOP_FIGHT,this.receiveTroopFight.bind(this))
+        cc.zz.net.addHandler(cc.zz.net.constants.RECEIVE_FIGHT_BASE,this.receiveFightBase.bind(this))
     },
     onDisable:function(){
         cc.zz.fire.un(EventType.REQUEST_FIGHT_OTHER,this.requestFightOther.bind(this))
+        cc.zz.fire.un(EventType.REQUEST_FIGHT_BASE,this.requestFightBase.bind(this))
+
         cc.zz.net.removeHandler(cc.zz.net.constants.RECEIVE_TROOP_FIGHT,this.receiveTroopFight.bind(this))
+        cc.zz.net.removeHandler(cc.zz.net.constants.RECEIVE_FIGHT_BASE,this.receiveFightBase.bind(this))
     },
 
     onLoad:function(){
         this.heroManager = this.node.getComponent('hero-manager')
         this.blocksManager = this.node.getComponent('blocks-manager')
+        this.buildingManager = this.node.getComponent("building-manager")
     },
 
     requestFightOther:function(troop_id){
@@ -68,6 +74,7 @@ cc.Class({
         
         if(attackerLockFight === true){
             console.warn(`attacker was lock fight`);
+            cc.zz.fire.fire(EventType.POP_UP,cc.zz.Popup.TYPE.INVALID_ACTION.id,{})
             return
         }
 
@@ -78,6 +85,45 @@ cc.Class({
             return
         }
         cc.zz.net.send(cc.zz.net.constants.REQUEST_TROOP_FIGHT,[attackerID,defenderID])
+    },
+
+    requestFightBase:function(base_id){
+        let attackerID = this.heroManager.getMasterTroopID()
+        let defenderID = base_id
+
+        let attacker = this.heroManager.getTroopScriptByTroopID(attackerID)
+        let defender = this.buildingManager.findBaseByBaseID(defenderID)        
+
+        let attackerMoveProtect = attacker.getTroopMoveProtect()
+        if(attackerMoveProtect === true){
+            console.warn(`attacker is moving`);
+            return
+        }
+
+        let attackerFightProtect = attacker.getFightProtect()
+        let defenderFightProtect = defender.getFightProtect()
+        if(attackerFightProtect === true){
+            console.warn(`attacker is fighting now`);
+            return
+        }
+        if(defenderFightProtect === true){
+            console.warn('defender is fighting now');
+        }
+
+        let attackerLockFight = attacker.getLockAttack()
+        if(attackerLockFight === true){
+            console.warn(`attacker was lock fight`);
+            return
+        }
+
+        let defenderTileTo = defender.getTileID()
+        let defenderLocation = this.blocksManager.getBlockScriptByID(defenderTileTo)
+        if(defenderLocation.getAttackArea() === false){
+            console.warn(`out of attack range`);
+            return
+        }
+        
+        cc.zz.net.send(cc.zz.net.constants.REQUEST_FIGHT_BASE,[attackerID,defenderID])
     },
 
     
@@ -98,6 +144,27 @@ cc.Class({
 
         let attackerAnimationDirection = this.getAnimDirection(attackerTileTo,defenderTileTo)
         let defenderAnimationDirection = this.getAnimDirection(defenderTileTo,attackerTileTo)
+
+        attacker.attackAnimation(attackerAnimationDirection,attackerHP)
+        defender.defendAnimation(defenderAnimationDirection,defenderHP)
+    },
+
+    receiveFightBase:function(data){
+        console.log(data)
+        let attackerID = data.attacker._id
+        let defenderID = data.defender._id
+
+        let attackerHP = data.attacker.troop_hp
+        let defenderHP = data.defender.base_hp
+
+        let attacker = this.heroManager.getTroopScriptByTroopID(attackerID)
+        let defender = this.buildingManager.findBaseByBaseID(defenderID)
+
+        let attackerTileTo = attacker.getTroopTileTO()
+        let defenderTileID = defender.getTileID()
+
+        let attackerAnimationDirection = this.getAnimDirection(attackerTileTo,defenderTileID)
+        let defenderAnimationDirection = this.getAnimDirection(defenderTileID,attackerTileTo)
 
         attacker.attackAnimation(attackerAnimationDirection,attackerHP)
         defender.defendAnimation(defenderAnimationDirection,defenderHP)
