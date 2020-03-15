@@ -45,7 +45,6 @@ module.exports = {
     },
     deleteClient:function(client){
         console.log('some one disconnected')
-
         for (let index = 0; index < clientPool.length; index++) {
             let element = clientPool[index]
             if(element.hero === client.hero){

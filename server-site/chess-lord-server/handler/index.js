@@ -3,6 +3,8 @@ const LOGIN_SERVER = require('../heropart/LoginServer')
 const clientManager = require('../handler/ClientManager')
 const troopMove = require('../mappart/TroopMove')
 const troopFight = require('../fightpart/TroopFight')
+const baseFight  = require('../fightpart/BaseFight')
+const reconnectServer = require('../heropart/ReconnectServer')
 const MAP = require('../mappart/map')
 
 module.exports = {
@@ -39,6 +41,16 @@ module.exports = {
             if(messageID === COMMANDS.REQUEST_TROOP_FIGHT){
                 troopFight.troopFighting(parameters)
             }
+
+            //Base fight (parameters[0] === attackerID,parameters[1] === baseID)
+            if(messageID === COMMANDS.REQUEST_FIGHT_BASE){
+                baseFight.baseFighting(parameters)
+            }
+
+            if(messageID === COMMANDS.RECONNECT_REQUEST){
+                reconnectServer.heroRecennectServer(client,parameters)
+            }
+
         })
     },
     onClientClose: function (client) {
