@@ -15,6 +15,7 @@ const LoginData =  cc.Class({
         this.hero_name = account_name
         this.blockchain = blockchain
         this.network  = network
+        this.anamy = null
     },
 
     getHeroID:function(){
@@ -31,6 +32,12 @@ const LoginData =  cc.Class({
 
     getBlockchainType:function(){
         return this.blockchain
+    },
+    setHeroAnamy:function(anamy){
+        this.anamy = anamy
+    },
+    getHeroAnamy:function(){
+        return this.anamy
     }
 
 
