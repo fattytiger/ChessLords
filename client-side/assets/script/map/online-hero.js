@@ -225,22 +225,33 @@ cc.Class({
         this.node.y = pos.y + 150
     },
 
-
-
-    setTroopMoveProtect: function () {
-        this.moveProtect = !this.moveProtect
+    lockMoveProtect:function(){
+        this.moveProtect = true
+    },
+    unlockMoveProtect:function(){
+        this.moveProtect = false
     },
     getTroopMoveProtect: function () {
         return this.moveProtect
     },
-    setFightProtect: function () {
-        this.fightProtect = !this.fightProtect
+
+    
+    lockFightProtect:function(){
+        this.fightProtect = true
+    },
+    unlockFightProtect:function(){
+        this.fightProtect = false
     },
     getFightProtect:function(){
         return this.fightProtect
     },
-    setLockAttack:function(){
-        this.lockAttack = !this.lockAttack
+
+
+    lockAttackCD:function(){
+        this.lockAttack = true
+    },
+    unlockAttackCD:function(){
+        this.lockAttack = false
     },
     getLockAttack:function(){
         return this.lockAttack
@@ -282,7 +293,7 @@ cc.Class({
 
     excuteMoveTask() {
         //set hero protect when he is moving
-        this.setTroopMoveProtect()
+        this.lockMoveProtect()
         //get the move path from the moveLogic.researchPath function
         let movePath = this.movelogic.researchPath(this.tile_from, this.tile_to)
         //init the move array
@@ -316,7 +327,7 @@ cc.Class({
         }
         //when the task is all excuted,unlock the hero protect 
         if (task.finish == null) {
-            this.setTroopMoveProtect()
+            this.unlockMoveProtect()
             return
         }
         //hero run action
@@ -431,7 +442,7 @@ cc.Class({
             this.node.scaleX = 1
         }
         //set fight protect
-        this.setFightProtect()
+        this.lockFightProtect()
         //play animation
         let animation = this.node.getComponent(cc.Animation)
         //play animation
@@ -453,7 +464,7 @@ cc.Class({
     attackAnimationFinished: function (troop_hp) {
         console.log('finished animation')
         //set fight protect as false
-        this.setFightProtect()
+        this.unlockFightProtect()
         //replace the troop sprite
         this.setTroopType(this.troop_type)
         //set the troop hp
@@ -463,7 +474,7 @@ cc.Class({
     },
     setAttackCD:function(){
         //set attack lock as true
-        this.setLockAttack()
+        this.lockAttackCD()
         //set fillRange as 1
         this.attackerCDPro.fillRange = 1
         //start interval
@@ -476,7 +487,7 @@ cc.Class({
             let timer =  setInterval(() => {
                 if(this.attackerCDPro.fillRange <= 0){
                     //cancle attack lock 
-                    this.setLockAttack()
+                    this.unlockAttackCD()
                     //set fillrange as 0
                     this.attackerCDPro.fillRange = 0
                     //clear timer
@@ -495,7 +506,7 @@ cc.Class({
             let timer =  setInterval(() => {
                 if(this.attackerCDPro.fillRange <= 0){
                     //cancle attack lock 
-                    this.setLockAttack()
+                    this.unlockAttackCD()
                     //set fillrange as 0
                     this.attackerCDPro.fillRange = 0
                     //clear timer
@@ -514,7 +525,7 @@ cc.Class({
             let timer =  setInterval(() => {
                 if(this.attackerCDPro.fillRange <= 0){
                     //cancle attack lock 
-                    this.setLockAttack()
+                    this.unlockAttackCD()
                     //set fillrange as 0
                     this.attackerCDPro.fillRange = 0
                     //clear timer
@@ -545,7 +556,7 @@ cc.Class({
         }
         let moveDistance = 10
         //set the fightProtect as true
-        this.setFightProtect()
+        this.lockFightProtect()
         let moveAnim = cc.sequence(
             cc.moveBy(this.animDuration, cc.v2(-moveDistance, 0)),
             cc.moveBy(this.animDuration, cc.v2(moveDistance, 0)),
@@ -557,7 +568,7 @@ cc.Class({
             cc.tintBy(this.animDuration, 255, 125, 125),
             cc.tintBy(this.animDuration, 255, 255, 255), cc.callFunc(function () {
                 //set the fightProtect as false
-                this.setFightProtect()
+                this.unlockFightProtect()
                 //change the hp
                 this.setTroopHP(troop_hp)
             }, this))

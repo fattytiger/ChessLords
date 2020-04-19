@@ -35,26 +35,23 @@ cc.Class({
         }
     },
 
-    start: function () {
+    onLoad: function () {
         this.blocksNodeArray = []
         this.blocksScriptArray = []
         this.initBlocksAtBegining((function(){
             let heroID = cc.zz.LoginData.getHeroID()
             //illustrate there already have a game
-            if(cc.zz.MapData.connectData !== {}){
-                cc.zz.fire.fire(EventType.RENDER_CONNECTION_HERO)
-                cc.zz.fire.fire(EventType.RENDER_CONNECTION_BASE)
-            }
+            // if(cc.zz.MapData.connectData !== {}){
+            //     cc.zz.fire.fire(EventType.RENDER_CONNECTION_HERO)
+            //     cc.zz.fire.fire(EventType.RENDER_CONNECTION_BASE)
+            // }
             //get the data from the server
             if(cc.zz.MapData.connectData === {}){
-                cc.zz.net.send(cc.zz.net.constants.MAP_DATA,[heroID])
+                
             }
+            cc.zz.net.send(cc.zz.net.constants.MAP_DATA,[heroID])
            
         }).bind(this))
-    },
-
-    onLoad: function () {
-
     },
 
     initBlocksAtBegining: function (callback) {

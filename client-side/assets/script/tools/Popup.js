@@ -8,6 +8,18 @@ const view_types = {
 var Popup = cc.Class({
     ctor: function() {
         this.TYPE = {
+            INVALID_ACTION:{
+                id:"INVALID_ACTION",
+                view_type:view_types.SIMPLE,
+                icon:"common/icon_002",
+                title:'',
+                normal_paragraph:"You are fighting now",
+                small_paragraph:"",
+                link:undefined,
+                has_custom_data:false,
+                button_enabled:true,
+                is_important:true
+            },
             NO_SERVER_CONNECTION: {
                 id: 'NO_SERVER_CONNECTION',
                 view_type: view_types.SIMPLE,
@@ -82,7 +94,31 @@ var Popup = cc.Class({
                 has_custom_data:false,
                 button_enabled:false,
                 is_important:false
-            }
+            },
+            WINNER_PANEL:{
+                id:"WINNER_PANEL",
+                view_type:view_types.SIMPLE,
+                icon:'common/icon_001',
+                title:'',
+                normal_paragraph:'YOU WIN!',
+                small_paragraph:'Click confirm can get your rewards',
+                link:undefined,
+                has_custom_data:false,
+                button_enabled:true,
+                is_important:true
+            },
+            LOSER_PANEL:{
+                id:"LOSER_PANEL",
+                view_type:view_types.SIMPLE,
+                icon:'common/icon_002',
+                title:'',
+                normal_paragraph:'YOU lOSE!',
+                small_paragraph:'',
+                link:undefined,
+                has_custom_data:true,
+                button_enabled:true,
+                is_important:true
+            },
         };
         this.VIEW_TYPE = view_types;
     },

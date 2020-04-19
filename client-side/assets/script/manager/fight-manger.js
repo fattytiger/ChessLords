@@ -74,7 +74,6 @@ cc.Class({
         
         if(attackerLockFight === true){
             console.warn(`attacker was lock fight`);
-            cc.zz.fire.fire(EventType.POP_UP,cc.zz.Popup.TYPE.INVALID_ACTION.id,{})
             return
         }
 

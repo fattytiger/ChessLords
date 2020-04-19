@@ -111,6 +111,12 @@ cc.Class({
         if(moveProtect === true){
             return
         }
+
+        let fightProtect = troop.getFightProtect()
+        if(fightProtect === true){
+            return
+        }
+
         let block = this.blocksManager.getBlockScriptByID(block_id)
         let canmove = block.getCanmove()
         if(canmove === false){

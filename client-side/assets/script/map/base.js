@@ -81,6 +81,10 @@ cc.Class({
     setBaseHP:function(hp){
         if(this.base_hp <= 0){
             
+            this.hero_id === cc.zz.LoginData.getHeroID() ? 
+            cc.zz.net.send(cc.zz.net.constants.FINISHED_BATTLE,[cc.zz.LoginData.getHeroAnamy(),cc.zz.LoginData.getHeroID()]) : 
+            cc.zz.net.send(cc.zz.net.constants.FINISHED_BATTLE,[cc.zz.LoginData.getHeroID(),cc.zz.LoginData.getHeroAnamy()])
+
         }
         this.base_hp = parseInt(hp)
         this.HPPro.progress = this.base_hp / this.maxHP

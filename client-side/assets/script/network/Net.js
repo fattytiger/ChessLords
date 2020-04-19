@@ -14,6 +14,10 @@ cc.Class({
             HERO_LOGIN:8005,
             HERO_READY:8006,
             INTO_GAME:8007,
+
+            SHOW_HERO_LOGIN_NUMBER:8010,
+            SHOW_HERO_READY_NUMBER:8011,
+
             MAP_DATA: 6001,
             CLOSE_CONNECTION:9001,
             
@@ -26,6 +30,8 @@ cc.Class({
             RECEIVE_TROOP_FIGHT:20001,
             REQUEST_FIGHT_BASE:30000,
             RECEIVE_FIGHT_BASE:30001,
+
+            FINISHED_BATTLE:40000
         };
     },
 

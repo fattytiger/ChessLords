@@ -25,7 +25,7 @@ let BCXAdpater = cc.Class({
     },
 
     initSDK(callback) {
-        this.startContract = "contract.chesslordtest"; //合约名称
+        this.startContract = "contract.chesslord"; //合约名称
         if (window.BcxWeb) {
             this.bcl = window.BcxWeb;
             if (callback) {
@@ -39,6 +39,7 @@ let BCXAdpater = cc.Class({
             Cocosjs.cocos.connect('My-App').then(connected => {
                 if (!connected) {
                     self.checkWindowBcx(function (is_success) {
+                        console.log('check windows bcx',is_success)
                         if (is_success) {
                             if (callback) {
                                 callback(true)
@@ -51,7 +52,9 @@ let BCXAdpater = cc.Class({
                 }
                 const cocos = Cocosjs.cocos
                 self.bcl = cocos.cocosBcx(self.bcl);
+                console.log('check self bcl',self.bcl )
                 if (self.bcl) {
+                    
                     if (callback) {
                         callback(true);
                     }
@@ -120,14 +123,6 @@ let BCXAdpater = cc.Class({
             callback(res)
         }).catch((err) => {
             console.log(err)
-        })
-    },
-
-    chesslordGameStart:function(callback){
-        let functionName = 'transfer',
-        parameter = [3,'COCOS',true]
-        this.callSmartContract(this.startContract,functionName,parameter,function(result){
-            callback(result)
         })
     },
 
