@@ -25,7 +25,7 @@ let BCXAdpater = cc.Class({
     },
 
     initSDK(callback) {
-        this.startContract = "contract.lordsgamestart"; //合约名称
+        this.startContract = "contract.chesslordtest"; //合约名称
         if (window.BcxWeb) {
             this.bcl = window.BcxWeb;
             if (callback) {
@@ -135,7 +135,7 @@ let BCXAdpater = cc.Class({
     transfer:function(callback){
         this.bcl.transferAsset({
             fromAccount:this.account_name,
-            toAccount: 'nicky1',
+            toAccount: 'panghu123',
             amount: 3,
             assetId: 'COCOS',
             feeAssetId: 'COCOS',
