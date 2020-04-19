@@ -3,7 +3,7 @@
     {
       "service_id": "235",
       "service_name": "Cocos Analytics",
-      "service_icon": "https://account.cocos.com/client/3f8f31ccf66995e183044f167c092395.png",
+      "service_icon": "https://account.cocos.com/uploads/client_icon/2019-01-01/3f8f31ccf66995e183044f167c092395.png",
       "service_desc": "一键集成，快速定位游戏玩家。统计更准确、数据更安全、接入更简单",
       "service_title": "精准了解游戏的新增、活跃、留存、付费等数据",
       "service_guide_url": "https://n-analytics.cocos.com/docs/",
@@ -16,10 +16,11 @@
         "iOS",
         "HTML5"
       ],
-      "package_download_url": "https://download.cocos.com/CocosServices/plugins/service-analytics/1.2.5_2.1.1.zip",
-      "package_version_desc": "<p><strong>更新日期：</strong> 2020/03/05<br />\n<strong>更新说明：</strong><br />\n1、修复小米快游戏的集成问题<br />\n2、新增趣头条、支付宝小游戏和 Cocos Play 的适配<br />\n3、添加参数自动保存，插件自动加载功能<br />\n",
+      "package_download_url": "https://download.cocos.com/CocosServices/plugins/service-analytics/1.2.6_2.1.1.zip",
+      "package_version_desc": "<p><strong>更新日期：</strong> 2020/04/15<br />\n<strong>更新说明：</strong><br />\n1、修复发布微信小游戏勾选引擎分离选项导致 Analytics 集成失败的问题。<br />\n",
       "service_component_name": "service-analytics",
       "package_versions": [
+        "1.2.6_2.1.1",
         "1.2.5_2.1.1",
         "1.2.3_2.1.1",
         "1.2.0_2.1.0",
@@ -42,7 +43,7 @@
     {
       "service_id": "241",
       "service_name": "Matchvs",
-      "service_icon": "https://account.cocos.com/client/14406719a07eb3d714d36e5edc6e06fa.png",
+      "service_icon": "https://account.cocos.com/uploads/client_icon/2019-01-01/14406719a07eb3d714d36e5edc6e06fa.png",
       "service_desc": "通过SDK接入快速实现联网功能、帧同步、国内外多节点、服务器独立部署、gameServer自定义游戏服务端逻辑。",
       "service_title": "专业成熟的移动游戏联网与服务端解决方案",
       "service_guide_url": "http://doc.matchvs.com/QuickStart/QuickStart-CocosCreator",
