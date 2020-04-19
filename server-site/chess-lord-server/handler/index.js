@@ -5,6 +5,7 @@ const troopMove = require('../mappart/TroopMove')
 const troopFight = require('../fightpart/TroopFight')
 const baseFight  = require('../fightpart/BaseFight')
 const reconnectServer = require('../heropart/ReconnectServer')
+const finishedBattle = require('../fightpart/finishedBattle')
 const MAP = require('../mappart/map')
 
 module.exports = {
@@ -49,6 +50,11 @@ module.exports = {
 
             if(messageID === COMMANDS.RECONNECT_REQUEST){
                 reconnectServer.heroRecennectServer(client,parameters)
+            }
+
+            //Finished battle ,have one 
+            if(messageID === COMMANDS.FINISHED_BATTLE){
+                finishedBattle.gameFinish(parameters)
             }
 
         })

@@ -3,6 +3,24 @@ const hero = require('../datamodel/HeroModel')
 
 module.exports = {
 
+    findLoginedHeros:function(){
+        return new Promise((resolved,reject) => {
+            hero.find({"login":true},(err,document) => {
+                if(err){reject}
+                resolved(document)
+            })
+        })
+    },
+
+    findReadyHeroes:function(){
+        return new Promise((resolved,reject) => {
+            hero.find({"ready":true,"ingame":false},(err,document) => {
+                if(err){reject}
+                resolved(document)
+            })
+        })
+    },
+
     findHero:function(findCondition){
         return new Promise((resolved,reject) => {
             hero.find(findCondition,(err,document) => {
@@ -120,6 +138,28 @@ module.exports = {
         return new Promise((resolved,reject) => {
             let searchCondition = {"hero_id":hero_id}
             let updateCondition = { "$push":{troops:troop} }
+            hero.updateOne(searchCondition,updateCondition,(err,document) => {
+                if(err){reject}
+                resolved(document)
+            })
+        })
+    },
+
+    deleteHeroTroopesByHeroID:function(hero_id){
+        return new Promise((resolved,reject) => {
+            let searchCondition = {"hero_id" : hero_id}
+            let updateCondition = {"troops" : []}
+            hero.updateOne(searchCondition,updateCondition,(err,document) => {
+                if(err){reject}
+                resolved(document)
+            })
+        })
+    },
+
+    deleteHeroBaseByHeroID:function(hero_id){
+        return new Promise((resolved,reject) => {
+            let searchCondition = {"hero_id":hero_id}
+            let updateCondition = {"base"   :null}
             hero.updateOne(searchCondition,updateCondition,(err,document) => {
                 if(err){reject}
                 resolved(document)

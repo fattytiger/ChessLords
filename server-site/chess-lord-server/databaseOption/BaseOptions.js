@@ -62,5 +62,14 @@ module.exports = {
                 resolved(document)
             })
         })
+    },
+
+    deleteBaseByHeroID:function(hero_id){
+        return new Promise((resolved,reject)=>{
+            base.deleteOne({hero_id:hero_id},(error,status) => {
+                if(error){reject}
+                resolved(status)
+            })
+        })
     }
 }

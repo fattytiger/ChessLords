@@ -47,11 +47,30 @@ module.exports = {
                             //find hero 
                             return heroOption.findHeroByHeroID(hero_id)
                         }).then((document) => {
+                            this.countLoginPlyers()
                             ClientManager.sendSimpleData(client, COMMANDS.HERO_LOGIN, document)
                         })
                 }
             })
     },
+
+
+    //calculate the logined players
+    countLoginPlyers:function(){
+        heroOption.findLoginedHeros().then(players => {
+            let count = players.length
+            ClientManager.sendBroadCastData(COMMANDS.SHOW_HERO_LOGIN_NUMBER,count)
+        })
+    },
+
+    //calculate the ready players
+    countReadyPlayers:function(){
+        heroOption.findReadyHeroes().then(players => {
+            let count = players.length
+            ClientManager.sendBroadCastData(COMMANDS.SHOW_HERO_READY_NUMBER,count)
+        })
+    },
+
 
     ready: function (client, parameters) {
         //find another ready player ,if find send into the game
@@ -62,14 +81,15 @@ module.exports = {
             if (heroAccount === 0) {
                 heroOption.updateHeroReadyByHeroID(heroID, true)
                     .then((res) => {
-                        if (res.ok === 1) {
-                            ClientManager.sendSimpleData(client, COMMANDS.HERO_READY, COMMANDS.TIP_MESSAGE.WAITTING_PLAYER)
-                        }
+                        //not find another ready player
+                        this.countReadyPlayers()
+                        ClientManager.sendSimpleData(client, COMMANDS.HERO_READY, COMMANDS.TIP_MESSAGE.WAITTING_PLAYER)
                     })
                 return
             }
             //have been find ,into the game
             if (heroAccount !== 0) {
+                //find another ready player
                 this.onIntoGame(heroID, documents[0].hero_id)
             }
         })
@@ -78,8 +98,6 @@ module.exports = {
         //set the self hero id and other other id fields
         heroOption.updateHeroReadyByHeroID(self_hero_id, false)
             .then(() => {
-                return heroOption.updateHeroReadyByHeroID(other_hero_id, false)
-            }).then(() => {
                 //set the into game fields
                 return heroOption.updateHeroIngameByHeroID(self_hero_id, true)
             }).then(() => {
@@ -89,6 +107,8 @@ module.exports = {
             }).then(() => {
                 return heroOption.updateHeroCampByHeroID(other_hero_id, 'red')
             }).then(() => {
+                //send the ready player amount
+                this.countReadyPlayers()
                 let clients = ClientManager.getAllClient()
                 let findcont = 0
                 for (let i = 0; i < clients.length; i++) {

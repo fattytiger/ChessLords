@@ -162,6 +162,15 @@ module.exports = {
                 resolved(document)
             })
         })
+    },
+
+    deleteTroopesByHeroID:function(hero_id){
+        return new Promise((resolved,reject) => {
+            TroopModel.deleteMany({hero_id:hero_id}).then((error,status) => {
+                if(error){reject}
+                resolved(status)
+            })
+        })
     }
 
 }
