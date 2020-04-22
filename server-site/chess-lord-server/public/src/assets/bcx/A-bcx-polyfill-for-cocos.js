@@ -1,0 +1,1 @@
+"use strict";void 0===window.crypto&&(window.crypto={},window.crypto.getRandomValues=function(o){for(var t=0;t<o.length;t++)o[t]=Math.round(255*Math.random());return o});
