@@ -174,6 +174,9 @@ cc.Class({
             if (network === 'privatenet') {
                 return "ws://127.0.0.1:8000"
             }
+            if(network === "cocosnet"){
+                return "ws://120.78.68.145:8000"
+            }
         }
 
         cc.error('Failed to find Server host of ' + blockchain + ' ' + network + ' server!');

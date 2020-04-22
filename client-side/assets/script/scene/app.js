@@ -1,6 +1,6 @@
 
 
-const DEFAULT = { BLOCKCHAIN: 'cocosbcx', NETWORK: 'privatenet', LANGUAGE_CODE: 'en' }
+const DEFAULT = { BLOCKCHAIN: 'cocosbcx', NETWORK: 'cocosnet', LANGUAGE_CODE: 'en' }
 const EventType = require('EventType')
 const bcxAdapter = require('bcxAdapter')
 cc.Class({
