@@ -15,14 +15,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: () => ({
-        /**
-         * !#en Prefab of the hero.
-         *      IMPORTANT! This prefab is not used to show the heroes of the player who plays the game.
-         *      They are managed by another script. 
-         * !#zh 
-         * @property onlineHero
-         * @type {cc.Prefab}
-         */
+    
         onlineHero: {
             default: null,
             type: cc.Prefab
@@ -32,13 +25,6 @@ cc.Class({
             default:null,
             type:cc.Camera
         },
-        /**
-         * !#en Map view in the scene, where heroes will be inserted in.
-         *      Simply, this map node is a parent of sprites of online heroes
-         * !#zh 
-         * @property map
-         * @type {cc.Node}
-         */
         map: {
             default: null,
             type: cc.Node
@@ -107,6 +93,7 @@ cc.Class({
         if(tileFrom === tileTo){
             return 
         }
+
         let moveProtect = troop.getTroopMoveProtect()
         if(moveProtect === true){
             return
@@ -129,9 +116,11 @@ cc.Class({
             console.warn('does not have enough stamina')
             return
         }
+
         cc.zz.net.send(cc.zz.net.constants.SEND_TROOP_MOVE,[this.masterTrooID,changedstamina,tileFrom,tileTo])
     },
     receiveTroopMove:function(data){
+
         console.log(data)
         let troopID = data._id
         let tileFrom = parseInt(data.tile_from)
@@ -143,6 +132,7 @@ cc.Class({
         troop.setTroopTileFrom(tileFrom)
         troop.setTroopTileTo(tileTo)
         troop.heroMove(tileFrom,tileTo)
+        
     },
     cancleAllChooseFlag:function(){
         for (let i = 0; i < this.onlineTroops.length; i++) {

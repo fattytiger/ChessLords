@@ -176,40 +176,6 @@ cc.Class({
             }
         }
 
-        if (blockchain == 'neo') {
-            if (network == 'mainnet') {
-                return "wss://neo.blocklords.io:443/backend/";
-            }
-            else if (network == 'testnet') {
-                return "ws://153.92.5.151:8085/";
-            }
-            else {
-                return "ws://localhost:8000/";
-            }
-        }
-        else if (blockchain == 'tron') {
-            if (network == 'privatenet') {
-                return "ws://127.0.0.1:8000/";//"ws://153.92.5.151:8086/";
-            }
-            else if (cc.zz.LoginData.getNetType() == 'testnet') {
-                return "ws://153.92.5.151:8083/";
-            }
-            else {
-                return "wss://tron.blocklords.io:443/backend/"; // "ws://127.0.0.1:8000/"
-            }
-        }
-        else if (blockchain == 'ethereum') {
-            if (network == 'privatenet') {
-                return "ws://127.0.0.1:8000/";//"ws://153.92.5.151:8086/";
-            }
-            else if (network == 'testnet') {
-                return "ws://153.92.5.151:8088/";
-            }
-            else {
-                return "ws://153.92.5.151:8087/"; // "ws://127.0.0.1:8000/"
-            }
-        }
-
         cc.error('Failed to find Server host of ' + blockchain + ' ' + network + ' server!');
         return 'ws://localhost:8888';
     },
